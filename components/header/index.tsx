@@ -32,7 +32,7 @@ export const Header = () => {
             </Link>
           </Button>
 
-          <Button asChild variant={'ghost'}>
+          <Button asChild>
             <Link href={paths.auth.login}>
               <UserIcon /> Login
             </Link>
