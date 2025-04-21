@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '../ui/Button';
 import { ShoppingCartIcon, UserIcon } from 'lucide-react';
 import { paths } from '@/lib/constants/paths';
+import { ThemeToggle } from './ThemeToggle';
 
 export const Header = () => {
   return (
@@ -25,7 +26,9 @@ export const Header = () => {
           </Link>
         </div>
 
-        <div className="space-x-2">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+
           <Button asChild variant={'ghost'}>
             <Link href={paths.cart}>
               <ShoppingCartIcon /> Cart
