@@ -1,10 +1,7 @@
 import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '../ui/Button';
-import { ShoppingCartIcon, UserIcon } from 'lucide-react';
-import { paths } from '@/lib/constants/paths';
-import { ThemeToggle } from './ThemeToggle';
+import { HeaderItems } from './HeaderItems';
 
 export const Header = () => {
   return (
@@ -17,7 +14,7 @@ export const Header = () => {
               alt={`${APP_NAME} logo`}
               height={48}
               width={48}
-              priority //to disable lazy loading
+              priority // to disable lazy loading
             />
 
             <span className="bl-3 hidden text-2xl font-bold lg:block">
@@ -26,21 +23,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-
-          <Button asChild variant={'ghost'}>
-            <Link href={paths.cart}>
-              <ShoppingCartIcon /> Cart
-            </Link>
-          </Button>
-
-          <Button asChild>
-            <Link href={paths.auth.login}>
-              <UserIcon /> Login
-            </Link>
-          </Button>
-        </div>
+        <HeaderItems />
       </div>
     </div>
   );
