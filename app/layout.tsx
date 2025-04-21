@@ -1,9 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
+import { APP_DESCRIPTION, APP_NAME } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: "My E-Commerce Store",
-  description: "An e-commerce store built with Next.js",
+  title: {
+    template: `%s | My E-Commerce Store`,
+    default: APP_NAME,
+  },
+  description: APP_DESCRIPTION,
 };
 
 export default function RootLayout({
