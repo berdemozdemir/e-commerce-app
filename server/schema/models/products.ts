@@ -20,8 +20,8 @@ export const products = pgTable('products', {
   price: decimal('price', { precision: 10, scale: 2 }).notNull(),
   rating: decimal('rating', { precision: 4, scale: 2 }).default('0'),
   numReviews: integer('num_reviews').default(0),
-  isFeatured: boolean('is_featured').default(false),
+  isFeatured: boolean('is_featured').default(false).notNull(),
   banner: text('banner'),
 
-  createdAt: timestamp('created_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
