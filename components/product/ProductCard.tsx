@@ -1,3 +1,4 @@
+import { paths } from '@/lib/constants/paths';
 import { TProduct } from '@/lib/types/product';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,7 +11,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="mx-auto w-full max-w-sm space-y-4 rounded-md border shadow-md">
       <div>
-        <Link href={`/products/${product.slug}`} className="block">
+        <Link href={paths.productDetail(product.slug)} className="block">
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -21,9 +22,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       <div className="p-4">
-        <Link href={`/products/${product.slug}`} className="block">
-          <h2 className="line-clamp-2 text-lg font-semibold">{product.name}</h2>
-        </Link>
+        <h2 className="line-clamp-2 text-lg font-semibold">{product.name}</h2>
 
         <p className="line-clamp-2 text-sm text-gray-500">
           {product.description}
