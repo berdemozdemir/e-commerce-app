@@ -3,7 +3,7 @@ export const paths = {
 
   cart: '/cart',
   products: '/products',
-  product: (id: string) => `/products/${id}`,
+  productDetail: (slug: string) => `/products/${slug}`,
 
   auth: {
     login: '/auth/login',
