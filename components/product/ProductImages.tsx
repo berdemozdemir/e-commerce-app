@@ -18,6 +18,7 @@ export const ProductImages = ({ images }: ProductImagesProps) => {
         width={800}
         height={800}
         alt="product image"
+        className="mb-2 rounded-sm border-2"
       />
 
       <div className="flex gap-2">
