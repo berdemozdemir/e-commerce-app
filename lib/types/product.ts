@@ -1,4 +1,4 @@
-import { TCreateProductSchema } from '@/schemas/product/create-product.schema';
+import { TCreateProductSchema } from '../schemas/product/create-product.schema';
 
 export type TProduct = TCreateProductSchema & {
   id: string;
