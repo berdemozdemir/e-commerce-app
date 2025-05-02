@@ -7,6 +7,6 @@ export const paths = {
 
   auth: {
     login: '/auth/login',
-    signup: '/auth/signup',
+    signup: '/auth/sign-up',
   },
 };
