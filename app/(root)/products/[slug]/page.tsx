@@ -1,5 +1,5 @@
 import { ProductImages } from '@/components/product/ProductImages';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { getProductBySlug } from '@/lib/actions/product.action';
 import { notFound } from 'next/navigation';
