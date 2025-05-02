@@ -1,9 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '../ui/Button';
 import { ThemeToggle } from './ThemeToggle';
 import { paths } from '@/lib/constants/paths';
 import { MenuIcon, ShoppingCartIcon, UserIcon } from 'lucide-react';
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/Sheet';
+import { UserButton } from './UserButton';
 
 export const HeaderItems = () => {
   return (
@@ -17,11 +20,7 @@ export const HeaderItems = () => {
           </Link>
         </Button>
 
-        <Button asChild>
-          <Link href={paths.auth.login}>
-            <UserIcon /> Login
-          </Link>
-        </Button>
+        <UserButton />
       </div>
 
       <div className="md:hidden">
@@ -42,6 +41,7 @@ export const HeaderItems = () => {
               </Link>
             </Button>
 
+            {/* TODO: make this part responsive */}
             <Button asChild>
               <Link href={paths.auth.login}>
                 <UserIcon /> Login

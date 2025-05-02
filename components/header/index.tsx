@@ -14,10 +14,10 @@ export const Header = () => {
               alt={`${APP_NAME} logo`}
               height={48}
               width={48}
-              priority // to disable lazy loading
+              priority
             />
 
-            <span className="bl-3 hidden text-2xl font-bold lg:block">
+            <span className="hidden text-2xl font-bold lg:block">
               {APP_NAME}
             </span>
           </Link>
