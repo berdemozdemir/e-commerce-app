@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { APP_DESCRIPTION, APP_NAME } from '@/lib/constants';
 import { ThemeProvider } from 'next-themes';
+import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +29,7 @@ export default function RootLayout({
           enableSystem // to reach user's system preference
           disableTransitionOnChange // to prevent flickering when switching themes
         >
-          {children}
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>
