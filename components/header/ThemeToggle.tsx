@@ -13,7 +13,7 @@ import { MoonIcon, SunIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, systemTheme } = useTheme();
 
   const [mount, setMount] = useState(false);
 
@@ -28,7 +28,11 @@ export const ThemeToggle = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
-        {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+        {theme === 'dark' || (theme === 'system' && systemTheme === 'dark') ? (
+          <MoonIcon />
+        ) : (
+          <SunIcon />
+        )}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
@@ -48,6 +52,13 @@ export const ThemeToggle = () => {
           onClick={() => setTheme('dark')}
         >
           Dark
+        </DropdownMenuCheckboxItem>
+
+        <DropdownMenuCheckboxItem
+          checked={theme === 'system'}
+          onClick={() => setTheme('system')}
+        >
+          System
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
