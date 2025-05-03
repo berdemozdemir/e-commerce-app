@@ -11,6 +11,7 @@ import {
 } from '../ui/DropdownMenu';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Button } from '../ui/Button';
 
 export const ThemeToggle = () => {
   const { theme, setTheme, systemTheme } = useTheme();
@@ -27,12 +28,15 @@ export const ThemeToggle = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="cursor-pointer">
-        {theme === 'dark' || (theme === 'system' && systemTheme === 'dark') ? (
-          <MoonIcon />
-        ) : (
-          <SunIcon />
-        )}
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost">
+          {theme === 'dark' ||
+          (theme === 'system' && systemTheme === 'dark') ? (
+            <MoonIcon />
+          ) : (
+            <SunIcon />
+          )}
+        </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
