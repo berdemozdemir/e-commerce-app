@@ -63,6 +63,8 @@ export const config = {
     async session({ session, user, trigger, token }: any) {
       // set the user id from the token
       session.user.id = token.sub;
+      session.user.role = token.role;
+      session.user.name = token.name;
 
       // if there is an update, set the user name
       if (trigger === 'update') {
@@ -70,6 +72,25 @@ export const config = {
       }
 
       return session;
+    },
+
+    async jwt({ token, trigger, user, session }: any) {
+      if (user) {
+        token.role = user.role;
+
+        if (user.name === 'NO_NAME') {
+          token.name = user.email.split('@')[0];
+
+          await db
+            .update(users)
+            .set({
+              name: token.name,
+            })
+            .where(eq(users.id, user.id));
+        }
+      }
+
+      return token;
     },
   },
 } satisfies NextAuthConfig;
