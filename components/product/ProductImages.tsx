@@ -26,7 +26,7 @@ export const ProductImages = ({ images }: ProductImagesProps) => {
           <div
             key={image}
             className={cn(
-              'cursor-pointer border-2 hover:border-orange-300',
+              'cursor-pointer overflow-hidden rounded-sm border-2 hover:border-orange-300',
               currentIndex === index && 'border-orange-300',
             )}
             onClick={() => setCurrentIndex(index)}
