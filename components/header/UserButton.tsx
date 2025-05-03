@@ -29,7 +29,7 @@ export const UserButton = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="h-8 w-8 cursor-pointer rounded-full bg-gray-100 hover:bg-gray-200"
+          className="h-8 w-8 cursor-pointer rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           {getTwoLetterInitials(session.user?.name ?? '')}
         </Button>
