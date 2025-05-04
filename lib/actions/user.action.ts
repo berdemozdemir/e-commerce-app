@@ -63,11 +63,6 @@ export const signUpUser = async (prevState: unknown, formData: FormData) => {
       password: user.password,
     });
 
-    // await signIn('credentials', {
-    //   email: user.email,
-    //   password: plainPassword,
-    // });
-
     await signIn('credentials', {
       ...user,
       password: plainPassword,

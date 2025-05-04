@@ -2,7 +2,7 @@ import { auth } from '@/lib/auth';
 import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
-import { SignUpForm } from '../component/SignUpFrom';
+import { SignUpForm } from '../component/SignUpForm';
 
 export const metadata = {
   title: 'Sign Up',

@@ -1,26 +1,36 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { signInWithCredentials } from '@/lib/actions/user.action';
 import { paths } from '@/lib/constants/paths';
+import { useLoginMutation } from '@/lib/services/auth';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export const LoginForm = () => {
-  const [data, action] = useActionState(signInWithCredentials, {
-    success: false,
-    message: '',
-  });
+  const { mutateAsync, error, isPending } = useLoginMutation();
+
+  const router = useRouter();
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const { pending } = useFormStatus();
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await mutateAsync(new FormData(e.currentTarget as HTMLFormElement));
+
+      router.push(callbackUrl);
+    } catch (error) {
+      console.error('Login error:', error);
+
+      toast.error('Login failed. Please try again.');
+    }
+  };
 
   return (
-    <form className="mt-4" action={action}>
+    <form className="mt-4" onSubmit={onSubmit}>
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
 
       <div>
@@ -57,12 +67,12 @@ export const LoginForm = () => {
         />
       </div>
 
-      <Button disabled={pending} className="w-full">
-        {pending ? 'Loading...' : 'Login'}
+      <Button disabled={isPending} className="w-full">
+        {isPending ? 'Loading...' : 'Login'}
       </Button>
 
-      {data && !data.success && (
-        <div className="text-destructive text-center">{data.message}</div>
+      {error && (
+        <div className="text-destructive text-center">{error.message}</div>
       )}
 
       <div className="text-muted-foreground my-2 text-center text-sm">
