@@ -1,6 +1,5 @@
 'use server';
 
-import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { signInFormSchema } from '../schemas/auth/sign-in.schema';
 import { signIn, signOut } from '../auth';
 import { signUpFormSchema } from '../schemas/auth/sign-up.schema';
@@ -18,25 +17,31 @@ export const signInWithCredentials = async (
       password: formData.get('password') as string,
     });
 
-    await signIn('credentials', user);
+    await signIn('credentials', {
+      ...user,
+      redirect: false,
+    });
 
-    return { success: true, message: 'Logged in successfully' };
+    return { data: null, error: undefined };
   } catch (error) {
-    if (isRedirectError(error)) {
-      console.log('isRedirectError', error);
-
-      throw error;
-    }
-
     return {
-      success: false,
-      message: 'Invalid email or password',
+      data: undefined,
+      error,
     };
   }
 };
 
 export const signOutUser = async () => {
-  await signOut();
+  try {
+    await signOut();
+
+    return { data: null, error: undefined };
+  } catch (error) {
+    return {
+      data: undefined,
+      error,
+    };
+  }
 };
 
 export const signUpUser = async (prevState: unknown, formData: FormData) => {
@@ -58,22 +63,24 @@ export const signUpUser = async (prevState: unknown, formData: FormData) => {
       password: user.password,
     });
 
+    // await signIn('credentials', {
+    //   email: user.email,
+    //   password: plainPassword,
+    // });
+
     await signIn('credentials', {
-      email: user.email,
+      ...user,
       password: plainPassword,
+      redirect: false,
     });
 
-    return { success: true, message: 'Logged in successfully' };
+    return { data: user, error: undefined };
   } catch (error) {
-    if (isRedirectError(error)) {
-      console.log('isRedirectError', error);
-
-      throw error;
-    }
+    console.error('Signup error:', error);
 
     return {
-      success: false,
-      message: 'Invalid email or password',
+      data: undefined,
+      error,
     };
   }
 };
