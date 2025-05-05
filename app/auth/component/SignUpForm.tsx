@@ -6,20 +6,45 @@ import { useSignupMutation } from '@/lib/services/auth';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  signUpFormSchema,
+  TSignupFormSchemaRequest,
+} from '@/lib/schemas/auth/sign-up.schema';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/Form';
+import { LabeledInput } from './LabeledInput';
 
 export const SignUpForm = () => {
-  const { mutateAsync, isPending, error } = useSignupMutation();
+  const { mutateAsync, isPending } = useSignupMutation();
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   const router = useRouter();
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // TODO: add a validation that user can see
+  const form = useForm<TSignupFormSchemaRequest>({
+    resolver: zodResolver(signUpFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
 
+  const onSubmit = async (e: TSignupFormSchemaRequest) => {
     try {
-      await mutateAsync(new FormData(e.currentTarget as HTMLFormElement));
+      await mutateAsync(e);
+
+      toast.success('Signup successful!');
 
       router.push(callbackUrl);
     } catch (error) {
@@ -30,88 +55,81 @@ export const SignUpForm = () => {
   };
 
   return (
-    <form className="mt-4" onSubmit={onSubmit}>
-      <input type="hidden" name="callbackUrl" value={callbackUrl} />
+    <Form {...form}>
+      <form className="mt-4 w-80" onSubmit={form.handleSubmit(onSubmit)}>
+        <input type="hidden" name="callbackUrl" value={callbackUrl} />
 
-      <div>
-        <label
-          htmlFor="username"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Name
-        </label>
-
-        <input
-          type="text"
-          id="name"
+        <FormField
+          control={form.control}
           name="name"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          render={({ field }) => (
+            <FormItem className="group mb-2 w-full">
+              <FormControl>
+                <LabeledInput {...field} label="Name" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Email
-        </label>
-
-        <input
-          type="text"
-          id="email"
+        <FormField
+          control={form.control}
           name="email"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          render={({ field }) => (
+            <FormItem className="mb-2 w-full">
+              <FormControl>
+                <LabeledInput {...field} label="Email" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="mt-4">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Password
-        </label>
-
-        <input
-          type="password"
-          id="password"
+        <FormField
+          control={form.control}
           name="password"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          render={({ field }) => (
+            <FormItem className="mb-2 w-full">
+              <FormControl>
+                <LabeledInput {...field} label="Password" isPasswordField />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="mt-4">
-        <label
-          htmlFor="confirmPassword"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Confirm Password
-        </label>
-
-        <input
-          type="password"
-          id="confirmPassword"
+        <FormField
+          control={form.control}
           name="confirmPassword"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          render={({ field }) => (
+            <FormItem className="mb-2 w-full">
+              <FormControl>
+                <LabeledInput
+                  {...field}
+                  label="Confirm Password"
+                  isPasswordField
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <Button disabled={isPending} className="w-full">
-        {isPending ? 'Loading...' : 'Sign Up'}
-      </Button>
+        <Button disabled={isPending} variant="ghost" className="w-full border">
+          {isPending ? 'Loading...' : 'Sign Up'}
+        </Button>
 
-      {error && (
-        <div className="text-destructive text-center">{error.message}</div>
-      )}
-
-      <div className="text-muted-foreground my-2 text-center text-sm">
-        Already have an account? <Link href={paths.auth.login}>Login</Link>
-      </div>
-    </form>
+        <div className="text-muted-foreground my-2 text-center text-sm">
+          Already have an account?{' '}
+          <Link href={paths.auth.login} className="hover:underline">
+            Login
+          </Link>
+        </div>
+      </form>
+    </Form>
   );
 };
