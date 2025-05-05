@@ -17,9 +17,9 @@ import { useEffect } from 'react';
 export const UserButton = () => {
   const { data: session, update } = useSession();
 
-  useEffect(() => {
-    update();
-  }, [update]);
+  // useEffect(() => {
+  //   update();
+  // }, [update]);
 
   if (!session) {
     return (
