@@ -2,15 +2,15 @@
 
 import { signInFormSchema } from '../schemas/auth/sign-in.schema';
 import { signIn, signOut } from '../auth';
-import { signUpFormSchema } from '../schemas/auth/sign-up.schema';
+import {
+  signUpFormSchema,
+  TSignupFormSchemaRequest,
+} from '../schemas/auth/sign-up.schema';
 import { hashSync } from 'bcrypt-ts-edge';
 import { db } from '@/server/drizzle-client';
 import { users } from '@/server';
 
-export const signInWithCredentials = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
+export const signInWithCredentials = async (formData: FormData) => {
   try {
     const user = signInFormSchema.parse({
       email: formData.get('email') as string,
@@ -44,16 +44,16 @@ export const signOutUser = async () => {
   }
 };
 
-export const signUpUser = async (prevState: unknown, formData: FormData) => {
+export const signUpUser = async (data: TSignupFormSchemaRequest) => {
   try {
     const user = signUpFormSchema.parse({
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-      confirmPassword: formData.get('confirmPassword') as string,
+      name: data.name as string,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
     });
 
-    const plainPassword = formData.get('password') as string;
+    const plainPassword = data.password;
 
     user.password = hashSync(user.password, 10);
 
