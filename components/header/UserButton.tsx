@@ -48,6 +48,7 @@ export const UserButton = () => {
 
         <DropdownMenuSeparator />
 
+        {/* TODO: fix: logout does not work */}
         <DropdownMenuItem onClick={() => signOut()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

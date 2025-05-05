@@ -82,6 +82,8 @@ export const LoginForm = () => {
           )}
         />
 
+        {/* TODO: improve ui // add a divider between inputs and button */}
+
         <Button disabled={isPending} className="w-full border" variant="ghost">
           {isPending ? 'Loading...' : 'Login'}
         </Button>
