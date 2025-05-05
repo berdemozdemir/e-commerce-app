@@ -12,9 +12,14 @@ import {
 } from '../ui/DropdownMenu';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { getTwoLetterInitials } from '@/lib/utils';
+import { useEffect } from 'react';
 
 export const UserButton = () => {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
+
+  useEffect(() => {
+    update();
+  }, [update]);
 
   if (!session) {
     return (
