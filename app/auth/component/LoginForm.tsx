@@ -1,11 +1,25 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/Form';
 import { paths } from '@/lib/constants/paths';
+import {
+  signInFormSchema,
+  TSignInFormSchemaRequest,
+} from '@/lib/schemas/auth/sign-in.schema';
 import { useLoginMutation } from '@/lib/services/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { LabeledInput } from './LabeledInput';
 
 export const LoginForm = () => {
   const { mutateAsync, error, isPending } = useLoginMutation();
@@ -15,11 +29,19 @@ export const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<TSignInFormSchemaRequest>({
+    resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
+  const onSubmit = async (data: TSignInFormSchemaRequest) => {
     try {
-      await mutateAsync(new FormData(e.currentTarget as HTMLFormElement));
+      await mutateAsync(data);
+
+      toast.success('Login successful!');
 
       router.push(callbackUrl);
     } catch (error) {
@@ -30,55 +52,51 @@ export const LoginForm = () => {
   };
 
   return (
-    <form className="mt-4" onSubmit={onSubmit}>
-      <input type="hidden" name="callbackUrl" value={callbackUrl} />
+    <Form {...form}>
+      <form className="mt-4 w-80" onSubmit={form.handleSubmit(onSubmit)}>
+        <input type="hidden" name="callbackUrl" value={callbackUrl} />
 
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Email
-        </label>
-
-        <input
-          type="text"
-          id="email"
+        <FormField
+          control={form.control}
           name="email"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          render={({ field }) => (
+            <FormItem className="mb-2 w-full">
+              <FormControl>
+                <LabeledInput {...field} label="Email" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="mt-4">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Password
-        </label>
-
-        <input
-          type="password"
-          id="password"
+        <FormField
+          control={form.control}
           name="password"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          render={({ field }) => (
+            <FormItem className="mb-2 w-full">
+              <FormControl>
+                <LabeledInput isPasswordField {...field} label="Password" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <Button disabled={isPending} className="w-full">
-        {isPending ? 'Loading...' : 'Login'}
-      </Button>
+        <Button disabled={isPending} className="w-full border" variant="ghost">
+          {isPending ? 'Loading...' : 'Login'}
+        </Button>
 
-      {error && (
-        <div className="text-destructive text-center">{error.message}</div>
-      )}
+        {error && (
+          <div className="text-destructive text-center">{error.message}</div>
+        )}
 
-      <div className="text-muted-foreground my-2 text-center text-sm">
-        Don&apos;t have an account?{' '}
-        <Link href={paths.auth.signup}>Sign Up</Link>
-      </div>
-    </form>
+        <div className="text-muted-foreground my-2 text-center text-sm">
+          Don&apos;t have an account?{' '}
+          <Link href={paths.auth.signup}>Sign Up</Link>
+        </div>
+      </form>
+    </Form>
   );
 };

@@ -40,9 +40,9 @@ export const SignUpForm = () => {
     },
   });
 
-  const onSubmit = async (e: TSignupFormSchemaRequest) => {
+  const onSubmit = async (data: TSignupFormSchemaRequest) => {
     try {
-      await mutateAsync(e);
+      await mutateAsync(data);
 
       toast.success('Signup successful!');
 
