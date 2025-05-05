@@ -1,6 +1,9 @@
 'use server';
 
-import { signInFormSchema } from '../schemas/auth/sign-in.schema';
+import {
+  signInFormSchema,
+  TSignInFormSchemaRequest,
+} from '../schemas/auth/sign-in.schema';
 import { signIn, signOut } from '../auth';
 import {
   signUpFormSchema,
@@ -10,11 +13,11 @@ import { hashSync } from 'bcrypt-ts-edge';
 import { db } from '@/server/drizzle-client';
 import { users } from '@/server';
 
-export const signInWithCredentials = async (formData: FormData) => {
+export const signInWithCredentials = async (data: TSignInFormSchemaRequest) => {
   try {
     const user = signInFormSchema.parse({
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
+      email: data.email,
+      password: data.password,
     });
 
     await signIn('credentials', {

@@ -57,8 +57,6 @@ export const SignUpForm = () => {
   return (
     <Form {...form}>
       <form className="mt-4 w-80" onSubmit={form.handleSubmit(onSubmit)}>
-        <input type="hidden" name="callbackUrl" value={callbackUrl} />
-
         <FormField
           control={form.control}
           name="name"

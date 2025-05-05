@@ -2,11 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { signInWithCredentials, signUpUser } from '../actions/user.action';
 import { toast } from 'react-toastify';
 import { TSignupFormSchemaRequest } from '../schemas/auth/sign-up.schema';
+import { TSignInFormSchemaRequest } from '../schemas/auth/sign-in.schema';
 
 export const useLoginMutation = () =>
   useMutation({
-    mutationFn: (formData: FormData) => {
-      return signInWithCredentials(formData).then((res) => {
+    mutationFn: (data: TSignInFormSchemaRequest) => {
+      return signInWithCredentials(data).then((res) => {
         if (res.error) throw res.error;
         return res.data;
       });
