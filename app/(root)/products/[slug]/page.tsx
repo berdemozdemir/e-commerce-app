@@ -1,8 +1,11 @@
+'use client';
+
 import { ProductImages } from '@/components/product/ProductImages';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { getProductBySlug } from '@/lib/actions/product.action';
+import { useGetProductBySlugQuery } from '@/lib/services/product';
 import { notFound } from 'next/navigation';
+import { use } from 'react';
 
 type ProductDetailsPageProps = {
   params: Promise<{
@@ -10,12 +13,21 @@ type ProductDetailsPageProps = {
   }>;
 };
 
-const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
-  const { slug } = await params;
+const ProductDetailsPage = ({ params }: ProductDetailsPageProps) => {
+  const { slug } = use(params);
 
-  const product = await getProductBySlug(slug);
+  const { data: product, error, isLoading } = useGetProductBySlugQuery(slug);
 
-  if (!product) notFound();
+  // TODO: take a look at this error & loading handling, is this the best way to do it?
+  if (isLoading || error || !product) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        {isLoading && 'Loading...'}
+        {error && `Error: ${error.message}`}
+        {!isLoading && !error && !product && notFound()}
+      </div>
+    );
+  }
 
   const [int, decimal = '00'] = product.price.split('.');
 

@@ -1,6 +1,7 @@
 import { convertNumberToDecimal } from '@/lib/utils';
 import { z } from 'zod';
 
+// TODO: add trigger for update column to every table of project
 export const createProductSchema = () =>
   z.object({
     name: z

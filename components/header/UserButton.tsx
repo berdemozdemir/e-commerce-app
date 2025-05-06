@@ -15,13 +15,17 @@ import { getTwoLetterInitials } from '@/lib/utils';
 import { useEffect } from 'react';
 
 export const UserButton = () => {
-  const { data: session, update } = useSession();
+  const { data: session, update, status } = useSession();
 
-  // useEffect(() => {
-  //   update();
-  // }, [update]);
+  // TODO: create your own auth provider and use it in the whole platform
+  // TODO: fix infinite loop when without session
+  useEffect(() => {
+    if (status === 'loading' || !session) {
+      update();
+    }
+  }, [session, status, update]);
 
-  if (!session) {
+  if (status === 'loading' || status === 'unauthenticated' || !session) {
     return (
       <Button onClick={() => signIn()}>
         <UserIcon /> Login
@@ -48,7 +52,6 @@ export const UserButton = () => {
 
         <DropdownMenuSeparator />
 
-        {/* TODO: fix: logout does not work */}
         <DropdownMenuItem onClick={() => signOut()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

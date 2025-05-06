@@ -6,12 +6,11 @@ import { TSignInFormSchemaRequest } from '../schemas/auth/sign-in.schema';
 
 export const useLoginMutation = () =>
   useMutation({
-    mutationFn: (data: TSignInFormSchemaRequest) => {
-      return signInWithCredentials(data).then((res) => {
+    mutationFn: (data: TSignInFormSchemaRequest) =>
+      signInWithCredentials(data).then((res) => {
         if (res.error) throw res.error;
         return res.data;
-      });
-    },
+      }),
     onError: (error) => {
       console.error('Login error:', error);
       toast.error(error.message);
@@ -20,12 +19,11 @@ export const useLoginMutation = () =>
 
 export const useSignupMutation = () =>
   useMutation({
-    mutationFn: (data: TSignupFormSchemaRequest) => {
-      return signUpUser(data).then((res) => {
+    mutationFn: (data: TSignupFormSchemaRequest) =>
+      signUpUser(data).then((res) => {
         if (res.error) throw res.error;
         return res.data;
-      });
-    },
+      }),
     onError: (error) => {
       console.error('Signup error:', error);
       toast.error(error.message);
