@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     default: APP_NAME,
   },
   description: APP_DESCRIPTION,
+  icons: {
+    icon: '/images/logo.svg',
+  },
 };
 
 export default function RootLayout({
