@@ -38,24 +38,11 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 
   const cart = await getMyCart();
 
-  const quantity = cart?.items.find(
-    (item) => item.productId === product.id,
-  )?.quantity;
+  const item = cart?.items.find((item) => item.productId === product.id);
 
-  const isItemExist = !!cart?.items.find(
-    (item) => item.productId === product.id,
-  );
+  const quantity = item?.quantity ?? 0;
 
-  // TODO: take a look at this error & loading handling, is this the best way to do it?
-  // if (isLoading || error || !product) {
-  //   return (
-  //     <div className="flex h-screen items-center justify-center">
-  //       {isLoading && 'Loading...'}
-  //       {error && `Error: ${error.message}`}
-  //       {!isLoading && !error && !product && notFound()}
-  //     </div>
-  //   );
-  // }
+  const isItemExist = !!item;
 
   return (
     <ProductDetail
