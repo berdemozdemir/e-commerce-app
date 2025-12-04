@@ -20,6 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { LabeledInput } from './LabeledInput';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const LoginForm = () => {
   const { mutateAsync, error, isPending } = useLoginMutation();
@@ -82,10 +83,8 @@ export const LoginForm = () => {
           )}
         />
 
-        {/* TODO: improve ui // add a divider between inputs and button */}
-
         <Button disabled={isPending} className="w-full border" variant="ghost">
-          {isPending ? 'Loading...' : 'Login'}
+          Login {isPending ? <LoadingSpinner /> : null}
         </Button>
 
         {error && (
