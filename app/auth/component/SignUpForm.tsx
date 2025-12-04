@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { LabeledInput } from './LabeledInput';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const SignUpForm = () => {
   const { mutateAsync, isPending } = useSignupMutation();
@@ -29,7 +30,6 @@ export const SignUpForm = () => {
 
   const router = useRouter();
 
-  // TODO: add a validation that user can see
   const form = useForm<TSignupFormSchemaRequest>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -118,7 +118,7 @@ export const SignUpForm = () => {
         />
 
         <Button disabled={isPending} variant="ghost" className="w-full border">
-          {isPending ? 'Loading...' : 'Sign Up'}
+          Sign Up{isPending ? <LoadingSpinner /> : ''}
         </Button>
 
         <div className="text-muted-foreground my-2 text-center text-sm">
