@@ -26,6 +26,7 @@ export default function RootLayout({
       suppressHydrationWarning // to prevent hydration errors
     >
       <body>
+        {/* TODO: include this theme provider into the providers component */}
         <ThemeProvider
           attribute="class" // provide <html class="light"
           defaultTheme="light"
