@@ -1,6 +1,5 @@
 'use client';
-// TODO: use this page as server component
-// client should be child and use hydration wrapper from tanstack
+
 import { ProductList } from '@/components/product/ProductList';
 import { ProductSkeleton } from '@/components/product/ProductSkeleton';
 import { useGetLatestProductsQuery } from '@/lib/services/product';

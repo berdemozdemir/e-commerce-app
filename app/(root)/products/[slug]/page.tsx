@@ -1,6 +1,7 @@
 import { ProductDetail } from '@/components/product/ProductDetail';
 import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
 import { getProductBySlug } from '@/lib/actions/product.action';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 type ProductDetailsPageProps = {
@@ -8,6 +9,26 @@ type ProductDetailsPageProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata(
+  props: ProductDetailsPageProps,
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const product = await getProductBySlug(params.slug);
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+      description: 'The requested product does not exist.',
+    };
+  }
+
+  return {
+    title: product.name,
+    description: product.description,
+  };
+}
 
 const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
   const { slug } = await params;
