@@ -11,12 +11,16 @@ import { products } from './products';
 
 export const cartItems = pgTable('cart_items', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
-  productId: uuid('product_id').references(() => products.id, {
-    onDelete: 'cascade',
-  }),
+  productId: uuid('product_id')
+    .references(() => products.id, {
+      onDelete: 'cascade',
+    })
+    .notNull(),
+
   cartId: uuid('carts_id').references(() => carts.id, {
     onDelete: 'cascade',
   }),
+
   name: text('name').notNull(),
   slug: text('slug').notNull(),
   image: text('image').notNull(),
