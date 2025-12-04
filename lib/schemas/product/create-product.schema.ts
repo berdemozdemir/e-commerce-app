@@ -30,6 +30,7 @@ export const createProductSchema = () =>
       .min(1, { message: 'At least one image is required' }),
     isFeatured: z.boolean().default(false),
     banner: z.string().nullable(),
+    numReviews: z.coerce.number().nullable(),
     price: z
       .string()
       .refine(
