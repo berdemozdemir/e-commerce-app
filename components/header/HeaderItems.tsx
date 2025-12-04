@@ -41,7 +41,6 @@ export const HeaderItems = () => {
               </Link>
             </Button>
 
-            {/* TODO: make this part responsive */}
             <Button asChild>
               <Link href={paths.auth.login}>
                 <UserIcon /> Login
