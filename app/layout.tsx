@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { APP_DESCRIPTION, APP_NAME } from '@/lib/constants';
-import { ThemeProvider } from 'next-themes';
 import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
@@ -26,15 +25,7 @@ export default function RootLayout({
       suppressHydrationWarning // to prevent hydration errors
     >
       <body>
-        {/* TODO: include this theme provider into the providers component */}
-        <ThemeProvider
-          attribute="class" // provide <html class="light"
-          defaultTheme="light"
-          enableSystem // to reach user's system preference
-          disableTransitionOnChange // to prevent flickering when switching themes
-        >
-          <Providers>{children}</Providers>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
