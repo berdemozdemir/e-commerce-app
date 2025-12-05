@@ -4,15 +4,16 @@ import { toast } from 'react-toastify';
 import { useAddToCartMutation } from '@/lib/services/cart';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-// TODO: add disable prop here
 export const AddToCart = (item: TCartItem) => {
   const addToCartMutation = useAddToCartMutation();
 
   const submit = async () => {
-    const result = await addToCartMutation.mutateAsync(item);
+    try {
+      await addToCartMutation.mutateAsync(item);
 
-    if (result.status === 'success') {
-      toast.success(result.message);
+      toast.success(`${item.name} was added to cart`);
+    } catch (error) {
+      toast.error((error as Error).message);
     }
   };
 

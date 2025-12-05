@@ -13,11 +13,11 @@ import { cartItems, carts, products } from '@/server';
 import { calculatePrice } from '../../utils';
 import { revalidatePath } from 'next/cache';
 import { getMyCart } from './get-my-cart.action';
+import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 
-export async function addItemToCart(payload: TCartItem) {
+export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
-
-  if (!sessionCartId) throw new Error('Cart not found!');
+  if (!sessionCartId) return failure('Cart not found!');
 
   const session = await auth();
 
@@ -29,12 +29,11 @@ export async function addItemToCart(payload: TCartItem) {
     where: eq(products.id, newItem.productId),
   });
 
-  if (!product) throw new Error('Product not found!');
-
+  if (!product) return failure('Product not found!');
   const cart = await getMyCart();
 
   if (!cart) {
-    if (product.stock < newItem.quantity) throw new Error('Not enough stock');
+    if (product.stock < newItem.quantity) return failure('Not enough stock');
 
     const newCart = cartSchema.parse({
       userId,
@@ -43,85 +42,114 @@ export async function addItemToCart(payload: TCartItem) {
       ...calculatePrice([newItem]),
     });
 
-    const [insertedCart] = await db
-      .insert(carts)
-      .values({
-        sessionCartId,
-        userId,
-        itemsPrice: newCart.itemsPrice,
-        shippingPrice: newCart.shippingPrice,
-        taxPrice: newCart.taxPrice,
-        totalPrice: newCart.totalPrice,
-      })
-      .returning();
+    const insertedCart = await tryCatch(
+      db
+        .insert(carts)
+        .values({
+          sessionCartId,
+          userId,
+          itemsPrice: newCart.itemsPrice,
+          shippingPrice: newCart.shippingPrice,
+          taxPrice: newCart.taxPrice,
+          totalPrice: newCart.totalPrice,
+        })
+        .returning(),
+    );
 
-    await db
-      .insert(cartItems)
-      .values({
-        cartId: insertedCart.id,
-        productId: newItem.productId,
-        name: newItem.name,
-        slug: newItem.slug,
-        image: newItem.image,
-        price: newItem.price,
-        quantity: newItem.quantity,
-      })
-      .returning();
+    if (isFailure(insertedCart)) {
+      return failure(insertedCart.error);
+    }
+
+    const insertedCartItem = await tryCatch(
+      db
+        .insert(cartItems)
+        .values({
+          cartId: insertedCart.data[0].id,
+          productId: newItem.productId,
+          name: newItem.name,
+          slug: newItem.slug,
+          image: newItem.image,
+          price: newItem.price,
+          quantity: newItem.quantity,
+        })
+        .returning(),
+    );
+
+    if (isFailure(insertedCartItem)) {
+      return failure(insertedCartItem.error);
+    }
 
     revalidatePath(`/product/${product.slug}`);
 
-    return { status: 'success', message: `${product.name} added to cart` };
+    return ok(undefined);
   } else {
     const existItem = cart.items.find((item) => item.productId === product.id);
 
     if (existItem) {
       const newQuantity = existItem.quantity + 1;
 
-      if (product.stock < newQuantity) {
-        throw new Error('Not enough stock');
-      }
+      if (product.stock < newQuantity) return failure('Not enough stock');
 
       existItem.quantity = newQuantity;
 
-      await db
-        .update(cartItems)
-        .set({ quantity: newQuantity })
-        .where(
-          and(
-            eq(cartItems.cartId, cart.id),
-            eq(cartItems.productId, product.id),
-          ),
-        );
+      const updateResult = await tryCatch(
+        db
+          .update(cartItems)
+          .set({ quantity: newQuantity })
+          .where(
+            and(
+              eq(cartItems.cartId, cart.id),
+              eq(cartItems.productId, product.id),
+            ),
+          )
+          .returning(),
+      );
+
+      if (isFailure(updateResult)) {
+        return failure(updateResult.error);
+      }
     } else {
-      if (product.stock < newItem.quantity) throw new Error('Not enough stock');
+      if (product.stock < newItem.quantity) return failure('Not enough stock');
 
       cart.items.push(newItem);
 
-      await db.insert(cartItems).values({
-        cartId: cart.id,
-        productId: newItem.productId,
-        name: newItem.name,
-        slug: newItem.slug,
-        image: newItem.image,
-        price: newItem.price,
-        quantity: newItem.quantity,
-      });
+      const insertedCartItem = await tryCatch(
+        db.insert(cartItems).values({
+          cartId: cart.id,
+          productId: newItem.productId,
+          name: newItem.name,
+          slug: newItem.slug,
+          image: newItem.image,
+          price: newItem.price,
+          quantity: newItem.quantity,
+        }),
+      );
+
+      if (isFailure(insertedCartItem)) {
+        return failure(insertedCartItem.error);
+      }
     }
 
     const pricing = calculatePrice(cart.items);
 
-    await db
-      .update(carts)
-      .set({
-        itemsPrice: pricing.itemsPrice,
-        shippingPrice: pricing.shippingPrice,
-        taxPrice: pricing.taxPrice,
-        totalPrice: pricing.totalPrice,
-      })
-      .where(eq(carts.id, cart.id));
+    const updateResult = await tryCatch(
+      db
+        .update(carts)
+        .set({
+          itemsPrice: pricing.itemsPrice,
+          shippingPrice: pricing.shippingPrice,
+          taxPrice: pricing.taxPrice,
+          totalPrice: pricing.totalPrice,
+        })
+        .where(eq(carts.id, cart.id)),
+    );
+
+    if (isFailure(updateResult)) {
+      return failure(updateResult.error);
+    }
 
     revalidatePath(`/product/${product.slug}`);
 
-    return { status: 'success', message: `${product.name} added to cart` };
+    return ok(undefined);
   }
 }
