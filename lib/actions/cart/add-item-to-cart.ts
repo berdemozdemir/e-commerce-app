@@ -14,6 +14,7 @@ import { calculatePrice } from '../../utils';
 import { revalidatePath } from 'next/cache';
 import { getMyCart } from './get-my-cart.action';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { paths } from '@/lib/constants/paths';
 
 export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
@@ -84,7 +85,7 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
       return failure(insertedCartItem.error);
     }
 
-    revalidatePath(`/product/${product.slug}`);
+    revalidatePath(paths.productDetail(product.slug));
 
     return ok(undefined);
   } else {
@@ -153,7 +154,7 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
       return failure(updateResult.error);
     }
 
-    revalidatePath(`/product/${product.slug}`);
+    revalidatePath(paths.productDetail(product.slug));
 
     return ok(undefined);
   }
