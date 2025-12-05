@@ -15,7 +15,10 @@ export async function removeItemFromCart(args: {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
   if (!sessionCartId) return failure('Cart not found!');
 
-  const cart = await getMyCart();
+  const cartResult = await getMyCart();
+  if (isFailure(cartResult)) return failure('Cart not found!');
+
+  const cart = cartResult.data;
   if (!cart) return failure('Cart not found!');
 
   const product = await db.query.products.findFirst({

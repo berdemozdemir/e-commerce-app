@@ -7,27 +7,42 @@ import { cartItems, carts } from '@/server';
 import { auth } from '@/lib/auth';
 import { TCart } from '@/lib/schemas/cart/cart-item.schema';
 import { convertToPlainObject } from '@/lib/utils';
+import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 
-export async function getMyCart(): Promise<TCart | undefined> {
+export async function getMyCart(): Promise<Result<TCart | undefined>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
 
-  if (!sessionCartId) throw new Error('Cart not found!');
+  if (!sessionCartId) return failure('Cart not found!');
 
   const session = await auth();
 
   const userId = session?.user?.id ? session.user.id : undefined;
 
-  const cart = await db.query.carts.findFirst({
-    where: userId
-      ? eq(carts.userId, userId)
-      : eq(carts.sessionCartId, sessionCartId),
-  });
+  const cartResult = await tryCatch(
+    db.query.carts.findFirst({
+      where: userId
+        ? eq(carts.userId, userId)
+        : eq(carts.sessionCartId, sessionCartId),
+    }),
+  );
 
-  if (!cart) return undefined;
+  if (isFailure(cartResult)) {
+    return failure(cartResult.error);
+  }
 
-  const rawItems = await db.query.cartItems.findMany({
-    where: eq(cartItems.cartId, cart.id),
-  });
+  const cart = cartResult.data;
+
+  if (!cart) return ok(undefined);
+
+  const itemsResult = await tryCatch(
+    db.query.cartItems.findMany({
+      where: eq(cartItems.cartId, cart.id),
+    }),
+  );
+
+  if (isFailure(itemsResult)) return failure(itemsResult.error);
+
+  const rawItems = itemsResult.data;
 
   const items = rawItems
     .filter((item) => item.productId !== null)
@@ -40,7 +55,7 @@ export async function getMyCart(): Promise<TCart | undefined> {
       image: item.image,
     }));
 
-  return convertToPlainObject({
+  const result = convertToPlainObject({
     ...cart,
     userId,
     items,
@@ -49,4 +64,6 @@ export async function getMyCart(): Promise<TCart | undefined> {
     taxPrice: cart.taxPrice,
     totalPrice: cart.totalPrice,
   });
+
+  return ok(result);
 }

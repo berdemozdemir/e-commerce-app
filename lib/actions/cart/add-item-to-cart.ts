@@ -30,7 +30,12 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
   });
 
   if (!product) return failure('Product not found!');
-  const cart = await getMyCart();
+  const cartResult = await getMyCart();
+  const cart = cartResult.data;
+
+  if (isFailure(cartResult)) {
+    return failure(cartResult.error);
+  }
 
   if (!cart) {
     if (product.stock < newItem.quantity) return failure('Not enough stock');

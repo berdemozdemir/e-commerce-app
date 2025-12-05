@@ -75,6 +75,7 @@ export const config = {
       return session;
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     async jwt({ token, trigger, user, session }: any) {
       if (user) {
         token.role = user.role;
@@ -94,6 +95,7 @@ export const config = {
       return token;
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authorized({ request }: any) {
       // check for session cart cookie
       if (!request.cookies.get('sessionCartId')) {

@@ -36,7 +36,9 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const cart = await getMyCart();
+  const cartResult = await getMyCart();
+
+  const cart = cartResult.data;
 
   const item = cart?.items.find((item) => item.productId === product.id);
 
