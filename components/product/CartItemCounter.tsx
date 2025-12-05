@@ -19,17 +19,25 @@ export const CartItemCounter: FC<Props> = (props) => {
   const addToCartMutation = useAddToCartMutation();
 
   const removeItem = async () => {
-    await removeItemFromCartMutation.mutateAsync({
-      productId: props.item.productId,
-    });
+    try {
+      await removeItemFromCartMutation.mutateAsync({
+        productId: props.item.productId,
+      });
 
-    toast.success('Item was removed from cart');
+      toast.success('Item was removed from cart');
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
   };
 
   const addItem = async () => {
-    await addToCartMutation.mutateAsync(props.item);
+    try {
+      await addToCartMutation.mutateAsync(props.item);
 
-    toast.success('Item was added to cart');
+      toast.success(`${props.item.name} was added to cart`);
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
   };
 
   return (
