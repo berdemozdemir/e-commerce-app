@@ -43,19 +43,27 @@ export const CartItemCounter: FC<Props> = (props) => {
   return (
     <div className="flex items-center justify-center gap-4">
       <div
-        className="w-fit cursor-pointer rounded-md bg-gray-300 p-2 hover:bg-gray-200"
+        className="w-fit cursor-pointer rounded-md bg-neutral-100 p-2 hover:bg-neutral-200"
         onClick={removeItem}
       >
-        {removeItemFromCartMutation.isPending ? <LoadingSpinner /> : <Minus />}
+        {removeItemFromCartMutation.isPending ? (
+          <LoadingSpinner />
+        ) : (
+          <Minus color="gray" />
+        )}
       </div>
 
       <span className="text-lg font-semibold">{props.quantity}</span>
 
       <div
-        className="w-fit cursor-pointer rounded-md bg-gray-300 p-2 hover:bg-gray-200"
+        className="w-fit cursor-pointer rounded-md bg-neutral-100 p-2 hover:bg-neutral-200"
         onClick={addItem}
       >
-        {addToCartMutation.isPending ? <LoadingSpinner /> : <Plus />}
+        {addToCartMutation.isPending ? (
+          <LoadingSpinner />
+        ) : (
+          <Plus color="gray" />
+        )}
       </div>
     </div>
   );
