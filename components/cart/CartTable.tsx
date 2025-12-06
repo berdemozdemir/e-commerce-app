@@ -21,6 +21,8 @@ type Props = {
 
 export const CartTable: FC<Props> = ({ cart }) => {
   return (
+    // TODO: fix the responsive design
+    // TODO: fix items reorder issue when quantity is updated
     <Table>
       <TableHeader>
         <TableRow>

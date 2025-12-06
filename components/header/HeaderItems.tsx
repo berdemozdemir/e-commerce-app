@@ -35,6 +35,7 @@ export const HeaderItems = () => {
             <div className="mb-2 h-[1px] w-full bg-gray-300" />
             <ThemeToggle />
 
+            {/* TODO: add number of items quantity on this icon */}
             <Button asChild variant={'ghost'}>
               <Link href={paths.cart}>
                 <ShoppingCartIcon /> Cart

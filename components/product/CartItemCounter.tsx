@@ -42,6 +42,7 @@ export const CartItemCounter: FC<Props> = (props) => {
 
   return (
     <div className="flex items-center justify-center gap-4">
+      {/* TODO: disable this buttons when mutation is pending */}
       <div
         className="w-fit cursor-pointer rounded-md bg-neutral-100 p-2 hover:bg-neutral-200"
         onClick={removeItem}
