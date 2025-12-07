@@ -20,6 +20,7 @@ export const users = pgTable('user', {
   emailVerified: timestamp('email_verified', { mode: 'date' }),
   image: text('image'),
   role: text('role').default('USER').notNull(),
+  // TODO: make this address array type, so we can store multiple addresses and user can choose any of them
   address: jsonb('address'),
   paymentMethod: text('payment_method'),
 

@@ -10,6 +10,7 @@ type ProductListProps = {
 export const ProductList = ({ data, title, limit }: ProductListProps) => {
   const limitedProducts = limit ? data.slice(0, limit) : data;
 
+  // TODO: fix this page's responsive design
   return (
     <div className="my-10">
       <h1 className="mb-4 text-center text-2xl font-bold sm:text-start">

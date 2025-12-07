@@ -18,7 +18,7 @@ export const ok = <T>(data: T): Success<T> => {
 };
 
 export const isOk = <T>(result: Result<T>): result is Success<T> => {
-  return 'data' in result && result.error !== undefined;
+  return 'data' in result && result.data !== undefined;
 };
 
 export const failure = (error: string): Failure => {
@@ -29,7 +29,7 @@ export const failure = (error: string): Failure => {
 };
 
 export const isFailure = <T>(result: Result<T>): result is Failure => {
-  return 'error' in result && !result.data;
+  return 'error' in result && result.error !== undefined;
 };
 
 export const okOrThrow = <T>(result: Result<T>): T => {
