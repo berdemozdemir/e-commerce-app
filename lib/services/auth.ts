@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { signInWithCredentials, signUpUser } from '../actions/user.action';
+import { signInWithCredentials, signUpUser } from '../actions/auth';
 import { toast } from 'react-toastify';
 import { TSignupFormSchemaRequest } from '../schemas/auth/sign-up.schema';
 import { TSignInFormSchemaRequest } from '../schemas/auth/sign-in.schema';

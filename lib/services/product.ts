@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getLatestProducts, getProductBySlug } from '../actions/product.action';
+import { getLatestProducts, getProductBySlug } from '../actions/product';
 
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
 // https://query-key-factory.aziznal.com/notes

@@ -1,6 +1,6 @@
 import { ProductDetail } from '@/components/product/ProductDetail';
 import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
-import { getProductBySlug } from '@/lib/actions/product.action';
+import { getProductBySlug } from '@/lib/actions/product';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
