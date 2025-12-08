@@ -17,19 +17,33 @@ import {
 import { Input } from '../ui/Input';
 import { MoveRight } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { useUpdateUserAddressMutation } from '@/lib/services/user';
+import { toast } from 'react-toastify';
 
 export const ShippingAddressForm = () => {
+  const updateUserAddressMutation = useUpdateUserAddressMutation();
+
   const form = useForm<TShippingAddressSchema>({
     resolver: zodResolver(shippingAddressSchema),
   });
 
-  const submit = form.handleSubmit((data) => {
-    console.log(data);
+  const submit = form.handleSubmit(async (data) => {
+    try {
+      await updateUserAddressMutation.mutateAsync(data);
+
+      toast.success('Shipping address updated successfully');
+    } catch (error) {
+      toast.error(
+        (error as Error).message || 'Failed to update shipping address',
+      );
+    }
   });
 
   return (
     <Form {...form}>
-      <form onSubmit={submit} className="max-w-md space-y-5">
+      <form onSubmit={submit} className="mx-auto max-w-md space-y-5">
+        <h1 className="mb-8 text-xl font-semibold">Shipping Address Page</h1>
+
         <FormField
           control={form.control}
           name="fullName"
