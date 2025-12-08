@@ -96,7 +96,15 @@ export const config = {
     },
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    authorized({ request }: any) {
+    authorized({ request, auth }: any) {
+      const protectedPaths = [paths.shippingAddress];
+
+      const { pathname } = request.nextUrl;
+
+      if (!auth && protectedPaths.includes(pathname)) {
+        return false;
+      }
+
       // check for session cart cookie
       if (!request.cookies.get('sessionCartId')) {
         // generate new session cart id cookie
