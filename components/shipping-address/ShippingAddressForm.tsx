@@ -19,8 +19,11 @@ import { MoveRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useUpdateUserAddressMutation } from '@/lib/services/user';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export const ShippingAddressForm = () => {
+  const router = useRouter();
+
   const updateUserAddressMutation = useUpdateUserAddressMutation();
 
   const form = useForm<TShippingAddressSchema>({
@@ -32,6 +35,8 @@ export const ShippingAddressForm = () => {
       await updateUserAddressMutation.mutateAsync(data);
 
       toast.success('Shipping address updated successfully');
+
+      router.push('/payment');
     } catch (error) {
       toast.error(
         (error as Error).message || 'Failed to update shipping address',
