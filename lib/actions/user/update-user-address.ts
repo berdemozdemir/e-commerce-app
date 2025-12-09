@@ -2,7 +2,10 @@
 
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
-import { TShippingAddressSchema } from '@/lib/schemas/shipping-address';
+import {
+  shippingAddressSchema,
+  TShippingAddressSchema,
+} from '@/lib/schemas/shipping-address';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
@@ -25,8 +28,13 @@ export const updateUserAddress = async (
 
   if (isFailure(currentUser)) return failure('User not found');
 
+  const parsedAddress = shippingAddressSchema.parse(payload);
+
   const result = await tryCatch(
-    db.update(users).set({ address: payload }).where(eq(users.id, userId)),
+    db
+      .update(users)
+      .set({ address: parsedAddress })
+      .where(eq(users.id, userId)),
   );
 
   if (isFailure(result)) return failure('Failed to update address');

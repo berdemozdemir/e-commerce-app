@@ -4,6 +4,7 @@ import { ProductList } from '@/components/product/ProductList';
 import { ProductSkeleton } from '@/components/product/ProductSkeleton';
 import { useGetLatestProductsQuery } from '@/lib/services/product';
 
+// TODO: should this page be server component?
 export default function Home() {
   const {
     data: latestProducts,
