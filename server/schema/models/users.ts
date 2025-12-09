@@ -1,3 +1,4 @@
+import { getPaymentMethods } from '@/lib/types/payment-methods';
 import {
   boolean,
   timestamp,
@@ -7,8 +8,14 @@ import {
   integer,
   uuid,
   jsonb,
+  pgEnum,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
+
+export const paymentMethodsEnum = pgEnum(
+  'payment_methods',
+  getPaymentMethods(),
+);
 
 export const users = pgTable('user', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -22,7 +29,7 @@ export const users = pgTable('user', {
   role: text('role').default('USER').notNull(),
   // TODO: make this address array type, so we can store multiple addresses and user can choose any of them
   address: jsonb('address'),
-  paymentMethod: text('payment_method'),
+  paymentMethod: paymentMethodsEnum('payment_method'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
