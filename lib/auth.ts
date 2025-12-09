@@ -97,7 +97,11 @@ export const config = {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authorized({ request, auth }: any) {
-      const protectedPaths = [paths.shippingAddress];
+      const protectedPaths = [
+        paths.cart,
+        paths.shippingAddress,
+        paths.paymentMethod,
+      ];
 
       const { pathname } = request.nextUrl;
 
