@@ -20,6 +20,7 @@ import { Button } from '../ui/Button';
 import { useUpdateUserAddressMutation } from '@/lib/services/user';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { paths } from '@/lib/constants/paths';
 
 export const ShippingAddressForm = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ export const ShippingAddressForm = () => {
 
       toast.success('Shipping address updated successfully');
 
-      router.push('/payment');
+      router.push(paths.paymentMethod);
     } catch (error) {
       toast.error(
         (error as Error).message || 'Failed to update shipping address',
