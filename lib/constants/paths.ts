@@ -12,4 +12,5 @@ export const paths = {
 
   shippingAddress: '/shipping-address',
   paymentMethod: '/payment-method',
+  placeOrder: '/place-order',
 } as const;
