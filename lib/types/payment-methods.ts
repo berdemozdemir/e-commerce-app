@@ -2,7 +2,7 @@ export const PaymentMethods = {
   Paypal: 'PayPal',
   Stripe: 'Stripe',
   CashOnDelivery: 'Cash on Delivery',
-};
+} as const;
 
 // TODO: take a look at this, make this one practise
 export type TPaymentMethod =
