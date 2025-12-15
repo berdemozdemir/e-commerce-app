@@ -10,6 +10,7 @@ import { users } from './users';
 import { products } from './products';
 
 export const cartItems = pgTable('cart_items', {
+  // TODO: this id column may not be necessary with composite primary key
   id: uuid('id').primaryKey().notNull().defaultRandom(),
   productId: uuid('product_id')
     .references(() => products.id, {

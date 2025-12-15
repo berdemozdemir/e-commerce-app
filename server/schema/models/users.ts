@@ -28,6 +28,7 @@ export const users = pgTable('user', {
   image: text('image'),
   role: text('role').default('USER').notNull(),
   // TODO: make this address array type, so we can store multiple addresses and user can choose any of them
+  // TODO: make this address column normalized in a separate table
   address: jsonb('address'),
   paymentMethod: paymentMethodsEnum('payment_method'),
 
