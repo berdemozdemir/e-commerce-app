@@ -1,5 +1,6 @@
 export type TAddress = {
-  street: string;
+  addressName: string;
+  address: string;
   city: string;
   postalCode: number;
   country: string;
