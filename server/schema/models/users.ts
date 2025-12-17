@@ -1,3 +1,4 @@
+import { TAddress } from '@/lib/types/address';
 import { getPaymentMethods } from '@/lib/types/payment-methods';
 import {
   boolean,
@@ -29,7 +30,7 @@ export const users = pgTable('user', {
   role: text('role').default('USER').notNull(),
   // TODO: make this address array type, so we can store multiple addresses and user can choose any of them
   // TODO: make this address column normalized in a separate table
-  address: jsonb('address'),
+  address: jsonb('address').$type<TAddress | null>(),
   paymentMethod: paymentMethodsEnum('payment_method'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
