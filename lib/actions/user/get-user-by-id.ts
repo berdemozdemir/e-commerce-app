@@ -29,7 +29,8 @@ export const getUserById = async (payload: {
     name: currentUser.name,
     address: currentUser.address
       ? {
-          street: currentUser.address.street,
+          addressName: currentUser.address.addressName,
+          address: currentUser.address.address,
           city: currentUser.address.city,
           postalCode: currentUser.address.postalCode,
           country: currentUser.address.country,
