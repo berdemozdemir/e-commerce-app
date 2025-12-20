@@ -17,19 +17,26 @@ import {
   TPaymentMethodsSchema,
 } from '@/lib/schemas/payment-methods';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { getPaymentMethods } from '@/lib/types/payment-methods';
+import { getPaymentMethods, TPaymentMethod } from '@/lib/types/payment-methods';
 import { useUpdateUserPaymentMethodMutation } from '@/lib/services/user';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
 
-export const PaymentMethodForm = () => {
+type Props = {
+  paymentMethod?: TPaymentMethod;
+};
+
+export const PaymentMethodForm = ({ paymentMethod }: Props) => {
   const router = useRouter();
 
   const updateUserPaymentMethodMutation = useUpdateUserPaymentMethodMutation();
 
   const form = useForm<TPaymentMethodsSchema>({
     resolver: zodResolver(paymentMethodsSchema),
+    defaultValues: {
+      paymentMethod: paymentMethod || undefined,
+    },
   });
 
   const submit = form.handleSubmit(async (data) => {
