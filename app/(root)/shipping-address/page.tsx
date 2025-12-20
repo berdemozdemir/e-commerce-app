@@ -1,5 +1,7 @@
 import { ShippingAddressForm } from '@/components/shipping-address/ShippingAddressForm';
 import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
+import { getUserById } from '@/lib/actions/user/get-user-by-id';
+import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
 import { redirect } from 'next/navigation';
@@ -15,9 +17,15 @@ async function ShippingAddressPage() {
   const cart = await getMyCart();
   if (isFailure(cart)) redirect(paths.cart);
 
+  const session = await auth();
+  if (!session?.user?.id) redirect(paths.auth.login);
+
+  const user = await getUserById({ userId: session.user.id });
+  if (isFailure(user)) redirect(paths.auth.login);
+
   return (
     <div>
-      <ShippingAddressForm />
+      <ShippingAddressForm {...user.data?.address} />
     </div>
   );
 }

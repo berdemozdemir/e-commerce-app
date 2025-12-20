@@ -21,14 +21,25 @@ import { useUpdateUserAddressMutation } from '@/lib/services/user';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
+import { TAddress } from '@/lib/types/address';
+import { FC } from 'react';
 
-export const ShippingAddressForm = () => {
+type Props = Partial<TAddress>;
+
+export const ShippingAddressForm: FC<Props> = (props) => {
   const router = useRouter();
 
   const updateUserAddressMutation = useUpdateUserAddressMutation();
 
   const form = useForm<TShippingAddressSchema>({
     resolver: zodResolver(shippingAddressSchema),
+    defaultValues: {
+      addressName: props.addressName ?? '',
+      address: props.address ?? '',
+      city: props.city ?? '',
+      postalCode: props.postalCode ?? undefined,
+      country: props.country ?? '',
+    },
   });
 
   const submit = form.handleSubmit(async (data) => {
@@ -52,13 +63,13 @@ export const ShippingAddressForm = () => {
 
         <FormField
           control={form.control}
-          name="fullName"
+          name="addressName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Address Name</FormLabel>
 
               <FormControl>
-                <Input {...field} placeholder="Enter your full name" />
+                <Input {...field} placeholder="e.g. Home, Work, etc." />
               </FormControl>
 
               <FormMessage />
@@ -109,6 +120,11 @@ export const ShippingAddressForm = () => {
                 <Input
                   {...field}
                   placeholder="Enter your postal code"
+                  value={field.value ?? ''}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    field.onChange(v === '' ? undefined : Number(v));
+                  }}
                   type="number"
                 />
               </FormControl>
