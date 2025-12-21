@@ -21,7 +21,7 @@ export const CartDetailPage: FC<Props> = ({ cart }) => {
       {cart && cart.items.length > 0 && (
         <section className="grid md:grid-cols-4 md:gap-6">
           <div className="col-span-3">
-            <CartTable cart={cart} />
+            <CartTable items={cart.items} />
           </div>
 
           <CartSubTotal
