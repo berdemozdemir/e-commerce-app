@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { Button } from '../ui/Button';
 import { MoveRight } from 'lucide-react';
@@ -13,7 +15,7 @@ export const CartSubTotal: FC<Props> = ({ totalQuantity, totalPrice }) => {
   const router = useRouter();
 
   return (
-    <div className="h-full gap-4 rounded-md border p-4 shadow">
+    <div className="h-fit gap-4 rounded-md border p-4 shadow">
       <section className="mb-4 space-y-1 font-semibold">
         <h1>Subtotal ({totalQuantity} items)</h1>
 
