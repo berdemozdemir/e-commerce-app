@@ -3,15 +3,15 @@
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import {
-  paymentMethodsSchema,
-  TPaymentMethodsSchema,
+  paymentMethodsFormSchema,
+  TPaymentMethodsFormSchema,
 } from '@/lib/schemas/payment-methods';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
 
 export const updatePaymentMethods = async (
-  payload: TPaymentMethodsSchema,
+  payload: TPaymentMethodsFormSchema,
 ): Promise<Result<void>> => {
   const session = await auth();
   if (!session?.user) return failure('Unauthorized');
@@ -27,7 +27,7 @@ export const updatePaymentMethods = async (
 
   if (isFailure(currentUser)) return failure('User not found');
 
-  const { paymentMethod } = paymentMethodsSchema.parse(payload);
+  const { paymentMethod } = paymentMethodsFormSchema.parse(payload);
 
   const result = await tryCatch(
     db.update(users).set({ paymentMethod }).where(eq(users.id, userId)),

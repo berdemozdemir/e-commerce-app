@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { convertNumberToDecimal } from '../utils';
-import { paymentMethodsSchema } from './payment-methods';
+import { paymentMethodEnumSchema } from './payment-methods';
 import { shippingAddressSchema } from './shipping-address';
 
 export const orderSchema = z.object({
@@ -29,7 +29,7 @@ export const orderSchema = z.object({
       (val) => /^\d+(\.\d{1,2})?$/.test(convertNumberToDecimal(Number(val))),
       { message: 'Price must be a valid number with up to 2 decimal places' },
     ),
-  paymentMethod: paymentMethodsSchema,
+  paymentMethod: paymentMethodEnumSchema,
   shippingAddress: shippingAddressSchema,
 });
 

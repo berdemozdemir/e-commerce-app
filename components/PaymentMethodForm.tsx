@@ -13,8 +13,8 @@ import {
 } from './ui/Form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  paymentMethodsSchema,
-  TPaymentMethodsSchema,
+  paymentMethodsFormSchema,
+  TPaymentMethodsFormSchema,
 } from '@/lib/schemas/payment-methods';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { getPaymentMethods, TPaymentMethod } from '@/lib/types/payment-methods';
@@ -32,8 +32,8 @@ export const PaymentMethodForm = ({ paymentMethod }: Props) => {
 
   const updateUserPaymentMethodMutation = useUpdateUserPaymentMethodMutation();
 
-  const form = useForm<TPaymentMethodsSchema>({
-    resolver: zodResolver(paymentMethodsSchema),
+  const form = useForm<TPaymentMethodsFormSchema>({
+    resolver: zodResolver(paymentMethodsFormSchema),
     defaultValues: {
       paymentMethod: paymentMethod || undefined,
     },
