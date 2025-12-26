@@ -13,4 +13,6 @@ export const paths = {
   shippingAddress: '/shipping-address',
   paymentMethod: '/payment-method',
   placeOrder: '/place-order',
+
+  orderDetails: (orderId: string) => `/order/${orderId}`,
 } as const;
