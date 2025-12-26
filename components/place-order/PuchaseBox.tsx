@@ -1,8 +1,12 @@
+'use client';
+
 import { FC } from 'react';
 import { Button } from '../ui/Button';
-import Link from 'next/link';
 import { paths } from '@/lib/constants/paths';
 import { MoveRight } from 'lucide-react';
+import { useCreateOrderMutation } from '@/lib/services/order';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   itemsPrice: number;
@@ -12,43 +16,58 @@ type Props = {
   totalQuantity: number;
 };
 
-export const PurchaseBox: FC<Props> = (props) => (
-  <div className="h-fit gap-4 rounded-md border p-4 shadow">
-    <section className="mb-4 space-y-1 font-semibold">
-      <div>
-        <h1>Subtotal ({props.totalQuantity} items)</h1>
-      </div>
+export const PurchaseBox: FC<Props> = (props) => {
+  const router = useRouter();
 
-      <div className="flex justify-between">
-        <h1>items:</h1>
+  const createOrderMutation = useCreateOrderMutation();
 
-        <span>${props.itemsPrice.toFixed(2)}</span>
-      </div>
+  const createOrder = async () => {
+    try {
+      const res = await createOrderMutation.mutateAsync();
 
-      <div className="flex justify-between">
-        <h1>Tax: </h1>
+      toast.success('Order was created successfully');
+      router.push(paths.orderDetails(res));
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  };
 
-        <span>${props.taxPrice.toFixed(2)}</span>
-      </div>
+  return (
+    <div className="h-fit gap-4 rounded-md border p-4 shadow">
+      <section className="mb-4 space-y-1 font-semibold">
+        <div>
+          <h1>Subtotal ({props.totalQuantity} items)</h1>
+        </div>
 
-      <div className="flex justify-between">
-        <h1>Shipping:</h1>
+        <div className="flex justify-between">
+          <h1>items:</h1>
 
-        <span> ${props.shippingPrice.toFixed(2)}</span>
-      </div>
+          <span>${props.itemsPrice.toFixed(2)}</span>
+        </div>
 
-      <div className="flex justify-between">
-        <h1>Total:</h1>
+        <div className="flex justify-between">
+          <h1>Tax: </h1>
 
-        <span>${props.totalPrice.toFixed(2)}</span>
-      </div>
-    </section>
+          <span>${props.taxPrice.toFixed(2)}</span>
+        </div>
 
-    <Link href={paths.shippingAddress}>
-      <Button>
-        Purchase
+        <div className="flex justify-between">
+          <h1>Shipping:</h1>
+
+          <span> ${props.shippingPrice.toFixed(2)}</span>
+        </div>
+
+        <div className="flex justify-between">
+          <h1>Total:</h1>
+
+          <span>${props.totalPrice.toFixed(2)}</span>
+        </div>
+      </section>
+
+      <Button onClick={createOrder} disabled={createOrderMutation.isPending}>
+        Create Order
         <MoveRight />
       </Button>
-    </Link>
-  </div>
-);
+    </div>
+  );
+};
