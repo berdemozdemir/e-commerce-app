@@ -7,6 +7,7 @@ import { MoveRight } from 'lucide-react';
 import { useCreateOrderMutation } from '@/lib/services/order';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 type Props = {
   itemsPrice: number;
@@ -65,7 +66,7 @@ export const PurchaseBox: FC<Props> = (props) => {
       </section>
 
       <Button onClick={createOrder} disabled={createOrderMutation.isPending}>
-        Create Order
+        Create Order {createOrderMutation.isPending ? <LoadingSpinner /> : null}
         <MoveRight />
       </Button>
     </div>
