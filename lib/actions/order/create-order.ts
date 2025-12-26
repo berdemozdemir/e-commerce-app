@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result } from '@/lib/result';
+import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { getMyCart } from '../cart/get-my-cart.action';
 import { getUserById } from '../user/get-user-by-id';
 import { orderSchema } from '@/lib/schemas/order';
@@ -39,41 +39,43 @@ export const createOrder = async (): Promise<Result<string>> => {
     totalPrice: cart.data.totalPrice,
   });
 
-  const insertedOrderId = await db.transaction(async (tx) => {
-    const [insertedOrder] = await tx
-      .insert(orders)
-      .values({
-        ...order,
-      })
-      .returning({ id: orders.id });
+  const res = await tryCatch(
+    db.transaction(async (tx) => {
+      const [insertedOrder] = await tx
+        .insert(orders)
+        .values({
+          ...order,
+        })
+        .returning({ id: orders.id });
 
-    for (const item of cart.data?.items as TCartItem[]) {
-      await tx.insert(orderItems).values({
-        orderId: insertedOrder.id,
-        productId: item.productId,
-        slug: item.slug,
-        quantity: item.quantity,
-        price: item.price,
-        image: item.image,
-      });
-    }
+      for (const item of cart.data?.items as TCartItem[]) {
+        await tx.insert(orderItems).values({
+          orderId: insertedOrder.id,
+          productId: item.productId,
+          slug: item.slug,
+          quantity: item.quantity,
+          price: item.price,
+          image: item.image,
+        });
+      }
 
-    await tx
-      .update(carts)
-      .set({
-        itemsPrice: '0.00',
-        taxPrice: '0.00',
-        shippingPrice: '0.00',
-        totalPrice: '0.00',
-      })
-      .where(and(eq(carts.userId, userId), eq(carts.id, cart.data!.id)));
+      await tx
+        .update(carts)
+        .set({
+          itemsPrice: '0.00',
+          taxPrice: '0.00',
+          shippingPrice: '0.00',
+          totalPrice: '0.00',
+        })
+        .where(and(eq(carts.userId, userId), eq(carts.id, cart.data!.id)));
 
-    await tx.delete(cartItems).where(eq(cartItems.cartId, cart.data!.id));
+      await tx.delete(cartItems).where(eq(cartItems.cartId, cart.data!.id));
 
-    return insertedOrder.id;
-  });
+      return insertedOrder.id;
+    }),
+  );
 
-  if (!insertedOrderId) return failure('Failed to create order');
+  if (isFailure(res)) return failure('Failed to create order');
 
-  return ok(insertedOrderId);
+  return ok(res.data);
 };
