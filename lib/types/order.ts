@@ -6,10 +6,10 @@ export type TOrder = TOrderSchema & {
     name: string;
     email: string;
   };
-  createdAt: string;
+  createdAt?: Date;
   isPaid: boolean;
-  paidAt: string | null;
+  paidAt: Date | null;
   isDelivered: boolean;
-  deliveredAt: string | null;
+  deliveredAt: Date | null;
   orderItems: TOrderItemSchema[];
 };
