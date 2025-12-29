@@ -102,6 +102,7 @@ export const config = {
         paths.shippingAddress,
         paths.paymentMethod,
         paths.placeOrder,
+        paths.orderDetails,
       ];
 
       const { pathname } = request.nextUrl;
