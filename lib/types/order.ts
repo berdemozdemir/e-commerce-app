@@ -8,8 +8,8 @@ export type TOrder = TOrderSchema & {
   };
   createdAt?: Date;
   isPaid: boolean;
-  paidAt: Date | null;
+  paidAt: Date | undefined;
   isDelivered: boolean;
-  deliveredAt: Date | null;
+  deliveredAt: Date | undefined;
   orderItems: TOrderItemSchema[];
 };

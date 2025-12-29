@@ -51,6 +51,7 @@ export const createOrder = async (): Promise<Result<string>> => {
     await db.insert(orderItems).values({
       orderId: insertedOrder.id,
       productId: item.productId,
+      name: item.name,
       slug: item.slug,
       quantity: item.quantity,
       price: item.price,
