@@ -6,7 +6,7 @@ import { TShippingAddressSchema } from '@/lib/schemas/shipping-address';
 import { TOrder } from '@/lib/types/order';
 import { orderItems, orders, users } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 
 export const getOrderById = async (payload: {
   orderId: string;
@@ -36,31 +36,41 @@ export const getOrderById = async (payload: {
 
         userName: users.name,
         userEmail: users.email,
+
+        orderItems: sql<
+          Array<{
+            productId: string;
+            name: string;
+            slug: string;
+            image: string;
+            quantity: number;
+            price: string;
+          }>
+        >`
+              coalesce(
+                  jsonb_agg(
+                    jsonb_build_object(
+                    'productId',${orderItems.productId},
+                    'name',${orderItems.name},
+                    'slug',${orderItems.slug},
+                    'image',${orderItems.image},
+                    'quantity',${orderItems.quantity},
+                    'price',${orderItems.price}
+                  ) order by ${orderItems.createdAt} asc
+              ) filter (where ${orderItems.productId} is not null),
+              '[]'::jsonb
+              )
+        `.as('orderItems'),
       })
 
       .from(orders)
       .where(and(eq(orders.id, payload.orderId), eq(orders.userId, userId)))
       .innerJoin(users, eq(orders.userId, users.id))
-      .limit(1),
+      .leftJoin(orderItems, eq(orderItems.orderId, orders.id))
+      .groupBy(orders.id, users.id),
   );
 
   if (isFailure(orderResponse)) return failure(orderResponse.error);
-
-  const orderItemsResponse = await tryCatch(
-    db
-      .select({
-        productId: orderItems.productId,
-        name: orderItems.name,
-        slug: orderItems.slug,
-        quantity: orderItems.quantity,
-        price: orderItems.price,
-        image: orderItems.image,
-      })
-      .from(orderItems)
-      .where(eq(orderItems.orderId, payload.orderId)),
-  );
-
-  if (isFailure(orderItemsResponse)) return failure(orderItemsResponse.error);
 
   const orderResult = orderResponse.data[0];
   if (!orderResult) return failure('Order could not be found!');
@@ -83,15 +93,7 @@ export const getOrderById = async (payload: {
     totalPrice: orderResult.totalPrice,
     paymentMethod: orderResult.paymentMethod,
     shippingAddress: orderResult.shippingAddress as TShippingAddressSchema,
-
-    orderItems: orderItemsResponse.data.map((item) => ({
-      productId: item.productId,
-      name: item.name,
-      slug: item.slug,
-      quantity: item.quantity,
-      price: item.price,
-      image: item.image,
-    })),
+    orderItems: orderResult.orderItems,
   };
 
   return ok(result);
