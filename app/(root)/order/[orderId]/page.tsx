@@ -20,7 +20,11 @@ export default async function OrderDetail(props: OrderDetailProps) {
 
   const result = await getOrderById({ orderId });
 
-  if (isFailure(result)) return redirect(paths.home);
+  if (isFailure(result)) {
+    // TODO: Apply the same pattern to all instances and improve the styling of this error message throughout the application.
+    console.error(result.error);
+    return redirect(paths.home);
+  }
 
   return <OrderDetailPage order={result.data} />;
 }
