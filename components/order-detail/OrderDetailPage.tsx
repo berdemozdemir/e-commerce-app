@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { Badge } from '../ui/Badge';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { ShippingAddressSection } from './ShippingAddressSection';
+import { PriceSummary } from './PriceSummary';
+import { OrderedItemsTable } from './OrderedItemsTable';
 
 type Props = {
   order: TOrder;
@@ -27,7 +29,16 @@ export const OrderDetailPage: FC<Props> = (props) => {
             shippingAddress={props.order.shippingAddress}
             isDelivered={props.order.isDelivered}
           />
+
+          <OrderedItemsTable items={props.order.orderItems} />
         </div>
+
+        <PriceSummary
+          itemsPrice={Number(props.order.itemsPrice)}
+          taxPrice={Number(props.order.taxPrice)}
+          shippingPrice={Number(props.order.shippingPrice)}
+          totalPrice={Number(props.order.totalPrice)}
+        />
       </div>
     </div>
   );
