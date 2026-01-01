@@ -26,7 +26,7 @@ export const getOrderById = async (payload: {
         isDelivered: orders.isDelivered,
         deliveredAt: orders.deliveredAt,
 
-        userId: orders.id,
+        userId: orders.userId,
         itemsPrice: orders.itemsPrice,
         taxPrice: orders.taxPrice,
         shippingPrice: orders.shippingPrice,
