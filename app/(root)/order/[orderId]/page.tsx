@@ -1,6 +1,8 @@
 import { OrderDetailPage } from '@/components/order-detail/OrderDetailPage';
+import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
 import { getOrderById } from '@/lib/actions/order/get-order-by-id';
 import { paths } from '@/lib/constants/paths';
+import { isFailure } from '@/lib/result';
 import { redirect } from 'next/navigation';
 
 type OrderDetailProps = {
@@ -18,9 +20,7 @@ export default async function OrderDetail(props: OrderDetailProps) {
 
   const result = await getOrderById({ orderId });
 
-  if (!result) return redirect(paths.home);
-
-  if (!result?.data) return redirect(paths.home);
+  if (isFailure(result)) return redirect(paths.home);
 
   return <OrderDetailPage order={result.data} />;
 }
