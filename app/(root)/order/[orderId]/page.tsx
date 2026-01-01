@@ -1,9 +1,9 @@
-import { OrderPage } from '@/components/place-order/OrderPage';
+import { OrderDetailPage } from '@/components/order-detail/OrderDetailPage';
 import { getOrderById } from '@/lib/actions/order/get-order-by-id';
 import { paths } from '@/lib/constants/paths';
 import { redirect } from 'next/navigation';
 
-type OrderDetailPageProps = {
+type OrderDetailProps = {
   params: Promise<{ orderId: string }>;
 };
 
@@ -13,7 +13,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function OrderDetailPage(props: OrderDetailPageProps) {
+export default async function OrderDetail(props: OrderDetailProps) {
   const orderId = (await props.params).orderId;
 
   const result = await getOrderById({ orderId });
@@ -22,5 +22,5 @@ export default async function OrderDetailPage(props: OrderDetailPageProps) {
 
   if (!result?.data) return redirect(paths.home);
 
-  return <OrderPage order={result.data} />;
+  return <OrderDetailPage order={result.data} />;
 }
