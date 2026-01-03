@@ -15,4 +15,6 @@ export const paths = {
   placeOrder: '/place-order',
 
   orderDetails: (orderId: string) => `/order/${orderId}`,
+
+  prevOrders: 'my-orders',
 } as const;

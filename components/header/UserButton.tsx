@@ -13,9 +13,13 @@ import {
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { getTwoLetterInitials } from '@/lib/utils';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { paths } from '@/lib/constants/paths';
 
 export const UserButton = () => {
   const { data: session, update, status } = useSession();
+
+  const router = useRouter();
 
   // TODO: create your own auth provider and use it in the whole platform
   // TODO: fix infinite loop when without session
@@ -51,6 +55,10 @@ export const UserButton = () => {
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
+
+        <DropdownMenuItem onClick={() => router.push(paths.prevOrders)}>
+          My Orders
+        </DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => signOut()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
