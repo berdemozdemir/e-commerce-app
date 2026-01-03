@@ -103,6 +103,7 @@ export const config = {
         paths.paymentMethod,
         paths.placeOrder,
         paths.orderDetails,
+        paths.myOrders,
       ];
 
       const { pathname } = request.nextUrl;
