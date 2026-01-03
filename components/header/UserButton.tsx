@@ -56,7 +56,7 @@ export const UserButton = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={() => router.push(paths.prevOrders)}>
+        <DropdownMenuItem onClick={() => router.push(paths.myOrders)}>
           My Orders
         </DropdownMenuItem>
 

@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { TCartItem } from './schemas/cart/cart-item.schema';
 
+// TODO: move this file into lib/utils
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
