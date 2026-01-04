@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
 
-export const UserButton = () => {
+export const UserMenu = () => {
   const { data: session, update, status } = useSession();
 
   const router = useRouter();

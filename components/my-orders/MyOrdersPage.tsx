@@ -27,54 +27,55 @@ export const MyOrdersPage: FC<Props> = (props) => {
   };
 
   return (
-    <div className="rounded-md border p-3">
+    <div>
       <h1 className="mb-4 text-2xl font-medium">My Previous Orders</h1>
-
-      <Table className="mb-4">
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>DATE</TableHead>
-            <TableHead>TOTAL</TableHead>
-            <TableHead>PAID</TableHead>
-            <TableHead>DELIVERED</TableHead>
-            <TableHead>ACTIONS</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {props.items.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell
-                className="cursor-pointer"
-                onClick={() => copyfullId(item.id)}
-              >
-                {item.id.slice(0, 7)}..
-              </TableCell>
-
-              <TableCell>{formatDate(item.createdAt)}</TableCell>
-
-              <TableCell>${item.totalPrice}</TableCell>
-
-              <TableCell>
-                {item.isPaid && item.paidAt
-                  ? formatDate(item.paidAt)
-                  : 'Not Paid'}
-              </TableCell>
-
-              <TableCell>
-                {item.isDelivered && item.deliveredAt
-                  ? formatDate(item.deliveredAt)
-                  : 'Not Delivered'}
-              </TableCell>
-
-              <TableCell>
-                <Link href={paths.orderDetails(item.id)}>Go to Details</Link>
-              </TableCell>
+      <div className="rounded-md border p-3">
+        <Table className="mb-4">
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>DATE</TableHead>
+              <TableHead>TOTAL</TableHead>
+              <TableHead>PAID</TableHead>
+              <TableHead>DELIVERED</TableHead>
+              <TableHead>ACTIONS</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+
+          <TableBody>
+            {props.items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell
+                  className="cursor-pointer"
+                  onClick={() => copyfullId(item.id)}
+                >
+                  {item.id.slice(0, 7)}..
+                </TableCell>
+
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
+
+                <TableCell>${item.totalPrice}</TableCell>
+
+                <TableCell>
+                  {item.isPaid && item.paidAt
+                    ? formatDate(item.paidAt)
+                    : 'Not Paid'}
+                </TableCell>
+
+                <TableCell>
+                  {item.isDelivered && item.deliveredAt
+                    ? formatDate(item.deliveredAt)
+                    : 'Not Delivered'}
+                </TableCell>
+
+                <TableCell>
+                  <Link href={paths.orderDetails(item.id)}>Go to Details</Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
