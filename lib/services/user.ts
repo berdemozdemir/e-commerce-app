@@ -4,6 +4,8 @@ import { TShippingAddressSchema } from '../schemas/shipping-address';
 import { okOrThrow } from '../result';
 import { updatePaymentMethods } from '../actions/user/update-payment-methods';
 import { TPaymentMethod } from '../types/payment-methods';
+import { updateUserProfile } from '../actions/user/update-user-profile';
+import { TUpdateUserProfileSchema } from '../schemas/update-user-profile';
 
 export const useUpdateUserAddressMutation = () =>
   useMutation({
@@ -15,4 +17,10 @@ export const useUpdateUserPaymentMethodMutation = () =>
   useMutation({
     mutationFn: (paymentMethod: { paymentMethod: TPaymentMethod }) =>
       updatePaymentMethods(paymentMethod).then(okOrThrow),
+  });
+
+export const useUpdateUserProfileMutation = () =>
+  useMutation({
+    mutationFn: (payload: TUpdateUserProfileSchema) =>
+      updateUserProfile(payload).then(okOrThrow),
   });
