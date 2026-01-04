@@ -18,6 +18,7 @@ async function ShippingAddressPage() {
   if (isFailure(cart)) redirect(paths.cart);
 
   const session = await auth();
+  // TODO: find the best way to handle this case and improve UX
   if (!session?.user?.id) redirect(paths.auth.login);
 
   const user = await getUserById({ userId: session.user.id });

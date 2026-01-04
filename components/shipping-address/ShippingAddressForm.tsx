@@ -24,6 +24,7 @@ import { paths } from '@/lib/constants/paths';
 import { TAddress } from '@/lib/types/address';
 import { FC } from 'react';
 
+// TODO: take a look at the following props type
 type Props = Partial<TAddress>;
 
 export const ShippingAddressForm: FC<Props> = (props) => {

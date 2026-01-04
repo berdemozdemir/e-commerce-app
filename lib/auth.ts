@@ -12,6 +12,7 @@ import { NextResponse } from 'next/server';
 export const config = {
   pages: {
     signIn: paths.auth.login,
+    // TODO: fix error page it should be paths.auth.error,
     error: paths.auth.login,
   },
 
@@ -104,6 +105,7 @@ export const config = {
         paths.placeOrder,
         paths.orderDetails,
         paths.myOrders,
+        paths.userProfile,
       ];
 
       const { pathname } = request.nextUrl;
