@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/Input';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
+// TODO: move this component file to components/ui folder
+
 type LabeledInputProps = {
   label: string;
   isPasswordField?: boolean;

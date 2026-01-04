@@ -16,5 +16,7 @@ export const paths = {
 
   orderDetails: (orderId: string) => `/order/${orderId}`,
 
-  myOrders: 'my-orders',
+  myOrders: '/my-orders',
+
+  userProfile: '/user/profile',
 } as const;

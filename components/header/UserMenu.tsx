@@ -56,6 +56,10 @@ export const UserMenu = () => {
 
         <DropdownMenuSeparator />
 
+        <DropdownMenuItem onClick={() => router.push(paths.userProfile)}>
+          Profile
+        </DropdownMenuItem>
+
         <DropdownMenuItem onClick={() => router.push(paths.myOrders)}>
           My Orders
         </DropdownMenuItem>
