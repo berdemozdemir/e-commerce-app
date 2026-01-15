@@ -23,6 +23,8 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
   const session = await auth();
   const userId = session?.user?.id;
 
+  if (session?.user.role !== 'admin') return failure('Forbidden');
+
   if (!userId) return failure('Unauthorized');
 
   const result = await tryCatch(
