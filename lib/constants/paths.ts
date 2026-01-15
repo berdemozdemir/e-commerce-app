@@ -19,4 +19,8 @@ export const paths = {
   myOrders: '/my-orders',
 
   userProfile: '/user/profile',
+
+  admin: {
+    overview: '/admin/overview',
+  },
 } as const;
