@@ -44,6 +44,7 @@ export const UserMenu = () => {
           variant="ghost"
           className="h-8 w-8 cursor-pointer rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
+          {/* TODO: fix name update issue */}
           {getTwoLetterInitials(session.user?.name ?? '')}
         </Button>
       </DropdownMenuTrigger>
@@ -63,6 +64,12 @@ export const UserMenu = () => {
         <DropdownMenuItem onClick={() => router.push(paths.myOrders)}>
           My Orders
         </DropdownMenuItem>
+
+        {session?.user?.role === 'admin' && (
+          <DropdownMenuItem onClick={() => router.push(paths.admin.overview)}>
+            Admin
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem onClick={() => signOut()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
