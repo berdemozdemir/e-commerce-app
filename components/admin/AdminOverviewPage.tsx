@@ -1,0 +1,79 @@
+import { FC } from 'react';
+import { InforCard } from './InfoCard';
+import { BadgeDollarSign, Barcode, Users, Wallet } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '../ui/table';
+import { formatDate } from '@/lib/utils/date';
+import { Button } from '../ui/Button';
+import Link from 'next/link';
+import { paths } from '@/lib/constants/paths';
+
+type Props = {
+  totalCustomer: number;
+  totalProducts: number;
+  totalRevenue: number;
+  totalSales: number;
+  recentOrders: Array<{
+    name: string;
+    id: string;
+    date: Date;
+    totalPrice: string;
+  }>;
+};
+
+// TODO: create a card componnent and use it here
+export const AdminOverViewPage: FC<Props> = (props) => (
+  <div className="space-y-4">
+    <section className="flex w-full flex-col gap-4 md:flex-row">
+      <InforCard
+        title="Total Revenue"
+        value={`$${props.totalRevenue}`}
+        icon={BadgeDollarSign}
+      />
+
+      <InforCard title="Sales" value={props.totalSales} icon={Wallet} />
+
+      <InforCard title="Customers" value={props.totalCustomer} icon={Users} />
+
+      <InforCard title="Products" value={props.totalProducts} icon={Barcode} />
+    </section>
+
+    <section className="grid grid-cols-7 gap-4">
+      <div className="col-span-7 h-20 bg-red-500 md:col-span-4"></div>
+      <div className="col-span-7 rounded-md border p-4 md:col-span-3">
+        <h1 className="mb-2">Recent Sales</h1>
+
+        <Table>
+          <TableRow>
+            <TableHead className="text-md flex-1">Buyer</TableHead>
+            <TableHead className="text-md text-center">Date</TableHead>
+            <TableHead className="text-md text-right">Total</TableHead>
+            <TableHead className="text-md text-right">Actions</TableHead>
+          </TableRow>
+
+          <TableBody>
+            {props.recentOrders.map((order) => (
+              <TableRow key={order.id}>
+                <TableCell className="flex-1">{order.name}</TableCell>
+
+                <TableCell className="text-center">
+                  {formatDate(order.date)}
+                </TableCell>
+
+                <TableCell className="text-right">
+                  ${order.totalPrice}
+                </TableCell>
+
+                <TableCell className="text-right">
+                  {/* TODO: fix link */}
+                  <Link href={paths.orderDetails(order.id)}>
+                    <Button>View</Button>
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </section>
+  </div>
+);
