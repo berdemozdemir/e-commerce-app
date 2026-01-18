@@ -7,6 +7,8 @@ import { redirect } from 'next/navigation';
 const OverviewPage = async () => {
   const result = await getSummarizeOrdersByAdmin();
 
+  console.log(result.data?.monthlySales);
+
   if (isFailure(result)) {
     console.error('Failed to fetch order summary:', result.error);
     redirect(paths.home);
@@ -19,6 +21,7 @@ const OverviewPage = async () => {
       totalRevenue={result.data.totalRevenue}
       totalSales={result.data.totalSales}
       recentOrders={result.data.recentOrders}
+      monthlySales={result.data.monthlySales}
     />
   );
 };

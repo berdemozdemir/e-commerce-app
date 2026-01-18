@@ -2,6 +2,8 @@
 
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { MonthlySalesRow } from '@/lib/types/admin/monthly-sales';
+import { RecentOrder } from '@/lib/types/admin/recent-orders';
 import { orders, products, users } from '@/server';
 import { db } from '@/server/drizzle-client';
 import { desc, sql, eq } from 'drizzle-orm';
@@ -12,20 +14,15 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
     totalSales: number;
     totalCustomer: number;
     totalProducts: number;
-    recentOrders: Array<{
-      name: string;
-      id: string;
-      date: Date;
-      totalPrice: string;
-    }>;
+    recentOrders: RecentOrder[];
+    monthlySales: MonthlySalesRow[];
   }>
 > => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (session?.user.role !== 'admin') return failure('Forbidden');
-
   if (!userId) return failure('Unauthorized');
+  if (session?.user.role !== 'admin') return failure('Forbidden');
 
   const result = await tryCatch(
     Promise.all([
@@ -52,6 +49,15 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
         .innerJoin(users, eq(orders.userId, users.id))
         .limit(10)
         .orderBy(desc(orders.createdAt)),
+
+      db.execute<MonthlySalesRow>(sql`
+            SELECT 
+              to_char(created_at, 'MM/YY') as month,
+              sum(total_price) as "totalSales"
+            FROM orders
+            GROUP BY to_char(created_at, 'MM/YY')
+            ORDER BY min(created_at)
+          `),
     ]),
   );
 
@@ -63,7 +69,15 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
     totalCustomer,
     totalProducts,
     recentOrders,
+    monthlySalesRow,
   ] = result.data;
+
+  const monthlySales = monthlySalesRow.rows.map((item) => ({
+    month: item.month,
+    totalSales: item.totalSales,
+  }));
+
+  console.log('@@@@', monthlySales);
 
   return ok({
     totalRevenue: Number(totalRevenueRow[0].totalRevenue ?? 0),
@@ -71,5 +85,6 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
     totalCustomer,
     totalProducts,
     recentOrders,
+    monthlySales,
   });
 };
