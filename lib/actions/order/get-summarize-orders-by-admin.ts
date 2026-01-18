@@ -77,8 +77,6 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
     totalSales: item.totalSales,
   }));
 
-  console.log('@@@@', monthlySales);
-
   return ok({
     totalRevenue: Number(totalRevenueRow[0].totalRevenue ?? 0),
     totalSales,
