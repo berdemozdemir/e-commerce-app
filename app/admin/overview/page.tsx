@@ -1,5 +1,5 @@
 import { AdminOverViewPage } from '@/components/admin/AdminOverviewPage';
-import { getSummarizeOrdersByAdmin } from '@/lib/actions/order/get-summarize-orders-by-admin';
+import { getSummarizeOrdersByAdmin } from '@/lib/actions/admin/get-summarize-orders-by-admin';
 import { paths } from '@/lib/constants/paths';
 import { failure, isFailure } from '@/lib/result';
 import { redirect } from 'next/navigation';
