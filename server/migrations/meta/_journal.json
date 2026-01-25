@@ -43,6 +43,13 @@
       "when": 1767039925459,
       "tag": "0005_pale_ego",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1769356393354,
+      "tag": "0006_goofy_nighthawk",
+      "breakpoints": true
     }
   ]
 }
