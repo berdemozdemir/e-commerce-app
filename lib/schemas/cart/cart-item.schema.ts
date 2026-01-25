@@ -14,6 +14,7 @@ export const cartItemSchema = z.object({
 export type TCartItem = z.infer<typeof cartItemSchema>;
 
 export const cartSchema = z.object({
+  // TODO: fix cart id type, sometimes it throws an error when card doesn't exist and adding new item to cart for first time
   id: z.string(),
   userId: z.string().min(1, 'Session cart id is reqiured').optional(),
   sessionCartId: z.string(),

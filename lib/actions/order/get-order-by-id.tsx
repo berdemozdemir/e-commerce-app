@@ -15,7 +15,6 @@ export const getOrderById = async (payload: {
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== 'admin') return failure('Forbidden');
 
   const orderResponse = await tryCatch(
     db
