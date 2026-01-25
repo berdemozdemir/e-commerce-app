@@ -107,6 +107,7 @@ export const config = {
         paths.orderDetails,
         paths.myOrders,
         paths.userProfile,
+        paths.admin.overview,
       ];
 
       const { pathname } = request.nextUrl;

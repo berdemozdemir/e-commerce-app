@@ -23,7 +23,7 @@ export default async function OrderDetail(props: OrderDetailProps) {
   if (isFailure(result)) {
     // TODO: Apply the same pattern to all instances and improve the styling of this error message throughout the application.
     console.error(result.error);
-    return redirect(paths.home);
+    return redirect(paths.unauthorized);
   }
 
   return <OrderDetailPage order={result.data} />;

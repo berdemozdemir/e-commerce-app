@@ -9,7 +9,7 @@ const OverviewPage = async () => {
 
   if (isFailure(result)) {
     console.error('Failed to fetch order summary:', result.error);
-    redirect(paths.home);
+    redirect(paths.unauthorized);
   }
 
   return (
