@@ -23,4 +23,6 @@ export const paths = {
   admin: {
     overview: '/admin/overview',
   },
+
+  unauthorized: '/unauthorized',
 } as const;
