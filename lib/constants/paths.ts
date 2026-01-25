@@ -26,4 +26,6 @@ export const paths = {
   },
 
   unauthorized: '/unauthorized',
+
+  notFound: '/not-found',
 } as const;
