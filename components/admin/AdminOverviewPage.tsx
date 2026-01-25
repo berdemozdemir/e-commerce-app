@@ -37,7 +37,7 @@ export const AdminOverViewPage: FC<Props> = (props) => (
     </section>
 
     <section className="grid grid-cols-7 gap-4">
-      <div className="col-span-7 h-66 rounded-md border p-4 md:col-span-4 md:h-100">
+      <div className="col-span-7 h-66 rounded-md border p-4 md:col-span-4 md:h-full">
         <h1 className="mb-4 text-xl font-medium">Monthly Sales</h1>
 
         <MonthlySalesChart monthlySales={props.monthlySales} />
