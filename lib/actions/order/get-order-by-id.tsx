@@ -64,7 +64,7 @@ export const getOrderById = async (payload: {
       })
 
       .from(orders)
-      .where(and(eq(orders.id, payload.orderId), eq(orders.userId, userId)))
+      .where(eq(orders.id, payload.orderId))
       .innerJoin(users, eq(orders.userId, users.id))
       .leftJoin(orderItems, eq(orderItems.orderId, orders.id))
       .groupBy(orders.id, users.id),

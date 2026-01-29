@@ -1,6 +1,6 @@
 export type RecentOrder = {
   name: string;
-  id: string;
+  orderId: string;
   date: Date;
   totalPrice: string;
 };

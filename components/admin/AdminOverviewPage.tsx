@@ -56,7 +56,7 @@ export const AdminOverViewPage: FC<Props> = (props) => (
 
           <TableBody>
             {props.recentOrders.map((order) => (
-              <TableRow key={order.id}>
+              <TableRow key={order.orderId}>
                 <TableCell className="flex-1">{order.name}</TableCell>
 
                 <TableCell className="text-center">
@@ -69,7 +69,7 @@ export const AdminOverViewPage: FC<Props> = (props) => (
 
                 <TableCell className="text-right">
                   {/* TODO: fix link */}
-                  <Link href={paths.orderDetails(order.id)}>
+                  <Link href={paths.orderDetails(order.orderId)}>
                     <Button>View</Button>
                   </Link>
                 </TableCell>

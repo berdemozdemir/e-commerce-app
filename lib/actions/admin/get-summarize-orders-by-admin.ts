@@ -41,7 +41,7 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
       db
         .select({
           name: users.name,
-          id: users.id,
+          orderId: orders.id,
           date: orders.createdAt,
           totalPrice: orders.totalPrice,
         })
