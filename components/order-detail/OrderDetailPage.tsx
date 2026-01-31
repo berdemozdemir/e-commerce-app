@@ -30,6 +30,7 @@ export const OrderDetailPage: FC<Props> = (props) => (
           userName={props.order.user.name}
           shippingAddress={props.order.shippingAddress}
           isDelivered={props.order.isDelivered}
+          deliveredAt={props.order.deliveredAt}
         />
 
         <OrderedItemsTable items={props.order.orderItems} />
@@ -39,6 +40,7 @@ export const OrderDetailPage: FC<Props> = (props) => (
         <PriceSummary
           orderId={props.order.id}
           isPaid={props.order.isPaid}
+          isDelivered={props.order.isDelivered}
           itemsPrice={Number(props.order.itemsPrice)}
           taxPrice={Number(props.order.taxPrice)}
           shippingPrice={Number(props.order.shippingPrice)}

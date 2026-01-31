@@ -2,7 +2,10 @@
 
 import { FC } from 'react';
 import { Button } from '../ui/Button';
-import { useMarkAsPaidOrderMutation } from '@/lib/services/admin';
+import {
+  useMarkAsDeliveredOrderMutation,
+  useMarkAsPaidOrderMutation,
+} from '@/lib/services/admin';
 import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
 
@@ -14,10 +17,12 @@ type Props = {
   shippingPrice: number;
   totalPrice: number;
   isAdmin: boolean;
+  isDelivered: boolean;
 };
 
 export const PriceSummary: FC<Props> = (props) => {
   const markAsPaidOrderMutation = useMarkAsPaidOrderMutation();
+  const markAsDeliveredOrderMutation = useMarkAsDeliveredOrderMutation();
 
   const markAsPaid = async () => {
     if (markAsPaidOrderMutation.isPending) return;
@@ -31,6 +36,21 @@ export const PriceSummary: FC<Props> = (props) => {
     } catch (error) {
       console.error('Failed to mark order as paid:', error);
       toast.error('Failed to mark order as paid');
+    }
+  };
+
+  const markAsDelivered = async () => {
+    if (markAsDeliveredOrderMutation.isPending) return;
+
+    try {
+      await markAsDeliveredOrderMutation.mutateAsync({
+        orderId: props.orderId,
+      });
+
+      toast.success('Order marked as delivered');
+    } catch (error) {
+      console.error('Failed to mark order as delivered:', error);
+      toast.error('Failed to mark order as delivered');
     }
   };
 
@@ -67,7 +87,10 @@ export const PriceSummary: FC<Props> = (props) => {
             {markAsPaidOrderMutation.isPending && <LoadingSpinner />}
           </Button>
 
-          <Button>Mark as Delivered</Button>
+          <Button onClick={markAsDelivered} disabled={props.isDelivered}>
+            Mark as Delivered{' '}
+            {markAsDeliveredOrderMutation.isPending && <LoadingSpinner />}
+          </Button>
         </div>
       )}
     </section>
