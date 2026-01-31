@@ -22,6 +22,7 @@ export const paths = {
 
   admin: {
     overview: '/admin/overview',
+    products: '/admin/products',
     orders: '/admin/orders',
   },
 
