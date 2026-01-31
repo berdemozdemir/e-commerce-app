@@ -10,6 +10,7 @@ import { cartItems, carts, orderItems, orders } from '@/server';
 import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
 import { and, eq } from 'drizzle-orm';
 
+// TODO: products stock should be decreased when an order is created or paid
 export const createOrder = async (): Promise<Result<string>> => {
   const session = await auth();
   if (!session?.user) return failure('Unauthorized');
