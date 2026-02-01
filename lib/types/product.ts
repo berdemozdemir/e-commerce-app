@@ -5,3 +5,8 @@ export type TProduct = TCreateProductSchema & {
   id: string;
   createdAt: Date;
 };
+
+export type TAdminProduct = Pick<
+  TProduct,
+  'id' | 'name' | 'price' | 'category' | 'stock' | 'rating'
+>;
