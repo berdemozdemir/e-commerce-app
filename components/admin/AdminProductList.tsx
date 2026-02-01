@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { Button } from '../ui/Button';
 import {
@@ -9,6 +11,7 @@ import {
   Table,
 } from '../ui/table';
 import { TAdminProduct } from '@/lib/types/product';
+import { DeleteProductDialog } from './DeleteProductDialog';
 
 type Props = { products: TAdminProduct[] };
 
@@ -50,7 +53,7 @@ export const AdminProductListPage: FC<Props> = (props) => {
               <TableCell className="space-x-2">
                 <Button>Edit</Button>
 
-                <Button>Delete</Button>
+                <DeleteProductDialog productId={item.id} />
               </TableCell>
             </TableRow>
           ))}

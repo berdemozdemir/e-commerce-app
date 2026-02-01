@@ -4,6 +4,7 @@ import { okOrThrow } from '../result';
 import queryClient from '../queryClient';
 import { markAsPaidOrder } from '../actions/admin/mark-as-paid-order';
 import { markAsDeliveredOrder } from '../actions/admin/mark-as-delivered-order';
+import { deleteProductById } from '../actions/admin/delete-product-by-id';
 
 export const useDeleteOrderMutation = () =>
   useMutation({
@@ -21,4 +22,10 @@ export const useMarkAsDeliveredOrderMutation = () =>
   useMutation({
     mutationFn: (payload: { orderId: string }) =>
       markAsDeliveredOrder(payload).then(okOrThrow),
+  });
+
+export const useDeleteProductByIdMutation = () =>
+  useMutation({
+    mutationFn: (payload: { productId: string }) =>
+      deleteProductById(payload).then(okOrThrow),
   });
