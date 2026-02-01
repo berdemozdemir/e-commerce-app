@@ -23,7 +23,7 @@ export const deleteProductById = async (payload: {
 
   if (isFailure(result)) return failure(result.error);
 
-  revalidatePath(paths.admin.productList);
+  revalidatePath(paths.admin.product.list);
 
   return ok(undefined);
 };
