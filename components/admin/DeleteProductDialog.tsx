@@ -41,7 +41,7 @@ export const DeleteProductDialog: FC<Props> = (props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Delete</Button>
+        <Button variant="destructive">Delete</Button>
       </DialogTrigger>
 
       <DialogContent>

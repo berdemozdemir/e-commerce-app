@@ -1,10 +1,12 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+import { paths } from '@/lib/constants/paths';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export const deleteProductById = async (payload: {
   productId: string;
@@ -20,6 +22,8 @@ export const deleteProductById = async (payload: {
   );
 
   if (isFailure(result)) return failure(result.error);
+
+  revalidatePath(paths.admin.productList);
 
   return ok(undefined);
 };

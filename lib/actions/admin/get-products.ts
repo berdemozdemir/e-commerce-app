@@ -1,11 +1,13 @@
+'use server';
+
 import { auth } from '@/lib/auth';
+import { paths } from '@/lib/constants/paths';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TAdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 // TODO: add a pagination or infinite scroll to this data
-
 export const getProducts = async (): Promise<Result<TAdminProduct[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
