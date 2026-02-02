@@ -12,14 +12,22 @@ import {
 } from '../ui/table';
 import { TAdminProduct } from '@/lib/types/product';
 import { DeleteProductDialog } from './DeleteProductDialog';
+import Link from 'next/link';
+import { paths } from '@/lib/constants/paths';
 
 type Props = { products: TAdminProduct[] };
 
 export const AdminProductListPage: FC<Props> = (props) => (
   <div>
-    <h1 className="mb-4 text-2xl">Product List</h1>
+    <div className="mb-10 flex items-center justify-between">
+      <h1 className="text-2xl">Product List</h1>
 
-    <Table className="mb-4">
+      <Link href={paths.admin.product.create}>
+        <Button>Create Product</Button>
+      </Link>
+    </div>
+
+    <Table>
       <TableHeader>
         <TableRow>
           <TableHead>ID</TableHead>
