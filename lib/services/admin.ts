@@ -5,6 +5,8 @@ import queryClient from '../queryClient';
 import { markAsPaidOrder } from '../actions/admin/mark-as-paid-order';
 import { markAsDeliveredOrder } from '../actions/admin/mark-as-delivered-order';
 import { deleteProductById } from '../actions/admin/delete-product-by-id';
+import { createProduct } from '../actions/admin/create-product';
+import { TCreateProductSchema } from '../schemas/product/create-product.schema';
 
 export const useDeleteOrderMutation = () =>
   useMutation({
@@ -28,4 +30,10 @@ export const useDeleteProductByIdMutation = () =>
   useMutation({
     mutationFn: (payload: { productId: string }) =>
       deleteProductById(payload).then(okOrThrow),
+  });
+
+export const useCreateProductMutation = () =>
+  useMutation({
+    mutationFn: (payload: TCreateProductSchema) =>
+      createProduct(payload).then(okOrThrow),
   });
