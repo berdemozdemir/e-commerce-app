@@ -18,6 +18,7 @@ import { Button } from '../ui/Button';
 import { MoveRight } from 'lucide-react';
 import { useCreateProductMutation } from '@/lib/services/admin';
 import { toast } from 'react-toastify';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 export const CreateProductForm = () => {
   const createProductMutation = useCreateProductMutation();
@@ -216,8 +217,8 @@ export const CreateProductForm = () => {
         /> */}
 
         <Button type="submit" className="w-full">
-          <MoveRight />
           Continue
+          {createProductMutation.isPending ? <LoadingSpinner /> : <MoveRight />}
         </Button>
       </form>
     </Form>
