@@ -1,16 +1,19 @@
 'use server';
 
-import slugify from 'slugify';
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import {
   createProductSchema,
   TCreateProductSchema,
 } from '@/lib/schemas/product/create-product.schema';
+import { SlugHelper } from '@/lib/utils/slug';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
+import { eq } from 'drizzle-orm';
 
-export const createProduct = async (payload: TCreateProductSchema) => {
+export const createProduct = async (
+  payload: TCreateProductSchema,
+): Promise<Result<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -25,20 +28,12 @@ export const createProduct = async (payload: TCreateProductSchema) => {
   // ```
   const parsed = createProductSchema().parse(payload);
 
-  const base = slugify(parsed.name, {
-    replacement: '-',
-    remove: undefined,
-    lower: true,
-    strict: true,
-    trim: true,
-  });
-
   const result = await tryCatch(
     db
       .insert(products)
       .values({
         name: parsed.name,
-        slug: `${base}-${Date.now()}`,
+        slug: `temporary-slug-${Date.now()}`,
         category: parsed.category,
         brand: parsed.brand,
         description: parsed.description,
@@ -51,12 +46,21 @@ export const createProduct = async (payload: TCreateProductSchema) => {
         price: parsed.price,
         createdAt: new Date(),
       })
-      .returning(),
+      .returning({ id: products.id }),
   );
 
   if (isFailure(result)) return failure('Failed to create product');
 
-  console.log('Product created with ID:', result.data);
+  const resultSlug = await tryCatch(
+    db
+      .update(products)
+      .set({
+        slug: SlugHelper.generateUnique(parsed.name, result.data[0].id),
+      })
+      .where(eq(products.id, result.data[0].id)),
+  );
+
+  if (isFailure(resultSlug)) return failure('Failed to update product slug');
 
   return ok(undefined);
 };
