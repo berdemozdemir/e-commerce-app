@@ -1,32 +1,22 @@
-'use client';
-
 import { ProductList } from '@/components/product/ProductList';
-import { ProductSkeleton } from '@/components/product/ProductSkeleton';
-import { useGetLatestProductsQuery } from '@/lib/services/product';
+import { getLatestProducts } from '@/lib/actions/product/get-latest-products';
+import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
+import { isFailure } from '@/lib/result';
 
-// TODO: should this page be server component?
-export default function Home() {
-  const {
-    data: latestProducts,
-    isLoading,
-    error,
-  } = useGetLatestProductsQuery();
+export default async function Home() {
+  const latestProducts = await getLatestProducts();
 
-  if (isLoading) {
-    return <ProductSkeleton />;
-  }
+  if (isFailure(latestProducts)) {
+    console.error('Failed to load latest products:', latestProducts.error);
 
-  if (error) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        Error: {error.message}
-      </div>
-    );
+    return <div>Error loading products</div>;
   }
 
   return (
-    <>
-      <ProductList data={latestProducts || []} title="Newest Ones" limit={6} />
-    </>
+    <ProductList
+      data={latestProducts.data}
+      title="Newest Ones"
+      limit={LATEST_PRODUCTS_LIMIT}
+    />
   );
 }

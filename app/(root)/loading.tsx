@@ -1,6 +1,6 @@
-import { Skeleton } from '../ui/Skeleton';
+import { Skeleton } from '@/components/ui/Skeleton';
 
-export const ProductSkeleton = () => {
+export default function Loading() {
   return (
     <div className="my-10">
       <h1 className="mb-4 text-center text-2xl font-bold sm:text-start">
@@ -100,4 +100,4 @@ export const ProductSkeleton = () => {
       </div>
     </div>
   );
-};
+}

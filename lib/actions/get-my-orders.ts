@@ -11,7 +11,6 @@ export const getMyOrders = async (): Promise<Result<TMyOrders[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  // TODO: is returning failure correct or should it throw custom error ?
   if (!userId) return failure('Unauthorized');
 
   const response = await tryCatch(

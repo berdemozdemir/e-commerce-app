@@ -1,6 +1,7 @@
 import { ProductDetail } from '@/components/product/ProductDetail';
 import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
-import { getProductBySlug } from '@/lib/actions/product';
+import { getProductBySlug } from '@/lib/actions/product/get-product-by-slug';
+import { isFailure } from '@/lib/result';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -15,9 +16,9 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const params = await props.params;
 
-  const product = await getProductBySlug(params.slug);
+  const product = await getProductBySlug({ slug: params.slug });
 
-  if (!product) {
+  if (isFailure(product)) {
     return {
       title: 'Product Not Found',
       description: 'The requested product does not exist.',
@@ -25,32 +26,34 @@ export async function generateMetadata(
   }
 
   return {
-    title: product.name,
-    description: product.description,
+    title: product.data.name,
+    description: product.data.description,
   };
 }
 
 const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
   const { slug } = await params;
 
-  const product = await getProductBySlug(slug);
-  if (!product) notFound();
+  const product = await getProductBySlug({ slug });
+
+  if (isFailure(product) || !product.data) {
+    console.error('Product not found:', product.error);
+    notFound();
+  }
 
   const cartResult = await getMyCart();
 
   const cart = cartResult.data;
 
-  const item = cart?.items.find((item) => item.productId === product.id);
+  const item = cart?.items.find((item) => item.productId === product.data.id);
 
   const quantity = item?.quantity ?? 0;
 
-  const isItemExist = !!item;
-
   return (
     <ProductDetail
-      product={product}
+      product={product.data}
       quantity={quantity}
-      isItemExist={isItemExist}
+      isItemExist={!!item}
     />
   );
 };
