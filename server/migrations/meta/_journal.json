@@ -64,6 +64,13 @@
       "when": 1769951686158,
       "tag": "0008_broken_wolf_cub",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1770243008594,
+      "tag": "0009_closed_rhino",
+      "breakpoints": true
     }
   ]
 }
