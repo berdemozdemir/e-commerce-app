@@ -199,11 +199,18 @@ export const CreateProductForm = () => {
                     field.onChange(res.map((file) => file.ufsUrl));
                     setIsUploading(false);
                   }}
+                  onUploadProgress={(number) => {
+                    console.log(number);
+                    setIsUploading(true);
+                  }}
                   onUploadError={(error: Error) => {
                     form.setError('images', {
                       type: 'manual',
                       message: `Upload failed: ${error.message}`,
                     });
+                    setIsUploading(false);
+                  }}
+                  onUploadAborted={() => {
                     setIsUploading(false);
                   }}
                 />
