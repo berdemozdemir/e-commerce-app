@@ -19,14 +19,16 @@ import { MoveRight } from 'lucide-react';
 import { useCreateProductMutation } from '@/lib/services/admin';
 import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { UploadButton, UploadDropzone } from '@/lib/utils/uploadthing';
+import { useState } from 'react';
 
 export const CreateProductForm = () => {
+  const [isUploading, setIsUploading] = useState(false);
+
   const createProductMutation = useCreateProductMutation();
 
   const form = useForm({
-    resolver: zodResolver(
-      createProductSchema().omit({ images: true, banner: true }),
-    ),
+    resolver: zodResolver(createProductSchema().omit({ banner: true })),
     defaultValues: {
       name: '',
       category: '',
@@ -42,23 +44,16 @@ export const CreateProductForm = () => {
     console.log(data);
 
     try {
-      await createProductMutation.mutateAsync(
-        {
-          ...data,
-          images: ['https://placehold.co/600x600'],
-          banner: 'test banner',
-        },
-        {
-          onError: (error) => {
-            console.log('Error creating product:', error);
-          },
-        },
-      );
+      await createProductMutation.mutateAsync({
+        ...data,
+        banner: 'test banner',
+      });
 
       toast.success('Product created successfully');
 
       form.reset();
     } catch (error) {
+      console.log('Error creating product:', error);
       toast.error((error as Error).message || 'Failed to create product');
     }
   });
@@ -187,36 +182,43 @@ export const CreateProductForm = () => {
           )}
         />
 
-        {/* <FormField
+        <FormField
           control={form.control}
           name="images"
           render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Images </FormLabel>
-
+            <FormItem>
+              <FormLabel>Product Images</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  value={field.value ?? ''}
-                  placeholder="Enter images"
-                  type="text"
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value
-                        .split(',')
-                        .map((item) => item.trim())
-                        .filter(Boolean),
-                    )
-                  }
+                <UploadDropzone
+                  disabled={isUploading}
+                  endpoint="imageUploader"
+                  onUploadBegin={() => {
+                    setIsUploading(true);
+                  }}
+                  onClientUploadComplete={(res) => {
+                    field.onChange(res.map((file) => file.ufsUrl));
+                    setIsUploading(false);
+                  }}
+                  onUploadError={(error: Error) => {
+                    form.setError('images', {
+                      type: 'manual',
+                      message: `Upload failed: ${error.message}`,
+                    });
+                    setIsUploading(false);
+                  }}
                 />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
 
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={createProductMutation.isPending || isUploading}
+        >
           Continue
           {createProductMutation.isPending ? <LoadingSpinner /> : <MoveRight />}
         </Button>
