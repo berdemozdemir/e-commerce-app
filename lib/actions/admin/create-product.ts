@@ -26,7 +26,7 @@ export const createProduct = async (
   //       if (!parsed.success) return failure(parsed.error.issues[0]?.message ?? 'Invalid payload');
   //       const data = parsed.data;
   // ```
-  const parsed = createProductSchema().parse(payload);
+  const parsed = createProductSchema.parse(payload);
 
   const result = await tryCatch(
     db

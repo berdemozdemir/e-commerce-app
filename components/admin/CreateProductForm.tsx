@@ -9,7 +9,10 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import { createProductSchema } from '@/lib/schemas/product/create-product.schema';
+import {
+  createProductSchema,
+  TCreateProductSchema,
+} from '@/lib/schemas/product/create-product.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Checkbox } from '../ui/Checkbox';
@@ -19,16 +22,17 @@ import { MoveRight } from 'lucide-react';
 import { useCreateProductMutation } from '@/lib/services/admin';
 import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
-import { UploadButton, UploadDropzone } from '@/lib/utils/uploadthing';
 import { useState } from 'react';
+import Image from 'next/image';
+import { ImageUploadField } from '../ImageUploadField';
 
 export const CreateProductForm = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const createProductMutation = useCreateProductMutation();
 
-  const form = useForm({
-    resolver: zodResolver(createProductSchema().omit({ banner: true })),
+  const form = useForm<TCreateProductSchema>({
+    resolver: zodResolver(createProductSchema),
     defaultValues: {
       name: '',
       category: '',
@@ -37,17 +41,14 @@ export const CreateProductForm = () => {
       stock: 0,
       isFeatured: false,
       price: '',
+      images: [],
+      banner: null,
     },
   });
 
   const submit = form.handleSubmit(async (data) => {
-    console.log(data);
-
     try {
-      await createProductMutation.mutateAsync({
-        ...data,
-        banner: 'test banner',
-      });
+      await createProductMutation.mutateAsync(data);
 
       toast.success('Product created successfully');
 
@@ -57,6 +58,8 @@ export const CreateProductForm = () => {
       toast.error((error as Error).message || 'Failed to create product');
     }
   });
+
+  const images = form.watch('images') ?? [];
 
   return (
     <Form {...form}>
@@ -189,30 +192,14 @@ export const CreateProductForm = () => {
             <FormItem>
               <FormLabel>Product Images</FormLabel>
               <FormControl>
-                <UploadDropzone
-                  disabled={isUploading}
-                  endpoint="imageUploader"
-                  onUploadBegin={() => {
-                    setIsUploading(true);
-                  }}
-                  onClientUploadComplete={(res) => {
-                    field.onChange(res.map((file) => file.ufsUrl));
-                    setIsUploading(false);
-                  }}
-                  onUploadProgress={(number) => {
-                    console.log(number);
-                    setIsUploading(true);
-                  }}
-                  onUploadError={(error: Error) => {
-                    form.setError('images', {
-                      type: 'manual',
-                      message: `Upload failed: ${error.message}`,
-                    });
-                    setIsUploading(false);
-                  }}
-                  onUploadAborted={() => {
-                    setIsUploading(false);
-                  }}
+                <ImageUploadField
+                  values={field.value}
+                  onChange={field.onChange}
+                  onSetUploading={setIsUploading}
+                  isUploading={isUploading}
+                  onError={(msg: string) =>
+                    form.setError('images', { message: msg })
+                  }
                 />
               </FormControl>
 
@@ -220,6 +207,41 @@ export const CreateProductForm = () => {
             </FormItem>
           )}
         />
+
+        <div className="grid grid-cols-3 gap-3">
+          {images.map((img, i) => (
+            <div
+              key={`uploading-product-image${i}`}
+              className="group relative overflow-hidden"
+            >
+              <Image
+                src={img}
+                width={300}
+                height={300}
+                alt="product image"
+                className="h-32 w-32 rounded object-cover"
+              />
+
+              <Button
+                variant="destructive"
+                size="sm"
+                className="absolute -top-9 -right-9 rounded-full opacity-60 group-hover:top-1 group-hover:right-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const next = form
+                    .getValues('images')
+                    .filter((_, idx) => idx !== i);
+                  form.setValue('images', next, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
+              >
+                X
+              </Button>
+            </div>
+          ))}
+        </div>
 
         <Button
           type="submit"
