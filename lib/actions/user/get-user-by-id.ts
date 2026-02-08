@@ -27,6 +27,7 @@ export const getUserById = async (payload: {
     id: currentUser.id,
     email: currentUser.email,
     name: currentUser.name,
+    profileImageUrl: currentUser.profileImageUrl ?? undefined,
     address: currentUser.address
       ? {
           addressName: currentUser.address.addressName,

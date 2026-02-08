@@ -1,4 +1,4 @@
-import UserProfilePage from '@/components/user/UserProfilePage';
+import UserProfileForm from '@/components/user/UserProfilePage';
 import { getUserById } from '@/lib/actions/user/get-user-by-id';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
@@ -16,11 +16,17 @@ const UserProfile = async () => {
 
   const user = await getUserById({ userId });
   if (isFailure(user)) {
-    console.error('Unauthorized');
+    console.error(user.error);
     redirect(paths.auth.login);
   }
 
-  return <UserProfilePage email={user.data?.email} name={user.data.name} />;
+  return (
+    <UserProfileForm
+      email={user.data?.email}
+      name={user.data.name}
+      profileImageUrl={user.data?.profileImageUrl}
+    />
+  );
 };
 
 export default UserProfile;

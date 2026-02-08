@@ -21,6 +21,7 @@ export const paymentMethodsEnum = pgEnum(
 export const users = pgTable('user', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').default('NO_NAME').notNull(),
+  profileImageUrl: text('profile_image_url'),
   password: text('password'),
   email: text('email').unique().notNull(),
   // TODO: take a look at this, it should be a string or date ??

@@ -27,6 +27,7 @@ export const updateUserProfile = async (
       .set({
         name: parsedPayload.name,
         email: parsedPayload.email,
+        profileImageUrl: parsedPayload.profileImageUrl,
       })
       .where(eq(users.id, userId)),
   );
