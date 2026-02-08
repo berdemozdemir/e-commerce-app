@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 
 type ImageUploadFieldProps = {
-  values: string[];
+  values: string | string[];
   onChange: (urls: string[]) => void;
   onSetUploading: (value: boolean) => void;
   isUploading: boolean;
@@ -12,6 +12,12 @@ type ImageUploadFieldProps = {
 
 export const ImageUploadField: FC<ImageUploadFieldProps> = (props) => {
   const [progress, setProgress] = useState(0);
+
+  const images = Array.isArray(props.values)
+    ? props.values
+    : props.values
+      ? [props.values]
+      : [];
 
   return (
     <div>
@@ -45,7 +51,7 @@ export const ImageUploadField: FC<ImageUploadFieldProps> = (props) => {
         }}
         onClientUploadComplete={(res) => {
           const newUrls = res.map((file) => file.ufsUrl);
-          props.onChange([...newUrls, ...props.values]);
+          props.onChange([...newUrls, ...images]);
           setProgress(0);
           props.onSetUploading(false);
           toast.success('image uploaded successfully');
