@@ -88,7 +88,7 @@ const UserProfileForm: FC<Props> = ({ name, email, profileImageUrl }) => {
 
               <FormControl>
                 <ImageUploadField
-                  values={field.value ?? ''}
+                  value={field.value ?? ''}
                   onChange={(urls) => field.onChange(urls[0])}
                   onSetUploading={setIsUploadingProfileImage}
                   isUploading={isUploadingProfileImage}

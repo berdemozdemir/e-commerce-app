@@ -25,9 +25,13 @@ import { LoadingSpinner } from '../LoadingSpinner';
 import { useState } from 'react';
 import Image from 'next/image';
 import { ImageUploadField } from '../ImageUploadField';
+import { paths } from '@/lib/constants/paths';
+import { useRouter } from 'next/dist/client/components/navigation';
 
 export const CreateProductForm = () => {
   const [isUploading, setIsUploading] = useState(false);
+
+  const router = useRouter();
 
   const createProductMutation = useCreateProductMutation();
 
@@ -42,7 +46,7 @@ export const CreateProductForm = () => {
       isFeatured: false,
       price: '',
       images: [],
-      banner: null,
+      banner: '',
     },
   });
 
@@ -51,15 +55,17 @@ export const CreateProductForm = () => {
       await createProductMutation.mutateAsync(data);
 
       toast.success('Product created successfully');
-
       form.reset();
+      router.push(paths.admin.product.list);
     } catch (error) {
       console.log('Error creating product:', error);
       toast.error((error as Error).message || 'Failed to create product');
     }
   });
 
-  const images = form.watch('images') ?? [];
+  const images = form.watch('images');
+  const isFeatured = form.watch('isFeatured');
+  const banner = form.watch('banner');
 
   return (
     <Form {...form}>
@@ -98,42 +104,21 @@ export const CreateProductForm = () => {
           )}
         />
 
-        <div className="flex flex-col gap-2 md:flex-row">
-          <FormField
-            control={form.control}
-            name="brand"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Brand </FormLabel>
+        <FormField
+          control={form.control}
+          name="brand"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Brand </FormLabel>
 
-                <FormControl>
-                  <Input {...field} placeholder="Enter brand" />
-                </FormControl>
+              <FormControl>
+                <Input {...field} placeholder="Enter brand" />
+              </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="isFeatured"
-            render={({ field }) => (
-              <FormItem className="flex w-full items-center gap-2">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-
-                <FormLabel>Is Featured ? </FormLabel>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex items-center gap-6">
           <FormField
@@ -187,13 +172,84 @@ export const CreateProductForm = () => {
 
         <FormField
           control={form.control}
+          name="isFeatured"
+          render={({ field }) => (
+            <FormItem className="flex w-full items-center gap-2">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+
+              <FormLabel>Is Featured ? </FormLabel>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {isFeatured && !banner && (
+          <FormField
+            control={form.control}
+            name="banner"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Banner</FormLabel>
+                <FormControl>
+                  <ImageUploadField
+                    value={field.value ?? ''}
+                    onChange={(urls) => field.onChange(urls[0] ?? null)}
+                    onSetUploading={setIsUploading}
+                    isUploading={isUploading}
+                    onError={(msg: string) =>
+                      form.setError('banner', { message: msg })
+                    }
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
+        {isFeatured && banner && (
+          <div className="group relative overflow-hidden rounded">
+            <Image
+              src={banner}
+              width={600}
+              height={300}
+              alt="product banner"
+              className="h-48 w-full rounded object-cover"
+            />
+
+            <Button
+              variant="destructive"
+              size="sm"
+              className="absolute -top-9 -right-9 rounded-full opacity-60 group-hover:top-1 group-hover:right-4"
+              onClick={(e) => {
+                e.preventDefault();
+                form.setValue('banner', '', {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+              }}
+            >
+              X
+            </Button>
+          </div>
+        )}
+
+        <FormField
+          control={form.control}
           name="images"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product Images</FormLabel>
               <FormControl>
                 <ImageUploadField
-                  values={field.value}
+                  value={field.value}
                   onChange={field.onChange}
                   onSetUploading={setIsUploading}
                   isUploading={isUploading}
