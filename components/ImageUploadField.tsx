@@ -44,11 +44,6 @@ export const ImageUploadField: FC<ImageUploadFieldProps> = (props) => {
           setProgress(0);
           props.onSetUploading(false);
         }}
-        onBeforeUploadBegin={(files) => {
-          setProgress(0);
-          console.log({ files });
-          return files;
-        }}
         onClientUploadComplete={(res) => {
           const newUrls = res.map((file) => file.ufsUrl);
           props.onChange([...newUrls, ...images]);
