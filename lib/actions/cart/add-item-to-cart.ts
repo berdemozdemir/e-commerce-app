@@ -41,6 +41,7 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
   if (!cart) {
     if (product.stock < newItem.quantity) return failure('Not enough stock');
 
+    // TODO: fix broken failure flow by schema parser | parse or safeparse ?
     const newCart = cartSchema.parse({
       userId,
       sessionCartId,

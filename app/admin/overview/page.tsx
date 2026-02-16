@@ -1,10 +1,17 @@
 import { AdminOverViewPage } from '@/components/admin/AdminOverviewPage';
 import { getSummarizeOrdersByAdmin } from '@/lib/actions/admin/get-summarize-orders-by-admin';
+import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { failure, isFailure } from '@/lib/result';
 import { redirect } from 'next/navigation';
 
 const OverviewPage = async () => {
+  const session = await auth();
+
+  if (!session?.user) redirect(paths.notFound);
+
+  if (session.user.role !== 'admin') redirect(paths.unauthorized);
+
   const result = await getSummarizeOrdersByAdmin();
 
   if (isFailure(result)) {

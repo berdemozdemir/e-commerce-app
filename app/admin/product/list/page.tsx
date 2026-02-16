@@ -1,5 +1,6 @@
 import { AdminProductListPage } from '@/components/admin/AdminProductList';
 import { getProducts } from '@/lib/actions/admin/get-products';
+import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
 import { Metadata } from 'next';
@@ -10,12 +11,15 @@ export const metadata: Metadata = {
 };
 
 const AdminProductList = async () => {
+  const session = await auth();
+
+  if (!session?.user) redirect(paths.notFound);
+
+  if (session.user.role !== 'admin') redirect(paths.unauthorized);
+
   const productsResult = await getProducts();
 
-  if (isFailure(productsResult)) {
-    console.error('Failed to fetch order summary:', productsResult.error);
-    redirect(paths.unauthorized);
-  }
+  if (isFailure(productsResult)) redirect(paths.unauthorized);
 
   return <AdminProductListPage products={productsResult.data} />;
 };
