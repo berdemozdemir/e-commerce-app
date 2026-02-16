@@ -26,6 +26,7 @@ export const paths = {
     product: {
       list: '/admin/product/list',
       create: '/admin/product/create',
+      update: (slug: string) => `/admin/product/${slug}`,
     },
   },
 

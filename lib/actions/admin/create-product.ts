@@ -20,30 +20,29 @@ export const createProduct = async (
   if (!userId) return failure('Unauthorized');
   if (session?.user.role !== 'admin') return failure('Forbidden');
 
-  // TODO: fix broken failure flow by schema parser | parse or safeparse ?
-  // ```ts
-  //       const parsed = createProductSchema().safeParse(payload);
-  //       if (!parsed.success) return failure(parsed.error.issues[0]?.message ?? 'Invalid payload');
-  //       const data = parsed.data;
-  // ```
-  const parsed = createProductSchema.parse(payload);
+  const parsed = createProductSchema.safeParse(payload);
+
+  if (!parsed.success)
+    return failure(parsed.error.issues[0]?.message ?? 'Invalid payload');
+
+  const data = parsed.data;
 
   const result = await tryCatch(
     db
       .insert(products)
       .values({
-        name: parsed.name,
+        name: data.name,
         slug: `temporary-slug-${Date.now()}`,
-        category: parsed.category,
-        brand: parsed.brand,
-        description: parsed.description,
-        stock: parsed.stock,
+        category: data.category,
+        brand: data.brand,
+        description: data.description,
+        stock: data.stock,
         rating: '0',
-        images: parsed.images,
-        isFeatured: parsed.isFeatured,
-        banner: parsed.banner,
+        images: data.images,
+        isFeatured: data.isFeatured,
+        banner: data.banner,
         numReviews: 0,
-        price: parsed.price,
+        price: data.price,
         createdAt: new Date(),
       })
       .returning({ id: products.id }),
@@ -55,7 +54,7 @@ export const createProduct = async (
     db
       .update(products)
       .set({
-        slug: SlugHelper.generateUnique(parsed.name, result.data[0].id),
+        slug: SlugHelper.generateUnique(data.name, result.data[0].id),
       })
       .where(eq(products.id, result.data[0].id)),
   );

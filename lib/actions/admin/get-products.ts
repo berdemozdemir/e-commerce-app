@@ -19,6 +19,7 @@ export const getProducts = async (): Promise<Result<TAdminProduct[]>> => {
     db
       .select({
         id: products.id,
+        slug: products.slug,
         name: products.name,
         price: products.price,
         category: products.category,
@@ -32,6 +33,7 @@ export const getProducts = async (): Promise<Result<TAdminProduct[]>> => {
 
   const allProducts: TAdminProduct[] = response.data.map((item) => ({
     id: item.id,
+    slug: item.slug,
     name: item.name,
     price: item.price,
     category: item.category,

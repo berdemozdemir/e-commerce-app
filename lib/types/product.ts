@@ -11,5 +11,5 @@ export type TProduct = TCreateProductSchema & {
 
 export type TAdminProduct = Pick<
   TProduct,
-  'id' | 'name' | 'price' | 'category' | 'stock' | 'rating'
+  'id' | 'slug' | 'name' | 'price' | 'category' | 'stock' | 'rating'
 >;
