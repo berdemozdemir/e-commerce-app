@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Overview', href: paths.admin.overview },
   { name: 'Products', href: paths.admin.product.list },
   { name: 'Orders', href: paths.admin.orders },
+  { name: 'Users', href: paths.admin.users },
 ];
 
 export const AdminHeader = () => {
@@ -39,8 +40,8 @@ export const AdminHeader = () => {
               key={item.name}
               href={item.href}
               className={cn(
-                'ml-4 font-medium text-gray-500 hover:text-gray-900',
-                pathname.includes(item.href) && 'text-black',
+                'ml-4 font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
+                pathname.includes(item.href) && 'text-black dark:text-white',
               )}
             >
               {item.name}

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const AdminProductList = async () => {
   const session = await auth();
 
-  if (!session?.user) redirect(paths.notFound);
+  if (!session?.user) redirect(paths.auth.login);
 
   if (session.user.role !== 'admin') redirect(paths.unauthorized);
 
