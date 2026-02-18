@@ -1,4 +1,5 @@
 import { hashSync } from 'bcrypt-ts-edge';
+import { Role } from '@/lib/types/role';
 
 const sampleData = {
   users: [
@@ -6,13 +7,13 @@ const sampleData = {
       name: 'John Doe',
       email: 'admin@example.com',
       password: hashSync('123456'),
-      role: 'admin',
+      role: Role.Admin,
     },
     {
       name: 'Jane Doe',
       email: 'user@example.com',
       password: hashSync('123456'),
-      role: 'user',
+      role: Role.User,
     },
   ],
   products: [
