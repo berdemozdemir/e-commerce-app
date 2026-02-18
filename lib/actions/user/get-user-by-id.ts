@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth';
-import { failure, ok, Result } from '@/lib/result';
+import { failure, ok, Result, tryCatch } from '@/lib/result';
 import { TUser } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
@@ -11,34 +11,41 @@ export const getUserById = async (payload: {
   const session = await auth();
   if (!session?.user) return failure('Unauthorized');
 
-  if (session.user.id !== payload.userId) {
-    return failure('Forbidden');
-  }
+  if (session.user.id !== payload.userId) return failure('Forbidden');
 
-  const currentUser = await db.query.users.findFirst({
-    where: eq(users.id, payload.userId),
-  });
+  const userResponse = await tryCatch(
+    db
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        profileImageUrl: users.profileImageUrl,
+        address: users.address,
+        paymentMethod: users.paymentMethod,
+      })
+      .from(users)
+      .where(eq(users.id, payload.userId)),
+  );
 
-  if (!currentUser) {
-    return failure('User not found');
-  }
+  if (!userResponse) return failure('User not found');
+  if (!userResponse.data) return failure('User not found');
 
   const user: TUser = {
-    id: currentUser.id,
-    email: currentUser.email,
-    name: currentUser.name,
-    profileImageUrl: currentUser.profileImageUrl ?? undefined,
-    address: currentUser.address
+    id: userResponse.data[0].id,
+    email: userResponse.data[0].email,
+    name: userResponse.data[0].name,
+    profileImageUrl: userResponse.data[0].profileImageUrl ?? undefined,
+    address: userResponse.data[0].address
       ? {
-          addressName: currentUser.address.addressName,
-          address: currentUser.address.address,
-          city: currentUser.address.city,
-          postalCode: currentUser.address.postalCode,
-          country: currentUser.address.country,
+          addressName: userResponse.data[0].address.addressName,
+          address: userResponse.data[0].address.address,
+          city: userResponse.data[0].address.city,
+          postalCode: userResponse.data[0].address.postalCode,
+          country: userResponse.data[0].address.country,
         }
       : undefined,
-    image: currentUser.image || undefined,
-    paymentMethod: currentUser.paymentMethod || undefined,
+
+    paymentMethod: userResponse.data[0].paymentMethod || undefined,
   };
 
   return ok(user);
