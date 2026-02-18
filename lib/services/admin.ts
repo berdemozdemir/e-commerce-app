@@ -9,6 +9,9 @@ import { createProduct } from '../actions/admin/create-product';
 import { TCreateProductSchema } from '../schemas/product/create-product.schema';
 import { updateProductBySlug } from '../actions/admin/update-product-by-slug';
 import { TUpdateProductSchema } from '../schemas/product/update-product.schema';
+import { deleteUserById } from '../actions/admin/delete-user-by-id';
+import { EditUserSchema } from '../schemas/edit-user';
+import { editUserById } from '../actions/admin/edit-user';
 
 export const useDeleteOrderMutation = () =>
   useMutation({
@@ -47,4 +50,16 @@ export const useUpdateProductMutation = () =>
         slug: payload.slug,
         data: payload.data,
       }).then(okOrThrow),
+  });
+
+export const useDeleteUserByIdMutation = () =>
+  useMutation({
+    mutationFn: (payload: { userId: string }) =>
+      deleteUserById(payload).then(okOrThrow),
+  });
+
+export const useEditUserMutation = () =>
+  useMutation({
+    mutationFn: (payload: { userId: string; data: EditUserSchema }) =>
+      editUserById(payload).then(okOrThrow),
   });
