@@ -3,7 +3,7 @@
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TUser } from '@/lib/types/admin/user';
-import { Role, TRole } from '@/lib/types/role';
+import { Roles, TRole } from '@/lib/types/role';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
@@ -12,7 +12,7 @@ export const getAllUsers = async (): Promise<Result<TUser[]>> => {
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Role.Admin) return failure('Forbidden');
+  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
 
   const result = await tryCatch(
     db

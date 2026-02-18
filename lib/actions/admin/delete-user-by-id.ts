@@ -4,32 +4,29 @@ import { auth } from '@/lib/auth';
 import { Roles } from '@/lib/types/role';
 import { paths } from '@/lib/constants/paths';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
-import { orders } from '@/server';
+import { products, users } from '@/server';
 import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
-export const deleteOrderById = async (payload: {
-  orderId: string;
+export const deleteUserById = async (payload: {
+  userId: string;
 }): Promise<Result<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
   if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (session.user.id === payload.userId)
+    return failure('You cannot delete yourself');
 
-  const response = await tryCatch(
-    db
-      .delete(orders)
-      .where(eq(orders.id, payload.orderId))
-      .returning({ id: orders.id }),
+  const result = await tryCatch(
+    db.delete(users).where(eq(users.id, payload.userId)),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (isFailure(result)) return failure(result.error);
 
-  if (response.data.length === 0) return failure('Order not found');
-
-  revalidatePath(paths.admin.orders);
+  revalidatePath(paths.admin.users.list);
 
   return ok(undefined);
 };

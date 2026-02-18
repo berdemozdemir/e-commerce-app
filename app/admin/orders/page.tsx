@@ -3,7 +3,7 @@ import { getOrdersByAdmin } from '@/lib/actions/admin/get-orders';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
-import { Role } from '@/lib/types/role';
+import { Roles } from '@/lib/types/role';
 import { redirect } from 'next/navigation';
 
 const OrdersPage = async () => {
@@ -11,7 +11,7 @@ const OrdersPage = async () => {
 
   if (!session?.user) redirect(paths.auth.login);
 
-  if (session.user.role !== Role.Admin) redirect(paths.unauthorized);
+  if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
   const result = await getOrdersByAdmin();
 

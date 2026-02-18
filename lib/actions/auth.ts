@@ -12,7 +12,7 @@ import {
 import { hashSync } from 'bcrypt-ts-edge';
 import { db } from '@/server/drizzle-client';
 import { users } from '@/server';
-import { Role } from '../types/role';
+import { Roles } from '../types/role';
 
 export const signInWithCredentials = async (data: TSignInFormSchemaRequest) => {
   try {
@@ -66,7 +66,7 @@ export const signUpUser = async (data: TSignupFormSchemaRequest) => {
       name: user.name,
       email: user.email,
       password: user.password,
-      role: Role.User,
+      role: Roles.User,
     });
 
     await signIn('credentials', {

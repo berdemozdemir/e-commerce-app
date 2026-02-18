@@ -1,6 +1,6 @@
 import { TAddress } from '@/lib/types/address';
 import { getPaymentMethods } from '@/lib/types/payment-methods';
-import { getRoles, Role } from '@/lib/types/role';
+import { getRoles, Roles } from '@/lib/types/role';
 import {
   boolean,
   timestamp,
@@ -30,7 +30,7 @@ export const users = pgTable('user', {
   // TODO: take a look at this, it should be a string or date ??
   // can we store a date in a db column?
   emailVerified: timestamp('email_verified', { mode: 'date' }),
-  role: roleEnum('role').default(Role.User).notNull(),
+  role: roleEnum('role').default(Roles.User).notNull(),
   // TODO: make this address array type, so we can store multiple addresses and user can choose any of them
   // TODO: make this address column normalized in a separate table
   address: jsonb('address').$type<TAddress | null>(),

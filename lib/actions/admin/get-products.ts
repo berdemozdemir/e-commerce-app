@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { Role } from '@/lib/types/role';
+import { Roles } from '@/lib/types/role';
 import { paths } from '@/lib/constants/paths';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TAdminProduct } from '@/lib/types/product';
@@ -14,7 +14,7 @@ export const getProducts = async (): Promise<Result<TAdminProduct[]>> => {
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Role.Admin) return failure('Forbidden');
+  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
 
   const response = await tryCatch(
     db

@@ -2,7 +2,7 @@ import { UpdateProductForm } from '@/components/admin/UpdateProductForm';
 import { getProductBySlug } from '@/lib/actions/product/get-product-by-slug';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { Role } from '@/lib/types/role';
+import { Roles } from '@/lib/types/role';
 import { isFailure } from '@/lib/result';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
@@ -40,7 +40,7 @@ const UpdateProductPage = async ({ params }: ProductUpdatePageProps) => {
 
   if (!session?.user) redirect(paths.auth.login);
 
-  if (session.user.role !== Role.Admin) redirect(paths.unauthorized);
+  if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
   const product = await getProductBySlug({ slug });
 
