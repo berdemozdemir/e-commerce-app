@@ -78,6 +78,13 @@
       "when": 1770429544123,
       "tag": "0010_goofy_morlun",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1771378550626,
+      "tag": "0011_square_aaron_stack",
+      "breakpoints": true
     }
   ]
 }
