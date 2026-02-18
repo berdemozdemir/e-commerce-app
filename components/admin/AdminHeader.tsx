@@ -12,7 +12,7 @@ const navigation = [
   { name: 'Overview', href: paths.admin.overview },
   { name: 'Products', href: paths.admin.product.list },
   { name: 'Orders', href: paths.admin.orders },
-  { name: 'Users', href: paths.admin.users },
+  { name: 'Users', href: paths.admin.users.list },
 ];
 
 export const AdminHeader = () => {

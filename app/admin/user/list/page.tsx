@@ -1,6 +1,9 @@
+import { UsersList } from '@/components/admin/UsersList';
+import { getAllUsers } from '@/lib/actions/admin/get-all-users';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { Role } from '@/lib/types/role';
+import { isFailure } from '@/lib/result';
+import { Roles } from '@/lib/types/role';
 import { redirect } from 'next/dist/client/components/navigation';
 
 export const metadata = {
@@ -13,9 +16,16 @@ const AdminUsersList = async () => {
 
   if (!session?.user) redirect(paths.auth.login);
 
-  if (session.user.role !== Role.Admin) redirect(paths.unauthorized);
+  if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
-  return <div>Admin Users Page</div>;
+  const allUsers = await getAllUsers();
+
+  if (isFailure(allUsers)) {
+    console.error('Failed to fetch users:', allUsers.error);
+    redirect(paths.notFound);
+  }
+
+  return <UsersList users={allUsers.data} />;
 };
 
 export default AdminUsersList;
