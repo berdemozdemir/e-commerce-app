@@ -14,6 +14,7 @@ const UserProfile = async () => {
     redirect(paths.auth.login);
   }
 
+  // TODO: it returns 'user not found' when role is admin. Fix it.
   const user = await getUserById({ userId });
   if (isFailure(user)) {
     console.error(user.error);
