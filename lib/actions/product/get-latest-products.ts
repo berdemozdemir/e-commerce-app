@@ -1,6 +1,5 @@
 'use server';
 
-import { auth } from '@/lib/auth';
 import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
@@ -9,11 +8,6 @@ import { db } from '@/server/drizzle-client';
 import { desc } from 'drizzle-orm';
 
 export const getLatestProducts = async (): Promise<Result<TProduct[]>> => {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) return failure('Unauthorized');
-
   const response = await tryCatch(
     db
       .select({
