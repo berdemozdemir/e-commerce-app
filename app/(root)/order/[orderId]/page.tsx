@@ -4,6 +4,7 @@ import { getOrderById } from '@/lib/actions/order/get-order-by-id';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
+import { Role } from '@/lib/types/role';
 import { redirect } from 'next/navigation';
 
 type OrderDetailProps = {
@@ -31,7 +32,7 @@ export default async function OrderDetail(props: OrderDetailProps) {
   return (
     <OrderDetailPage
       order={result.data}
-      isAdmin={session?.user.role === 'admin'}
+      isAdmin={session?.user.role === Role.Admin}
     />
   );
 }

@@ -15,6 +15,7 @@ import { getTwoLetterInitials } from '@/lib/utils';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
+import { Role } from '@/lib/types/role';
 
 export const UserMenu = () => {
   const { data: session, update, status } = useSession();
@@ -65,7 +66,7 @@ export const UserMenu = () => {
           My Orders
         </DropdownMenuItem>
 
-        {session?.user?.role === 'admin' && (
+        {session?.user?.role === Role.Admin && (
           <DropdownMenuItem onClick={() => router.push(paths.admin.overview)}>
             Admin
           </DropdownMenuItem>

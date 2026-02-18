@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+import { Role } from '@/lib/types/role';
 import { paths } from '@/lib/constants/paths';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { products } from '@/server';
@@ -15,7 +16,7 @@ export const deleteProductById = async (payload: {
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== 'admin') return failure('Forbidden');
+  if (session?.user.role !== Role.Admin) return failure('Forbidden');
 
   const result = await tryCatch(
     db.delete(products).where(eq(products.id, payload.productId)),

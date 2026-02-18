@@ -3,6 +3,7 @@ import { getSummarizeOrdersByAdmin } from '@/lib/actions/admin/get-summarize-ord
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { failure, isFailure } from '@/lib/result';
+import { Role } from '@/lib/types/role';
 import { redirect } from 'next/navigation';
 
 const OverviewPage = async () => {
@@ -10,7 +11,7 @@ const OverviewPage = async () => {
 
   if (!session?.user) redirect(paths.auth.login);
 
-  if (session.user.role !== 'admin') redirect(paths.unauthorized);
+  if (session.user.role !== Role.Admin) redirect(paths.unauthorized);
 
   const result = await getSummarizeOrdersByAdmin();
 

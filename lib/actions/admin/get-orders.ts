@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth';
+import { Role } from '@/lib/types/role';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TMyOrders } from '@/lib/types/myOrders';
 import { orders } from '@/server';
@@ -11,7 +12,7 @@ export const getOrdersByAdmin = async (): Promise<Result<TMyOrders[]>> => {
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== 'admin') return failure('Forbidden');
+  if (session?.user.role !== Role.Admin) return failure('Forbidden');
 
   const response = await tryCatch(
     db

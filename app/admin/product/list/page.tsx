@@ -3,6 +3,7 @@ import { getProducts } from '@/lib/actions/admin/get-products';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
+import { Role } from '@/lib/types/role';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
@@ -15,7 +16,7 @@ const AdminProductList = async () => {
 
   if (!session?.user) redirect(paths.auth.login);
 
-  if (session.user.role !== 'admin') redirect(paths.unauthorized);
+  if (session.user.role !== Role.Admin) redirect(paths.unauthorized);
 
   const productsResult = await getProducts();
 

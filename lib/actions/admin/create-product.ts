@@ -2,6 +2,7 @@
 
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { Role } from '@/lib/types/role';
 import {
   createProductSchema,
   TCreateProductSchema,
@@ -18,7 +19,7 @@ export const createProduct = async (
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== 'admin') return failure('Forbidden');
+  if (session?.user.role !== Role.Admin) return failure('Forbidden');
 
   const parsed = createProductSchema.safeParse(payload);
 
