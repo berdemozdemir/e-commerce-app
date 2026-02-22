@@ -26,7 +26,7 @@ export const AdminSearch = () => {
   return (
     <Input
       placeholder="Search"
-      className="w-full max-w-xs"
+      className="mx-10 w-full max-w-xs"
       value={searchValue}
       onChange={(e) => {
         setSearchValue(e.target.value);
