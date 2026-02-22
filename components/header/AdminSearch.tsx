@@ -5,10 +5,10 @@ import { useCallback } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export const AdminSearch = () => {
-  const [searchValue, setSearchValue] = useState('');
-  const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [searchValue, setSearchValue] = useState('');
 
   const updateSearchQuery = useCallback(
     debounce((value: string) => {

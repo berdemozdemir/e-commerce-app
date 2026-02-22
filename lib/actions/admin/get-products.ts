@@ -7,14 +7,21 @@ import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TAdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
+import { eq, ilike } from 'drizzle-orm';
 
 // TODO: add a pagination or infinite scroll to this data
-export const getProducts = async (): Promise<Result<TAdminProduct[]>> => {
+export const getProducts = async (args: {
+  query?: string;
+}): Promise<Result<TAdminProduct[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
   if (!userId) return failure('Unauthorized');
   if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+
+  const whereClause = args.query
+    ? ilike(products.name, `%${args.query}%`)
+    : undefined;
 
   const response = await tryCatch(
     db
@@ -27,7 +34,8 @@ export const getProducts = async (): Promise<Result<TAdminProduct[]>> => {
         stock: products.stock,
         rating: products.rating,
       })
-      .from(products),
+      .from(products)
+      .where(whereClause),
   );
 
   if (isFailure(response)) return failure(response.error);
