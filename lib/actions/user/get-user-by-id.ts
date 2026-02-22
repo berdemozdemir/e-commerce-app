@@ -29,6 +29,7 @@ export const getUserById = async (payload: {
 
   if (!userResponse) return failure('User not found');
   if (!userResponse.data) return failure('User not found');
+  if (userResponse.data.length === 0) return failure('User not found');
 
   const user: TUser = {
     id: userResponse.data[0].id,
