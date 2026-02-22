@@ -41,11 +41,19 @@ export const HeaderItems = () => (
             </Link>
           </Button>
 
-          <Button asChild>
-            <Link href={paths.auth.login}>
-              <UserIcon /> Login
-            </Link>
-          </Button>
+          <div className="flex w-full flex-col gap-4">
+            <Button asChild>
+              <Link href={paths.auth.login}>
+                <UserIcon /> Login
+              </Link>
+            </Button>
+
+            <Button variant="outline" asChild>
+              <Link href={paths.auth.signup}>
+                <UserIcon /> Sign Up
+              </Link>
+            </Button>
+          </div>
         </SheetContent>
       </Sheet>
     </div>
