@@ -13,6 +13,7 @@ export const ProductCard = ({ product }: ProductCardProps) => (
     className="mx-auto h-full w-full max-w-sm space-y-4 overflow-hidden rounded-md border shadow-md"
   >
     <div>
+      {/* TODO: make this image responsive */}
       <Image
         src={product.images[0]}
         alt={product.name}

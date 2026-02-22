@@ -13,12 +13,14 @@ import {
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { getTwoLetterInitials } from '@/lib/utils';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
 import { Roles } from '@/lib/types/role';
 
 export const UserMenu = () => {
   const { data: session, update, status } = useSession();
+
+  const pathname = usePathname();
 
   const router = useRouter();
 
@@ -37,6 +39,8 @@ export const UserMenu = () => {
       </Button>
     );
   }
+
+  const isAdmin = pathname.includes('/admin');
 
   return (
     <DropdownMenu>
@@ -66,7 +70,7 @@ export const UserMenu = () => {
           My Orders
         </DropdownMenuItem>
 
-        {session?.user?.role === Roles.Admin && (
+        {session?.user?.role === Roles.Admin && !isAdmin && (
           <DropdownMenuItem onClick={() => router.push(paths.admin.overview)}>
             Admin
           </DropdownMenuItem>
