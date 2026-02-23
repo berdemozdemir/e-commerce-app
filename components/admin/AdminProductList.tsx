@@ -51,51 +51,59 @@ export const AdminProductListPage: FC<Props> = (props) => {
         </Link>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>NAME</TableHead>
-            <TableHead>PRICE</TableHead>
-            <TableHead>CATEGORY</TableHead>
-            <TableHead>STOCK</TableHead>
-            <TableHead>RATING</TableHead>
-            <TableHead>ACTIONS</TableHead>
-          </TableRow>
-        </TableHeader>
+      {props.products.length === 0 && (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500">No products found</p>
+        </div>
+      )}
 
-        <TableBody>
-          {props.products.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="cursor-pointer">
-                {item.id.slice(0, 7)}..
-              </TableCell>
-
-              <TableCell>{item.name}</TableCell>
-
-              <TableCell>${item.price}</TableCell>
-
-              <TableCell>{item.category}</TableCell>
-
-              <TableCell className="text-center">{item.stock}</TableCell>
-
-              <TableCell className="text-center">{item.rating}</TableCell>
-
-              <TableCell className="space-x-2">
-                <Button
-                  onClick={() =>
-                    router.push(paths.admin.product.update(item.slug))
-                  }
-                >
-                  Edit
-                </Button>
-
-                <DeleteProductDialog productId={item.id} />
-              </TableCell>
+      {props.products.length > 0 && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>NAME</TableHead>
+              <TableHead>PRICE</TableHead>
+              <TableHead>CATEGORY</TableHead>
+              <TableHead>STOCK</TableHead>
+              <TableHead>RATING</TableHead>
+              <TableHead>ACTIONS</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+
+          <TableBody>
+            {props.products.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="cursor-pointer">
+                  {item.id.slice(0, 7)}..
+                </TableCell>
+
+                <TableCell>{item.name}</TableCell>
+
+                <TableCell>${item.price}</TableCell>
+
+                <TableCell>{item.category}</TableCell>
+
+                <TableCell className="text-center">{item.stock}</TableCell>
+
+                <TableCell className="text-center">{item.rating}</TableCell>
+
+                <TableCell className="space-x-2">
+                  <Button
+                    onClick={() =>
+                      router.push(paths.admin.product.update(item.slug))
+                    }
+                  >
+                    Edit
+                  </Button>
+
+                  <DeleteProductDialog productId={item.id} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };
