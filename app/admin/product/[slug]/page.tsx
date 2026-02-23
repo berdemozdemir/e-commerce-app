@@ -1,8 +1,6 @@
 import { UpdateProductForm } from '@/components/admin/UpdateProductForm';
 import { getProductBySlug } from '@/lib/actions/product/get-product-by-slug';
-import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { Roles } from '@/lib/types/role';
 import { isFailure } from '@/lib/result';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
@@ -18,7 +16,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const params = await props.params;
 
-  const product = await getProductBySlug({ slug: params.slug });
+  const product = await getProductBySlug({ slug: params.slug, isAdmin: true });
 
   if (isFailure(product)) {
     return {
@@ -36,13 +34,7 @@ export async function generateMetadata(
 const UpdateProductPage = async ({ params }: ProductUpdatePageProps) => {
   const { slug } = await params;
 
-  const session = await auth();
-
-  if (!session?.user) redirect(paths.auth.login);
-
-  if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
-
-  const product = await getProductBySlug({ slug });
+  const product = await getProductBySlug({ slug, isAdmin: true });
 
   if (isFailure(product) || !product.data) {
     console.error('Product not found:', product.error);
