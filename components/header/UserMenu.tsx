@@ -76,6 +76,12 @@ export const UserMenu = () => {
           </DropdownMenuItem>
         )}
 
+        {session?.user?.role === Roles.Admin && isAdmin && (
+          <DropdownMenuItem onClick={() => router.push(paths.home)}>
+            Back to User
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuItem onClick={() => signOut()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
