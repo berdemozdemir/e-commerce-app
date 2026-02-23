@@ -23,11 +23,17 @@ export const AdminSearch = () => {
     setSearchValue(searchParams.get('query') ?? '');
   }, [searchParams]);
 
+  const isAdminSearch =
+    pathname.includes('admin/user') || pathname.includes('admin/product');
+
   return (
     <Input
-      placeholder="Search"
+      placeholder={
+        isAdminSearch ? 'Search' : 'Search is disabled for this page'
+      }
       className="mx-10 w-full max-w-xs"
       value={searchValue}
+      disabled={!isAdminSearch}
       onChange={(e) => {
         setSearchValue(e.target.value);
         updateSearchQuery(e.target.value);
