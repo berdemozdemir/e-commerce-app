@@ -11,21 +11,29 @@ export const metadata = {
   description: 'Manage users in the admin panel.',
 };
 
-const AdminUsersList = async () => {
+type Props = {
+  searchParams: Promise<{
+    query: string;
+  }>;
+};
+
+const AdminUsersList = async ({ searchParams }: Props) => {
+  const { query } = await searchParams;
+
   const session = await auth();
 
   if (!session?.user) redirect(paths.auth.login);
 
   if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
-  const allUsers = await getAllUsers();
+  const allUsers = await getAllUsers({ query });
 
   if (isFailure(allUsers)) {
     console.error('Failed to fetch users:', allUsers.error);
     redirect(paths.notFound);
   }
 
-  return <UsersList users={allUsers.data} />;
+  return <UsersList users={allUsers.data} query={query} />;
 };
 
 export default AdminUsersList;
