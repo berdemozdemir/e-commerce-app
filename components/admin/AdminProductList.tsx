@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { paths } from '@/lib/constants/paths';
 import { useRouter } from 'next/dist/client/components/navigation';
 
-type Props = { products: TAdminProduct[] };
+type Props = { products: TAdminProduct[]; query?: string };
 
 export const AdminProductListPage: FC<Props> = (props) => {
   const router = useRouter();
@@ -24,7 +24,27 @@ export const AdminProductListPage: FC<Props> = (props) => {
   return (
     <div>
       <div className="mb-10 flex items-center justify-between">
-        <h1 className="text-2xl">Product List</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl">
+            Product List{' '}
+            {props.query && <span> ({props.products.length}) </span>}
+          </h1>
+
+          {props.query && (
+            <span className="text-lg text-gray-500">
+              for &apos;<span className="italic">{props.query}</span>&apos;
+              filter
+            </span>
+          )}
+
+          {props.query && (
+            <Link href={paths.admin.product.list}>
+              <Button variant="link" className="p-0 text-gray-500 underline">
+                Clear Filter
+              </Button>
+            </Link>
+          )}
+        </div>
 
         <Link href={paths.admin.product.create}>
           <Button>Create Product</Button>

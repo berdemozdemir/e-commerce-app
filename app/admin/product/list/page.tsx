@@ -30,7 +30,7 @@ const AdminProductList = async ({ searchParams }: Props) => {
 
   if (isFailure(productsResult)) redirect(paths.unauthorized);
 
-  return <AdminProductListPage products={productsResult.data} />;
+  return <AdminProductListPage products={productsResult.data} query={query} />;
 };
 
 export default AdminProductList;
