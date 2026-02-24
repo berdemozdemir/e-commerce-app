@@ -1,9 +1,7 @@
 'use server';
 
-import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
-import { Roles } from '@/lib/types/role';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
@@ -12,13 +10,6 @@ export const getProductBySlug = async (payload: {
   slug: string;
   isAdmin?: boolean;
 }): Promise<Result<TProduct>> => {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) return failure('Unauthorized');
-  if (payload.isAdmin && session?.user.role !== Roles.Admin)
-    return failure('Forbidden');
-
   const response = await tryCatch(
     db
       .select({
