@@ -15,6 +15,7 @@ import { revalidatePath } from 'next/cache';
 import { getMyCart } from './get-my-cart.action';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { paths } from '@/lib/constants/paths';
+import { randomUUID } from 'crypto';
 
 export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
@@ -42,12 +43,17 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
     if (product.stock < newItem.quantity) return failure('Not enough stock');
 
     // TODO: fix broken failure flow by schema parser | parse or safeparse ?
-    const newCart = cartSchema.parse({
+    const newCart = cartSchema.safeParse({
+      id: randomUUID().toString(),
       userId,
       sessionCartId,
       items: [newItem],
       ...calculatePrice([newItem]),
     });
+
+    if (!newCart.success) {
+      return failure(newCart.error.issues[0]?.message ?? 'Invalid payload');
+    }
 
     const insertedCart = await tryCatch(
       db
@@ -55,10 +61,10 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
         .values({
           sessionCartId,
           userId,
-          itemsPrice: newCart.itemsPrice,
-          shippingPrice: newCart.shippingPrice,
-          taxPrice: newCart.taxPrice,
-          totalPrice: newCart.totalPrice,
+          itemsPrice: newCart.data.itemsPrice,
+          shippingPrice: newCart.data.shippingPrice,
+          taxPrice: newCart.data.taxPrice,
+          totalPrice: newCart.data.totalPrice,
         })
         .returning(),
     );
