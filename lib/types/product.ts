@@ -9,6 +9,11 @@ export type TProduct = TCreateProductSchema & {
   createdAt: Date;
 };
 
+export type TFeaturedProduct = Pick<
+  TProduct,
+  'id' | 'slug' | 'name' | 'banner'
+>;
+
 export type TAdminProduct = Pick<
   TProduct,
   'id' | 'slug' | 'name' | 'price' | 'category' | 'stock' | 'rating'

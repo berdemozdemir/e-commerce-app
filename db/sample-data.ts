@@ -56,7 +56,7 @@ const sampleData = {
       numReviews: 10,
       stock: 5,
       isFeatured: true,
-      banner: 'banner-1.jpg',
+      banner: '/images/banners/banner-1.jpg',
     },
     {
       name: 'Brooks Brothers Long Sleeved Shirt',
@@ -73,7 +73,7 @@ const sampleData = {
       numReviews: 8,
       stock: 10,
       isFeatured: true,
-      banner: 'banner-2.jpg',
+      banner: '/images/banners/banner-2.jpg',
     },
     {
       name: 'Tommy Hilfiger Classic Fit Dress Shirt',
@@ -158,7 +158,7 @@ const sampleData = {
       numReviews: 22,
       stock: 12,
       isFeatured: true,
-      banner: 'banner-1.jpg',
+      banner: '/images/banners/banner-1.jpg',
     },
     {
       name: 'Adidas Ultraboost Running Shoes',
@@ -178,7 +178,7 @@ const sampleData = {
       banner: null,
     },
     {
-      name: 'Levi\'s 501 Original Fit Jeans',
+      name: "Levi's 501 Original Fit Jeans",
       slug: 'levis-501-original-fit-jeans',
       category: "Men's Jeans",
       description: 'The iconic straight leg jean since 1873',
@@ -248,9 +248,7 @@ const sampleData = {
       isDelivered: false,
       deliveredAt: undefined,
       createdAt: new Date('2026-01-04T16:20:00'),
-      items: [
-        { productSlug: 'nike-dri-fit-running-jacket', quantity: 1 },
-      ],
+      items: [{ productSlug: 'nike-dri-fit-running-jacket', quantity: 1 }],
     },
     {
       userEmail: 'alice@example.com',
@@ -288,9 +286,7 @@ const sampleData = {
       isDelivered: true,
       deliveredAt: new Date('2026-01-23T10:00:00'),
       createdAt: new Date('2026-01-17T20:00:00'),
-      items: [
-        { productSlug: 'adidas-ultraboost-running-shoes', quantity: 1 },
-      ],
+      items: [{ productSlug: 'adidas-ultraboost-running-shoes', quantity: 1 }],
     },
     {
       userEmail: 'alice@example.com',
@@ -408,9 +404,7 @@ const sampleData = {
       isDelivered: false,
       deliveredAt: undefined,
       createdAt: new Date('2026-02-22T08:00:00'),
-      items: [
-        { productSlug: 'polo-ralph-lauren-oxford-shirt', quantity: 1 },
-      ],
+      items: [{ productSlug: 'polo-ralph-lauren-oxford-shirt', quantity: 1 }],
     },
     {
       userEmail: 'diana@example.com',
