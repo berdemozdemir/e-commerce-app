@@ -17,9 +17,7 @@ export default async function Home() {
 
   return (
     <>
-      {featuredProducts.data && featuredProducts.data.length > 0 && (
-        <ImagesCarousel products={featuredProducts.data} />
-      )}
+      <ImagesCarousel products={featuredProducts.data ?? []} />
 
       <ProductList
         data={latestProducts.data}
