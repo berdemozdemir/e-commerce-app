@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '../ui/Table';
 import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
 import { FC } from 'react';
 import Link from 'next/link';

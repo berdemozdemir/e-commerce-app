@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { InforCard } from './InfoCard';
 import { BadgeDollarSign, Barcode, Users, Wallet } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '../ui/table';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '../ui/Table';
 import { formatDate } from '@/lib/utils/date';
 import { Button } from '../ui/Button';
 import Link from 'next/link';

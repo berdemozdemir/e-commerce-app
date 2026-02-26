@@ -9,7 +9,7 @@ import {
   TableBody,
   TableCell,
   Table,
-} from '../ui/table';
+} from '../ui/Table';
 import { TAdminProduct } from '@/lib/types/product';
 import { DeleteProductDialog } from './DeleteProductDialog';
 import Link from 'next/link';

@@ -11,7 +11,7 @@ import {
   TableBody,
   TableCell,
   Table,
-} from '../ui/table';
+} from '../ui/Table';
 import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
 import Link from 'next/link';
 

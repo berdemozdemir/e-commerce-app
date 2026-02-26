@@ -16,7 +16,7 @@ import {
   paymentMethodsFormSchema,
   TPaymentMethodsFormSchema,
 } from '@/lib/schemas/payment-methods';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { RadioGroup, RadioGroupItem } from './ui/RadioGroup';
 import { getPaymentMethods, TPaymentMethod } from '@/lib/types/payment-methods';
 import { useUpdateUserPaymentMethodMutation } from '@/lib/services/user';
 import { toast } from 'react-toastify';

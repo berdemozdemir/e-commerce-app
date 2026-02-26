@@ -34,6 +34,11 @@ export const roundTwo = (value: string | number) => {
   }
 };
 
+export const isValidImageSrc = (src: string | null | undefined): src is string => {
+  if (!src) return false;
+  return src.startsWith('/') || src.startsWith('http');
+};
+
 export const calculatePrice = (items: TCartItem[]) => {
   const itemsPrice = roundTwo(
     items.reduce((acc, item) => acc + Number(item.price) * item.quantity, 0),

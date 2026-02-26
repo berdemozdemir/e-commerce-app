@@ -22,6 +22,7 @@ import { FC, useState } from 'react';
 import Image from 'next/image';
 import { ImageUploadField } from '../ImageUploadField';
 import { paths } from '@/lib/constants/paths';
+import { isValidImageSrc } from '@/lib/utils';
 import { useRouter } from 'next/dist/client/components/navigation';
 import {
   TUpdateProductSchema,
@@ -194,7 +195,7 @@ export const UpdateProductForm: FC<Props> = ({ product }) => {
           )}
         />
 
-        {isFeatured && !banner && (
+        {isFeatured && !isValidImageSrc(banner) && (
           <FormField
             control={form.control}
             name="banner"
@@ -219,7 +220,7 @@ export const UpdateProductForm: FC<Props> = ({ product }) => {
           />
         )}
 
-        {isFeatured && banner && (
+        {isFeatured && isValidImageSrc(banner) && (
           <div className="group relative overflow-hidden rounded">
             <Image
               src={banner}

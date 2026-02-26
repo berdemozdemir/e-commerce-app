@@ -10,7 +10,7 @@ import {
   TableBody,
   TableCell,
   Table,
-} from '../ui/table';
+} from '../ui/Table';
 import { TUser } from '@/lib/types/admin/user';
 import { Roles } from '@/lib/types/role';
 import { Badge } from '../ui/Badge';

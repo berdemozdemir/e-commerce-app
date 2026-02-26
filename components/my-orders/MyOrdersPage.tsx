@@ -9,7 +9,7 @@ import {
   TableBody,
   TableCell,
   Table,
-} from '../ui/table';
+} from '../ui/Table';
 import { formatDate } from '@/lib/utils/date';
 import Link from 'next/link';
 import { toast } from 'react-toastify';

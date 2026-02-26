@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '../ui/Table';
 import { formatDate } from '@/lib/utils/date';
 import { Button } from '../ui/Button';
 import { DeleteOrderDialog } from './DeleteOrderDialog';
