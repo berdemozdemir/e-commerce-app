@@ -3,11 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HeaderItems } from './HeaderItems';
 import { paths } from '@/lib/constants/paths';
+import { CategoriesDrawer } from './CategoriesDrawer';
 
 export const Header = () => (
   <div className="w-full border-b">
     <div className="flex w-full max-w-7xl items-center justify-between p-5 md:px-10 lg:mx-auto">
-      <div className="flex items-center justify-start">
+      <div className="flex items-center justify-start gap-2">
+        <CategoriesDrawer />
+
         <Link
           href={paths.home}
           className="flex items-center justify-start gap-2"
