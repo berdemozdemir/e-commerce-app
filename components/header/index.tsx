@@ -4,16 +4,17 @@ import Link from 'next/link';
 import { HeaderItems } from './HeaderItems';
 import { paths } from '@/lib/constants/paths';
 import { CategoriesDrawer } from './CategoriesDrawer';
+import { SearchForm } from './SearchForm';
 
 export const Header = () => (
   <div className="w-full border-b">
     <div className="flex w-full max-w-7xl items-center justify-between p-5 md:px-10 lg:mx-auto">
       <div className="flex items-center justify-start gap-2">
-        <CategoriesDrawer />
+        <CategoriesDrawer className="hidden md:block" />
 
         <Link
           href={paths.home}
-          className="flex items-center justify-start gap-2"
+          className="flex shrink-0 items-center justify-start gap-2"
         >
           <Image
             src="/images/logo.svg"
@@ -26,6 +27,8 @@ export const Header = () => (
           <span className="hidden text-2xl font-bold lg:block">{APP_NAME}</span>
         </Link>
       </div>
+
+      <SearchForm />
 
       <HeaderItems />
     </div>
