@@ -11,13 +11,15 @@ import {
 import { useGetProductCategoriesQuery } from '@/lib/services/product';
 import { Button } from '../ui/Button';
 import Link from 'next/link';
+import { FC } from 'react';
+import { cn } from '@/lib/utils';
 
-export const CategoriesDrawer = () => {
+export const CategoriesDrawer: FC<{ className?: string }> = ({ className }) => {
   const { data: categories } = useGetProductCategoriesQuery();
 
   return (
     <Drawer direction="left">
-      <DrawerTrigger className="rounded-md border p-3">
+      <DrawerTrigger className={cn('rounded-md border p-3', className)}>
         <MenuIcon />
       </DrawerTrigger>
 

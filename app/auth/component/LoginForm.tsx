@@ -23,12 +23,11 @@ import { LabeledInput } from './LabeledInput';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const LoginForm = () => {
-  const { mutateAsync, error, isPending } = useLoginMutation();
-
   const router = useRouter();
-
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+
+  const { mutateAsync, error, isPending } = useLoginMutation();
 
   const form = useForm<TSignInFormSchemaRequest>({
     resolver: zodResolver(signInFormSchema),
