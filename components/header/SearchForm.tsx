@@ -13,19 +13,22 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useProductFilters } from '@/lib/hooks/useProductFilters';
 
 export const SearchForm = () => {
+  const { createUrl, searchParams } = useProductFilters();
+
   const router = useRouter();
 
   const form = useForm({
     defaultValues: {
-      query: '',
+      query: searchParams.get('query') || '',
     },
   });
 
   const submit = form.handleSubmit((data) => {
-    // TODO: this should add to existing search params
-    router.push(`/search?query=${data.query}`);
+    const newUrl = createUrl('query', data.query);
+    router.push(newUrl);
   });
 
   return (
@@ -43,7 +46,6 @@ export const SearchForm = () => {
           type="submit"
           variant="ghost"
           className="absolute right-0"
-          disabled={!form.formState.isDirty}
         >
           <Search />
         </Button>
