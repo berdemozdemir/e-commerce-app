@@ -9,14 +9,12 @@ type Props = {
   categories: string[];
 };
 
-export const SearchPageSidebar: FC<Props> = ({ categories }) => {
-  return (
-    <div className="pr-4">
-      <SearchPageCategory categories={categories} />
+export const SearchPageSidebar: FC<Props> = ({ categories }) => (
+  <div className="pr-4">
+    <SearchPageCategory categories={categories} />
 
-      <SearchPagePrice />
+    <SearchPagePrice />
 
-      <SearchPageRating />
-    </div>
-  );
-};
+    <SearchPageRating />
+  </div>
+);

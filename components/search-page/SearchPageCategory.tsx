@@ -41,13 +41,11 @@ const SideBarItem = ({
   name: string;
   href: string;
   isActive?: boolean;
-}) => {
-  return (
-    <Link
-      href={href}
-      className={`${isActive ? 'text-primary font-bold' : 'text-gray-500'}`}
-    >
-      {name}
-    </Link>
-  );
-};
+}) => (
+  <Link
+    href={href}
+    className={`${isActive ? 'text-primary font-bold' : 'text-gray-500'}`}
+  >
+    {name}
+  </Link>
+);

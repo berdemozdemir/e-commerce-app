@@ -15,7 +15,11 @@ export const SearchPageRating: FC = () => {
       {[1, 2, 3, 4, 5].map((rating) => (
         <Link
           key={rating}
-          href={createUrl('rating', rating.toString())}
+          href={
+            searchParams.get('rating') === rating.toString()
+              ? createUrl('rating', '')
+              : createUrl('rating', rating.toString())
+          }
           className="flex items-center gap-2"
         >
           {[...Array(rating)].map((_, i) => (
