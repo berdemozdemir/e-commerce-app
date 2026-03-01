@@ -36,6 +36,7 @@ export default async function Page_Search({ searchParams }: Props) {
   return (
     <div className="grid grid-cols-5">
       <div className="col-span-1">
+        {/* TODO: make this page responsive */}
         <SearchPageSidebar categories={categoriesData} />
       </div>
 

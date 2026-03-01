@@ -6,9 +6,9 @@ export const useProductFilters = () => {
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const createUrl = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+  const params = new URLSearchParams(searchParams.toString());
 
+  const createUrl = (key: string, value: string) => {
     if (value === '' || value === 'All') {
       params.delete(key);
     } else {
@@ -31,6 +31,7 @@ export const useProductFilters = () => {
 
   return {
     searchParams,
+    params,
     createUrl,
     handlePriceChange,
   };
