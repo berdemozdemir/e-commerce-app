@@ -1,7 +1,7 @@
-import { ProductCard } from '@/components/product/ProductCard';
+import { ProductList } from '@/components/search-page/ProductList';
 import { SearchPageSidebar } from '@/components/search-page/SearchPageSidebar';
-import { getProductCategories } from '@/lib/actions/product/get-product-categories';
 import { getFilteredProducts } from '@/lib/actions/product/get-filtered-products';
+import { getProductCategories } from '@/lib/actions/product/get-product-categories';
 import { isFailure } from '@/lib/result';
 
 type Props = {
@@ -40,15 +40,7 @@ export default async function Page_Search({ searchParams }: Props) {
       </div>
 
       <div className="col-span-4">
-        {data.length === 0 && (
-          <p className="text-center text-gray-500">No products found.</p>
-        )}
-
-        <div className="grid w-full grid-cols-3 gap-4">
-          {data.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <ProductList data={data} />
       </div>
     </div>
   );
