@@ -19,13 +19,13 @@ export const SearchForm = () => {
 
   const form = useForm({
     defaultValues: {
-      category: 'All',
       query: '',
     },
   });
 
   const submit = form.handleSubmit((data) => {
-    router.push(`/search?category=${data.category}&query=${data.query}`);
+    // TODO: this should add to existing search params
+    router.push(`/search?query=${data.query}`);
   });
 
   return (
@@ -33,27 +33,10 @@ export const SearchForm = () => {
       <form onSubmit={submit} className="relative flex items-center gap-2">
         <FormField
           control={form.control}
-          name="category"
-          render={({ field }) => (
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <SelectTrigger className="w-24 md:w-45" value="All">
-                <SelectValue placeholder="All" />
-              </SelectTrigger>
-
-              <SelectContent>
-                <SelectItem value="All">All</SelectItem>
-                <SelectItem value="Books">Books</SelectItem>
-                <SelectItem value="Electronics">Electronics</SelectItem>
-                <SelectItem value="Clothing">Clothing</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="query"
-          render={({ field }) => <Input {...field} placeholder="Search..." />}
+          render={({ field }) => (
+            <Input {...field} placeholder="Search..." className="w-62" />
+          )}
         />
 
         <Button
