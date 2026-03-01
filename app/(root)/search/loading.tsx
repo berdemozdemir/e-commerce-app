@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 export default function Loading() {
   return (
     <div className="grid grid-cols-5">
-      <div className="col-span-1">
+      <div className="col-span-1 pr-2">
         {/* Sidebar Skeleton */}
         <div className="space-y-6">
           <div className="space-y-2">
