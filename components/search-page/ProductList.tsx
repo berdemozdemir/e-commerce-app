@@ -91,8 +91,7 @@ export const ProductList = ({ data }: { data: TProduct[] }) => {
         <p className="text-center text-gray-500">No products found.</p>
       )}
 
-      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {/* TODO: add sort functionality */}
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3">
         {data.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
