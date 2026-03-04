@@ -19,6 +19,10 @@ export const paths = {
   myOrders: '/my-orders',
 
   userProfile: '/user/profile',
+  search: {
+    base: '/search',
+    filters: (params: string) => `/search?${params}`,
+  },
 
   admin: {
     overview: '/admin/overview',

@@ -1,5 +1,6 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
+import { paths } from '../constants/paths';
 
 export const useProductFilters = () => {
   const searchParams = useSearchParams();
@@ -15,7 +16,7 @@ export const useProductFilters = () => {
       params.set(key, value);
     }
 
-    return `/search?${params.toString()}`;
+    return paths.search.filters(params.toString());
   };
 
   const handlePriceChange = (key: string, value: string) => {

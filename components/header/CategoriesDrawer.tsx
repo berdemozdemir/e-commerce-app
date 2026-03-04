@@ -13,6 +13,7 @@ import { Button } from '../ui/Button';
 import Link from 'next/link';
 import { FC } from 'react';
 import { cn } from '@/lib/utils';
+import { paths } from '@/lib/constants/paths';
 
 export const CategoriesDrawer: FC<{ className?: string }> = ({ className }) => {
   const { data: categories } = useGetProductCategoriesQuery();
@@ -33,7 +34,7 @@ export const CategoriesDrawer: FC<{ className?: string }> = ({ className }) => {
 
           {categories?.map((category) => (
             <Link
-              href={`/search?category=${category.name}`}
+              href={paths.search.filters(`category=${category.name}`)}
               className="mb-2 ml-4 justify-start"
               key={category.name}
             >
