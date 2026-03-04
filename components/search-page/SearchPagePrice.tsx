@@ -15,7 +15,7 @@ export const SearchPagePrice: FC = () => {
         <div className="group relative">
           <Input
             id="minPrice"
-            className="peer h-12 border px-3 pt-5"
+            className="peer h-12 border px-3 pt-5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             type="number"
             placeholder=" "
             defaultValue={searchParams.get('minPrice') || ''}
@@ -33,7 +33,7 @@ export const SearchPagePrice: FC = () => {
         <div className="group bgre relative">
           <Input
             id="maxPrice"
-            className="peer h-12 border px-3 pt-5"
+            className="peer h-12 border px-3 pt-5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             type="number"
             placeholder=" "
             defaultValue={searchParams.get('maxPrice') || ''}
