@@ -20,40 +20,23 @@ type ImagesCarouselProps = {
 };
 
 export const ImagesCarousel: FC<ImagesCarouselProps> = ({ products }) => (
-  <Carousel
-    opts={{ loop: true }}
-    plugins={[
-      Autoplay({
-        delay: 4000,
-        stopOnInteraction: true,
-        stopOnMouseEnter: true,
-      }),
-    ]}
-    className="group relative"
-  >
-    <CarouselContent className="h-48 w-full sm:h-64 md:h-80 lg:h-96">
+  <Carousel opts={{ loop: true }} plugins={[Autoplay({ delay: 4000 })]}>
+    <CarouselContent className="h-96 w-full">
       {products
         .filter((product) => isValidImageSrc(product.banner))
         .map((product) => (
-          <CarouselItem key={product.id} className="relative h-full w-full">
+          <CarouselItem key={product.id} className="relative h-auto w-full">
             <Link href={paths.productDetail(product.slug)}>
-              <Image
-                src={product.banner!}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
+              <Image src={product.banner!} alt={product.name} fill />
 
-              <div className="absolute inset-x-0 bottom-0 bg-black/40 px-4 py-2 text-center text-white sm:py-4">
-                <h3 className="text-sm font-bold sm:text-lg md:text-2xl">
-                  {product.name}
-                </h3>
+              <div className="absolute right-[50%] bottom-0 translate-x-[50%] bg-black/40 p-4 text-white">
+                <h3 className="text-2xl font-bold">{product.name}</h3>
               </div>
             </Link>
           </CarouselItem>
         ))}
     </CarouselContent>
-    <CarouselPrevious className="left-2" />
-    <CarouselNext className="right-2" />
+    <CarouselPrevious />
+    <CarouselNext />
   </Carousel>
 );
