@@ -2,11 +2,11 @@
 
 import { ProductCard } from '@/components/product/ProductCard';
 import { Badge } from '@/components/ui/Badge';
+import { paths } from '@/lib/constants/paths';
 import { useProductFilters } from '@/lib/hooks/useProductFilters';
 import { TProduct } from '@/lib/types/product';
 import { X } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 export const ProductList = ({ data }: { data: TProduct[] }) => {
   const { searchParams, createUrl, params } = useProductFilters();
@@ -16,14 +16,20 @@ export const ProductList = ({ data }: { data: TProduct[] }) => {
   const minPrice = searchParams.get('minPrice');
   const maxPrice = searchParams.get('maxPrice');
   const rating = searchParams.get('rating');
+  const sort = searchParams.get('sort');
 
   const hasFilters =
-    query || (category && category !== 'All') || minPrice || maxPrice || rating;
+    query ||
+    (category && category !== 'All') ||
+    minPrice ||
+    maxPrice ||
+    rating ||
+    sort;
 
   const clearPriceUrl = () => {
     params.delete('minPrice');
     params.delete('maxPrice');
-    return `/search?${params.toString()}`;
+    return paths.search.filters(params.toString());
   };
 
   return (
@@ -64,8 +70,16 @@ export const ProductList = ({ data }: { data: TProduct[] }) => {
             </Badge>
           )}
 
+          {sort && (
+            <Badge variant="secondary" asChild>
+              <Link href={createUrl('sort', '')}>
+                Sort: {sort} <X />
+              </Link>
+            </Badge>
+          )}
+
           <Link
-            href="/search"
+            href={paths.search.base}
             className="text-sm text-blue-500 hover:underline"
           >
             Clear All
