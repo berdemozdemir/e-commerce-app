@@ -58,13 +58,12 @@ export default async function Page_Search(props: Props) {
   if (isFailure(products)) return <div>Error: {products.error}</div>;
 
   return (
-    <div className="grid grid-cols-5">
-      <div className="col-span-1">
-        {/* TODO: make this page responsive */}
+    <div className="grid grid-cols-1 md:grid-cols-5 md:gap-4">
+      <div className="md:col-span-1">
         <SearchPageSidebar categories={categoriesData} />
       </div>
 
-      <div className="col-span-4">
+      <div className="md:col-span-4 p-4 md:p-0">
         <ProductList data={data} />
       </div>
     </div>
