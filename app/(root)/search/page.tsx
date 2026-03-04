@@ -3,6 +3,7 @@ import { SearchPageSidebar } from '@/components/search-page/SearchPageSidebar';
 import { getFilteredProducts } from '@/lib/actions/product/get-filtered-products';
 import { getProductCategories } from '@/lib/actions/product/get-product-categories';
 import { isFailure } from '@/lib/result';
+import { Metadata } from 'next';
 
 type Props = {
   searchParams: Promise<{
@@ -11,11 +12,33 @@ type Props = {
     minPrice: string;
     maxPrice: string;
     rating: string;
+    sort: string;
   }>;
 };
 
-export default async function Page_Search({ searchParams }: Props) {
-  const { query, category, minPrice, maxPrice, rating } = await searchParams;
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { query, category } = await props.searchParams;
+
+  if (query) {
+    return {
+      title: `Search result for "${query}"`,
+    };
+  }
+
+  if (category) {
+    return {
+      title: `Category: ${category}`,
+    };
+  }
+
+  return {
+    title: 'Search Products',
+  };
+}
+
+export default async function Page_Search(props: Props) {
+  const { query, category, minPrice, maxPrice, rating, sort } =
+    await props.searchParams;
 
   const products = await getFilteredProducts({
     query,
@@ -23,11 +46,12 @@ export default async function Page_Search({ searchParams }: Props) {
     minPrice,
     maxPrice,
     rating,
+    sort,
   });
 
   const categoriesResult = await getProductCategories();
 
-  const data = products.data ?? [];
+  const data = isFailure(products) ? [] : products.data;
   const categoriesData =
     categoriesResult.data?.map((category) => category.name) ?? [];
 
