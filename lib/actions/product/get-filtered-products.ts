@@ -4,7 +4,7 @@ import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { and, eq, gte, ilike, lte, SQL } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, ilike, lte, SQL } from 'drizzle-orm';
 
 export const getFilteredProducts = async (args: {
   query?: string;
@@ -21,9 +21,20 @@ export const getFilteredProducts = async (args: {
   if (args.minPrice) conditions.push(gte(products.price, args.minPrice));
   if (args.maxPrice) conditions.push(lte(products.price, args.maxPrice));
   if (args.rating) conditions.push(gte(products.rating, args.rating));
-  // if (args.sort) conditions.push();
 
   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+  const sortOptions: Record<string, SQL> = {
+    'Newest': desc(products.createdAt),
+    'Oldest': asc(products.createdAt),
+    'Price: Low to High': asc(products.price),
+    'Price: High to Low': desc(products.price),
+    'Rating: Low to High': asc(products.rating),
+    'Rating: High to Low': desc(products.rating),
+  };
+
+  const orderByClause =
+    (args.sort && sortOptions[args.sort]) || desc(products.createdAt);
 
   const response = await tryCatch(
     db
@@ -44,7 +55,8 @@ export const getFilteredProducts = async (args: {
         banner: products.banner,
       })
       .from(products)
-      .where(whereClause),
+      .where(whereClause)
+      .orderBy(orderByClause),
   );
 
   if (isFailure(response)) return failure(response.error);
