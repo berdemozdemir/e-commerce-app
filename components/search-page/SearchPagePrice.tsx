@@ -14,6 +14,7 @@ export const SearchPagePrice: FC = () => {
       <div className="flex gap-2">
         <div className="group relative">
           <Input
+            id="minPrice"
             className="peer h-12 border px-3 pt-5"
             type="number"
             placeholder=" "
@@ -21,15 +22,17 @@ export const SearchPagePrice: FC = () => {
             onChange={(e) => handlePriceChange('minPrice', e.target.value)}
           />
 
-          <p
-            className={`absolute top-1/2 left-3 -translate-y-1/2 transform text-sm text-[#62748E] transition-all duration-200 ease-out group-focus-within:top-2 group-focus-within:translate-y-0 group-focus-within:text-xs peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs`}
+          <label
+            htmlFor="minPrice"
+            className={`absolute top-1/2 left-3 -translate-y-1/2 transform text-sm text-[#62748E] transition-all duration-200 ease-out group-focus-within:top-2 group-focus-within:translate-y-0 group-focus-within:text-xs peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs cursor-text`}
           >
             min
-          </p>
+          </label>
         </div>
 
         <div className="group bgre relative">
           <Input
+            id="maxPrice"
             className="peer h-12 border px-3 pt-5"
             type="number"
             placeholder=" "
@@ -37,11 +40,12 @@ export const SearchPagePrice: FC = () => {
             onChange={(e) => handlePriceChange('maxPrice', e.target.value)}
           />
 
-          <p
-            className={`absolute top-1/2 left-3 -translate-y-1/2 transform text-sm text-[#62748E] transition-all duration-200 ease-out group-focus-within:top-2 group-focus-within:translate-y-0 group-focus-within:text-xs peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs`}
+          <label
+            htmlFor="maxPrice"
+            className={`absolute top-1/2 left-3 -translate-y-1/2 transform text-sm text-[#62748E] transition-all duration-200 ease-out group-focus-within:top-2 group-focus-within:translate-y-0 group-focus-within:text-xs peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs cursor-text`}
           >
             max
-          </p>
+          </label>
         </div>
       </div>
     </section>
