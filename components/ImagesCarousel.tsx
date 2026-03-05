@@ -27,6 +27,7 @@ export const ImagesCarousel: FC<ImagesCarouselProps> = ({ products }) => (
         .map((product) => (
           <CarouselItem key={product.id} className="relative h-auto w-full">
             <Link href={paths.productDetail(product.slug)}>
+              {/* TODO: add responsiveness to this carousel */}
               <Image src={product.banner!} alt={product.name} fill />
 
               <div className="absolute right-[50%] bottom-0 translate-x-[50%] bg-black/40 p-4 text-white">
