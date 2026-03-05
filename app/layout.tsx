@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { APP_DESCRIPTION, APP_NAME } from '@/lib/constants';
 import { Providers } from '@/components/providers';
+import { resources } from '@/lib/resources';
 
 // TODO: customize the eslint config file
 // TODO: add github workflow yml files
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   icons: {
-    icon: '/images/logo.svg',
+    icon: resources.images.logo,
   },
 };
 

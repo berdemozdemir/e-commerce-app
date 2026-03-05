@@ -3,13 +3,14 @@ import Image from 'next/image';
 import { paths } from '@/lib/constants/paths';
 import Link from 'next/link';
 import { APP_NAME } from '@/lib/constants';
+import { resources } from '@/lib/resources';
 
 export default function UnauthorizedPage() {
   return (
     <div className="flex h-screen w-full items-center justify-center">
       <div className="mx-2 flex flex-col items-center justify-center gap-4 rounded-2xl p-5 text-center shadow-2xl">
         <Image
-          src="/images/logo.svg"
+          src={resources.images.logo}
           alt={`${APP_NAME} logo`}
           height={48}
           width={48}

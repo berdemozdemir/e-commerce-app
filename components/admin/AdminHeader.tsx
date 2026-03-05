@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { AdminHeaderItems } from '../header/AdminHeaderItems';
 import { AdminNavigation } from '../header/AdminNavigation';
 import { AdminSearch } from '../header/AdminSearch';
+import { resources } from '@/lib/resources';
 
 export const AdminHeader = () => (
   <div className="w-full border-b">
@@ -17,7 +18,7 @@ export const AdminHeader = () => (
           className="flex shrink-0 items-center justify-start gap-2"
         >
           <Image
-            src="/images/logo.svg"
+            src={resources.images.logo}
             alt={`${APP_NAME} logo`}
             height={48}
             width={48}

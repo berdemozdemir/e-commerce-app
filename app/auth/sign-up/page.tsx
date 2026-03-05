@@ -3,6 +3,7 @@ import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { SignUpForm } from '../component/SignUpForm';
+import { resources } from '@/lib/resources';
 
 export const metadata = {
   title: 'Sign Up',
@@ -27,7 +28,7 @@ const SignUpPage = async ({ searchParams }: SignUpPageProps) => {
   return (
     <div className="mx-auto max-w-md rounded-md border p-4 shadow-md">
       <Image
-        src="/images/logo.svg"
+        src={resources.images.logo}
         alt={`${APP_NAME} logo`}
         width={100}
         height={100}

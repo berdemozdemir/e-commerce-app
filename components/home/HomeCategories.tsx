@@ -4,29 +4,30 @@ import Link from 'next/link';
 import { StaggerContainer, StaggerItem } from '@/components/motion/FadeIn';
 import { ArrowRight } from 'lucide-react';
 import { paths } from '@/lib/constants/paths';
+import { resources } from '@/lib/resources';
 
 const categories = [
   {
     title: 'Electronics',
-    image: '/images/categories/electronics.jpg',
+    image: resources.images.categories.electronics,
     href: `${paths.search.base}?category=electronics`,
     size: 'large', // col-span-2 row-span-2
   },
   {
     title: 'Fashion',
-    image: '/images/categories/fashion.jpg',
+    image: resources.images.categories.fashion,
     href: `${paths.search.base}?category=fashion`,
     size: 'medium', // col-span-1 row-span-1
   },
   {
     title: 'Home & Living',
-    image: '/images/categories/home-living.jpg',
+    image: resources.images.categories.homeLiving,
     href: `${paths.search.base}?category=home`,
     size: 'medium', // col-span-1 row-span-1
   },
   {
     title: 'Accessories',
-    image: '/images/categories/accessories.jpg',
+    image: resources.images.categories.accessories,
     href: `${paths.search.base}?category=accessories`,
     size: 'wide', // col-span-2 row-span-1
   },

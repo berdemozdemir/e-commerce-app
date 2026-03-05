@@ -5,6 +5,7 @@ import { HeaderItems } from './HeaderItems';
 import { paths } from '@/lib/constants/paths';
 import { CategoriesDrawer } from './CategoriesDrawer';
 import { SearchForm } from './SearchForm';
+import { resources } from '@/lib/resources';
 
 export const Header = () => (
   <div className="w-full border-b">
@@ -17,7 +18,7 @@ export const Header = () => (
           className="flex shrink-0 items-center justify-start gap-2"
         >
           <Image
-            src="/images/logo.svg"
+            src={resources.images.logo}
             alt={`${APP_NAME} logo`}
             height={48}
             width={48}
