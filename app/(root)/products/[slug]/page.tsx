@@ -1,4 +1,5 @@
 import { ProductDetail } from '@/components/product/ProductDetail';
+import { RatingSection } from '@/components/rating/RatingSection';
 import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
 import { getProductBySlug } from '@/lib/actions/product/get-product-by-slug';
 import { isFailure } from '@/lib/result';
@@ -16,6 +17,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const params = await props.params;
 
+  // TODO: this page /product/[slug] but admin page is /admin/products/[slug] make them consistent
   const product = await getProductBySlug({ slug: params.slug });
 
   if (isFailure(product)) {
@@ -50,11 +52,15 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
   const quantity = item?.quantity ?? 0;
 
   return (
-    <ProductDetail
-      product={product.data}
-      quantity={quantity}
-      isItemExist={!!item}
-    />
+    <div className="flex flex-col gap-10">
+      <ProductDetail
+        product={product.data}
+        quantity={quantity}
+        isItemExist={!!item}
+      />
+
+      <RatingSection productId={product.data.id} />
+    </div>
   );
 };
 
