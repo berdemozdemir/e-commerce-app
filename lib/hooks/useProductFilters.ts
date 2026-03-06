@@ -26,7 +26,8 @@ export const useProductFilters = () => {
 
     timeoutRef.current = setTimeout(() => {
       const newUrl = createUrl(key, value);
-      router.push(newUrl);
+      // TODO: when the user if click once back button, he should go to prev page, not to prev search params
+      router.replace(newUrl);
     }, 400);
   };
 
