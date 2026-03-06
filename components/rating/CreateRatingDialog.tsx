@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '../ui/Form';
 import { useForm } from 'react-hook-form';
-import { TCreateRatingSchema } from '@/lib/types/create-rating-schema';
+import { TCreateRatingSchema } from '@/lib/types/rating';
 import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';

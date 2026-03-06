@@ -7,13 +7,13 @@ import { RatingList } from './RatingList';
 export const RatingSection: FC<{ productId: string }> = ({ productId }) => {
   return (
     <div>
-      <div className="mb-10 flex items-center gap-10">
-        <h1 className="text-2xl font-semibold">Customer Ratings</h1>
+      <div className="mb-4 flex items-center gap-10">
+        <h1 className="text-2xl font-semibold">Customer Comments</h1>
 
         <CreateRatingDialog productId={productId} />
       </div>
 
-      <RatingList />
+      <RatingList productId={productId} />
     </div>
   );
 };

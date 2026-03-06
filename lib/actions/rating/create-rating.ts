@@ -2,7 +2,7 @@
 
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
-import { TCreateRatingSchema } from '@/lib/types/create-rating-schema';
+import { TCreateRatingSchema } from '@/lib/types/rating';
 import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
