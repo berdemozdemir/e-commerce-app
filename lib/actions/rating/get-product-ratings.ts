@@ -14,6 +14,7 @@ export const getProductRatings = async (args: {
       .select({
         id: ratings.id,
         productId: ratings.productId,
+        userId: ratings.userId,
         userName: users.name,
         title: ratings.title,
         rating: ratings.rating,
@@ -31,6 +32,7 @@ export const getProductRatings = async (args: {
   const ratingsData: Rating[] = response.data.map((rating) => ({
     id: rating.id,
     productId: rating.productId,
+    userId: rating.userId,
     userName: rating.userName,
     title: rating.title,
     rating: rating.rating,

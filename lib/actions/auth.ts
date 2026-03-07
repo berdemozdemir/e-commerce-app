@@ -4,7 +4,12 @@ import {
   signInFormSchema,
   TSignInFormSchemaRequest,
 } from '../schemas/auth/sign-in.schema';
-import { signIn, signOut } from '../auth';
+import { signIn, signOut, auth } from '../auth';
+
+export const getSession = async () => {
+  const session = await auth();
+  return session;
+};
 import {
   signUpFormSchema,
   TSignupFormSchemaRequest,

@@ -1,10 +1,10 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
-import { auth } from '../auth';
+import { getSession } from '@/lib/actions/auth';
 
 export const authQueryOptions = queryOptions({
   queryKey: ['session'],
   queryFn: async () => {
-    const session = await auth();
+    const session = await getSession();
 
     const user = session?.user;
     const isLoggedIn = !!user;
@@ -23,7 +23,7 @@ export const authQueryOptions = queryOptions({
       isAdmin,
     };
   },
-  staleTime: 1000 * 60 * 5, // 5 minutes
+  staleTime: 1000 * 60 * 5,
 });
 
 export const useAuthQuery = () => useQuery(authQueryOptions);
