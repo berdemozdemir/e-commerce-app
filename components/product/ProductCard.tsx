@@ -35,7 +35,7 @@ export const ProductCard = ({ product }: ProductCardProps) => (
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center">
           {[1, 2, 3, 4, 5].map((star) => {
             const ratingValue = Number(product.rating);
             const isFull = ratingValue >= star;
@@ -62,9 +62,7 @@ export const ProductCard = ({ product }: ProductCardProps) => (
             );
           })}
 
-          <span className="ml-1 text-xs text-gray-600 md:text-sm">
-            ({product.rating})
-          </span>
+          <span className="ml-1 text-xs text-gray-600">({product.rating})</span>
         </div>
 
         <span className="text-sm font-bold md:text-lg dark:text-black">
