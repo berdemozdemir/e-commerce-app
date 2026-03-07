@@ -6,6 +6,8 @@ import { TCreateRatingSchema } from '@/lib/types/rating';
 import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
+import { revalidatePath } from 'next/cache';
+import { paths } from '@/lib/constants/paths';
 
 export const createRating = async (
   payload: TCreateRatingSchema,
@@ -23,17 +25,24 @@ export const createRating = async (
     return failure(parsedPayload.error.issues[0]?.message ?? 'Invalid payload');
 
   const response = await tryCatch(
-    db.insert(ratings).values({
-      productId: parsedPayload.data.productId,
-      title: parsedPayload.data.title,
-      rating: parsedPayload.data.rating,
-      comment: parsedPayload.data.comment,
-      userId,
-    }),
+    db
+      .insert(ratings)
+      .values({
+        productId: parsedPayload.data.productId,
+        title: parsedPayload.data.title,
+        rating: parsedPayload.data.rating,
+        comment: parsedPayload.data.comment,
+        userId,
+      })
+      .returning({
+        productId: ratings.productId,
+      }),
   );
 
   if (isFailure(response))
     return failure(response.error ?? 'Failed to create rating');
+
+  if (response.data.length === 0) return failure('Failed to create rating');
 
   return ok(undefined);
 };
