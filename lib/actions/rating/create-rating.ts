@@ -7,6 +7,7 @@ import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
 
+// TODO: add a client side update mechanism for the product stats, revalidate path is not a good idea because it will be called on every rating creation.
 export const createRating = async (
   payload: TCreateRatingSchema,
 ): Promise<Result<void>> => {
@@ -23,17 +24,24 @@ export const createRating = async (
     return failure(parsedPayload.error.issues[0]?.message ?? 'Invalid payload');
 
   const response = await tryCatch(
-    db.insert(ratings).values({
-      productId: parsedPayload.data.productId,
-      title: parsedPayload.data.title,
-      rating: parsedPayload.data.rating,
-      comment: parsedPayload.data.comment,
-      userId,
-    }),
+    db
+      .insert(ratings)
+      .values({
+        productId: parsedPayload.data.productId,
+        title: parsedPayload.data.title,
+        rating: parsedPayload.data.rating,
+        comment: parsedPayload.data.comment,
+        userId,
+      })
+      .returning({
+        productId: ratings.productId,
+      }),
   );
 
   if (isFailure(response))
     return failure(response.error ?? 'Failed to create rating');
+
+  if (response.data.length === 0) return failure('Failed to create rating');
 
   return ok(undefined);
 };
