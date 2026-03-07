@@ -4,6 +4,7 @@ import { z } from 'zod';
 export type Rating = {
   id: string;
   productId: string;
+  userId: string;
   userName: string;
   title: string;
   rating: number;
