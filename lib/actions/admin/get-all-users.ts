@@ -1,12 +1,12 @@
 'use server';
 
+import { ilike } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TUser } from '@/lib/types/admin/user';
 import { Roles, TRole } from '@/lib/types/role';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { ilike } from 'drizzle-orm';
 
 export const getAllUsers = async (args: {
   query?: string;

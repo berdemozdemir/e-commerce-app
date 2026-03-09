@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/Button';
 import Image from 'next/image';
-import { paths } from '@/lib/constants/paths';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { paths } from '@/lib/constants/paths';
 import { APP_NAME } from '@/lib/constants';
 import { resources } from '@/lib/resources';
 

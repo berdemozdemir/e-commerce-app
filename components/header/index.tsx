@@ -1,10 +1,10 @@
-import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HeaderItems } from './HeaderItems';
-import { paths } from '@/lib/constants/paths';
 import { CategoriesDrawer } from './CategoriesDrawer';
 import { SearchForm } from './SearchForm';
+import { paths } from '@/lib/constants/paths';
+import { APP_NAME } from '@/lib/constants';
 import { resources } from '@/lib/resources';
 
 export const Header = () => (

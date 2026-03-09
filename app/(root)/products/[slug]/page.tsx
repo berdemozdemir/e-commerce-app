@@ -1,10 +1,10 @@
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { ProductDetail } from '@/components/product/ProductDetail';
 import { RatingSection } from '@/components/rating/RatingSection';
 import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
 import { getProductBySlug } from '@/lib/actions/product/get-product-by-slug';
 import { isFailure } from '@/lib/result';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 type ProductDetailsPageProps = {
   params: Promise<{

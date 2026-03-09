@@ -1,21 +1,21 @@
 'use server';
 
+import { randomUUID } from 'crypto';
 import { cookies } from 'next/headers';
+import { and, eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 import {
   cartItemSchema,
   cartSchema,
   TCartItem,
 } from '../../schemas/cart/cart-item.schema';
 import { auth } from '../../auth';
-import { db } from '@/server/drizzle-client';
-import { and, eq } from 'drizzle-orm';
-import { cartItems, carts, products } from '@/server';
 import { calculatePrice } from '../../utils';
-import { revalidatePath } from 'next/cache';
 import { getMyCart } from './get-my-cart.action';
+import { db } from '@/server/drizzle-client';
+import { cartItems, carts, products } from '@/server';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { paths } from '@/lib/constants/paths';
-import { randomUUID } from 'crypto';
 
 export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;

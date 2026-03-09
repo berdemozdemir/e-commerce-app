@@ -1,9 +1,9 @@
+import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { UpdateProductForm } from '@/components/admin/UpdateProductForm';
 import { getProductBySlug } from '@/lib/actions/product/get-product-by-slug';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
-import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 type ProductUpdatePageProps = {
   params: Promise<{

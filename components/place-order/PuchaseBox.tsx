@@ -1,13 +1,13 @@
 'use client';
 
 import { FC } from 'react';
-import { Button } from '../ui/Button';
-import { paths } from '@/lib/constants/paths';
 import { MoveRight } from 'lucide-react';
-import { useCreateOrderMutation } from '@/lib/services/order';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { useCreateOrderMutation } from '@/lib/services/order';
+import { paths } from '@/lib/constants/paths';
 
 type Props = {
   itemsPrice: number;

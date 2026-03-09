@@ -1,4 +1,8 @@
 import { FC, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Star } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { Button } from '../ui/Button';
 import {
   Dialog,
@@ -15,13 +19,8 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from '../ui/Form';
-import { useForm } from 'react-hook-form';
-import { TCreateRatingSchema } from '@/lib/types/rating';
-import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
 import {
@@ -31,10 +30,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/Select';
-import { Star } from 'lucide-react';
-import { useCreateRatingMutation } from '@/lib/services/rating';
-import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { useCreateRatingMutation } from '@/lib/services/rating';
+import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
+import { TCreateRatingSchema } from '@/lib/types/rating';
 
 export const CreateRatingDialog: FC<{ productId: string }> = ({
   productId,

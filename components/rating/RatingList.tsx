@@ -1,7 +1,7 @@
-import { useGetProductRatingsQuery } from '@/lib/services/rating';
 import { FC } from 'react';
 import { RatingCard } from './RatingCard';
 import { RatingCardSkeleton } from './RatingCardSkeleton';
+import { useGetProductRatingsQuery } from '@/lib/services/rating';
 
 export const RatingList: FC<{ productId: string }> = ({ productId }) => {
   const { data, isLoading, error } = useGetProductRatingsQuery(productId);

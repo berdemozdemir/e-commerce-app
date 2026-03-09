@@ -1,8 +1,8 @@
-import { paths } from '@/lib/constants/paths';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
+import { cn } from '@/lib/utils';
+import { paths } from '@/lib/constants/paths';
 
 const navigation = [
   { name: 'Overview', href: paths.admin.overview },

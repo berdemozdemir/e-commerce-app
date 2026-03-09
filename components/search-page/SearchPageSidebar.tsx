@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { Filter } from 'lucide-react';
 import { SearchPageCategory } from './SearchPageCategory';
 import { SearchPagePrice } from './SearchPagePrice';
 import { SearchPageRating } from './SearchPageRating';
@@ -14,7 +15,6 @@ import {
   SheetTrigger,
 } from '@/components/ui/Sheet';
 import { Button } from '@/components/ui/Button';
-import { Filter } from 'lucide-react';
 
 type Props = {
   categories: string[];

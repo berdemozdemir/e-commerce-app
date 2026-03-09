@@ -1,7 +1,7 @@
 'use client';
 
-import { TMyOrders } from '@/lib/types/myOrders';
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Table,
   TableBody,
@@ -10,10 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/Table';
-import { formatDate } from '@/lib/utils/date';
 import { Button } from '../ui/Button';
 import { DeleteOrderDialog } from './DeleteOrderDialog';
-import { useRouter } from 'next/navigation';
+import { TMyOrders } from '@/lib/types/myOrders';
+import { formatDate } from '@/lib/utils/date';
 import { paths } from '@/lib/constants/paths';
 
 type Props = {

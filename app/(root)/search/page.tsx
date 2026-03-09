@@ -1,9 +1,9 @@
+import { Metadata } from 'next';
 import { ProductList } from '@/components/search-page/ProductList';
 import { SearchPageSidebar } from '@/components/search-page/SearchPageSidebar';
 import { getFilteredProducts } from '@/lib/actions/product/get-filtered-products';
 import { getProductCategories } from '@/lib/actions/product/get-product-categories';
 import { isFailure } from '@/lib/result';
-import { Metadata } from 'next';
 
 type Props = {
   searchParams: Promise<{

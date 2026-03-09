@@ -1,9 +1,9 @@
 'use client';
 
-import { FormLabel } from '@/components/ui/Form';
-import { Input } from '@/components/ui/Input';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { FormLabel } from '@/components/ui/Form';
+import { Input } from '@/components/ui/Input';
 
 // TODO: move this component file to components/ui folder
 

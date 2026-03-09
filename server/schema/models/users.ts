@@ -1,6 +1,3 @@
-import { TAddress } from '@/lib/types/address';
-import { getPaymentMethods } from '@/lib/types/payment-methods';
-import { getRoles, Roles } from '@/lib/types/role';
 import {
   boolean,
   timestamp,
@@ -13,6 +10,9 @@ import {
   pgEnum,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
+import { TAddress } from '@/lib/types/address';
+import { getPaymentMethods } from '@/lib/types/payment-methods';
+import { getRoles, Roles } from '@/lib/types/role';
 
 export const paymentMethodsEnum = pgEnum(
   'payment_methods',

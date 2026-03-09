@@ -1,12 +1,12 @@
 'use client';
 
-import { APP_NAME } from '@/lib/constants';
-import { paths } from '@/lib/constants/paths';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AdminHeaderItems } from '../header/AdminHeaderItems';
 import { AdminNavigation } from '../header/AdminNavigation';
 import { AdminSearch } from '../header/AdminSearch';
+import { paths } from '@/lib/constants/paths';
+import { APP_NAME } from '@/lib/constants';
 import { resources } from '@/lib/resources';
 
 export const AdminHeader = () => (

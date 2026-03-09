@@ -1,13 +1,13 @@
 'use client';
 
 import { FC } from 'react';
+import { toast } from 'react-toastify';
 import { Button } from '../ui/Button';
+import { LoadingSpinner } from '../LoadingSpinner';
 import {
   useMarkAsDeliveredOrderMutation,
   useMarkAsPaidOrderMutation,
 } from '@/lib/services/admin';
-import { toast } from 'react-toastify';
-import { LoadingSpinner } from '../LoadingSpinner';
 
 type Props = {
   orderId: string;

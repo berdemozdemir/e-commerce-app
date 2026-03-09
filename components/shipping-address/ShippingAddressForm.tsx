@@ -1,6 +1,11 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { MoveRight } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { FC } from 'react';
 import {
   Form,
   FormControl,
@@ -9,20 +14,15 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/Form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '../ui/Input';
+import { Button } from '../ui/Button';
 import {
   shippingAddressSchema,
   TShippingAddressSchema,
 } from '@/lib/schemas/shipping-address';
-import { Input } from '../ui/Input';
-import { MoveRight } from 'lucide-react';
-import { Button } from '../ui/Button';
 import { useUpdateUserAddressMutation } from '@/lib/services/user';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
 import { TAddress } from '@/lib/types/address';
-import { FC } from 'react';
 
 // TODO: take a look at the following props type
 type Props = Partial<TAddress>;

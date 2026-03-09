@@ -1,13 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
-import { paths } from '@/lib/constants/paths';
-import { useSignupMutation } from '@/lib/services/auth';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { LabeledInput } from './LabeledInput';
 import {
   signUpFormSchema,
   TSignupFormSchemaRequest,
@@ -19,7 +17,9 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/Form';
-import { LabeledInput } from './LabeledInput';
+import { useSignupMutation } from '@/lib/services/auth';
+import { paths } from '@/lib/constants/paths';
+import { Button } from '@/components/ui/Button';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const SignUpForm = () => {

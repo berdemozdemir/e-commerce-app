@@ -1,6 +1,5 @@
 'use client';
 
-import { MonthlySalesRow } from '@/lib/types/admin/monthly-sales';
 import { FC } from 'react';
 import {
   Bar,
@@ -11,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { MonthlySalesRow } from '@/lib/types/admin/monthly-sales';
 
 type Props = { monthlySales: MonthlySalesRow[] };
 

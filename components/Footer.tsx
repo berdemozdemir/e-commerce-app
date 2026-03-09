@@ -1,6 +1,6 @@
-import { APP_NAME } from '@/lib/constants';
 import { Github } from 'lucide-react';
 import Link from 'next/link';
+import { APP_NAME } from '@/lib/constants';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();

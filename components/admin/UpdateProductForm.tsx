@@ -1,5 +1,21 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { MoveRight } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { FC, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/dist/client/components/navigation';
+import { Checkbox } from '../ui/Checkbox';
+import { Textarea } from '../ui/Textarea';
+import { Button } from '../ui/Button';
+import { LoadingSpinner } from '../LoadingSpinner';
+import { ImageUploadField } from '../ImageUploadField';
+import { useUpdateProductMutation } from '@/lib/services/admin';
+import { paths } from '@/lib/constants/paths';
+import { isValidImageSrc } from '@/lib/utils';
+import { Input } from '@/components/ui/Input';
 import {
   Form,
   FormControl,
@@ -8,22 +24,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/Form';
-import { Input } from '@/components/ui/Input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Checkbox } from '../ui/Checkbox';
-import { Textarea } from '../ui/Textarea';
-import { Button } from '../ui/Button';
-import { MoveRight } from 'lucide-react';
-import { useUpdateProductMutation } from '@/lib/services/admin';
-import { toast } from 'react-toastify';
-import { LoadingSpinner } from '../LoadingSpinner';
-import { FC, useState } from 'react';
-import Image from 'next/image';
-import { ImageUploadField } from '../ImageUploadField';
-import { paths } from '@/lib/constants/paths';
-import { isValidImageSrc } from '@/lib/utils';
-import { useRouter } from 'next/dist/client/components/navigation';
 import {
   TUpdateProductSchema,
   updateProductSchema,

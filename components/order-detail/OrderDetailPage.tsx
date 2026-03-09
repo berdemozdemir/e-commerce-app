@@ -1,9 +1,9 @@
-import { TOrder } from '@/lib/types/order';
 import { FC } from 'react';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { ShippingAddressSection } from './ShippingAddressSection';
 import { PriceSummary } from './PriceSummary';
 import { OrderedItemsTable } from './OrderedItemsTable';
+import { TOrder } from '@/lib/types/order';
 
 type Props = {
   order: TOrder;

@@ -1,8 +1,8 @@
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { LoginForm } from '../component/LoginForm';
 import { auth } from '@/lib/auth';
 import { APP_NAME } from '@/lib/constants';
-import Image from 'next/image';
-import { LoginForm } from '../component/LoginForm';
-import { redirect } from 'next/navigation';
 import { resources } from '@/lib/resources';
 
 export const metadata = {

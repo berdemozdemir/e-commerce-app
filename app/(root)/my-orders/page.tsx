@@ -1,8 +1,8 @@
+import { redirect } from 'next/navigation';
 import { MyOrdersPage } from '@/components/my-orders/MyOrdersPage';
 import { getMyOrders } from '@/lib/actions/get-my-orders';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
-import { redirect } from 'next/navigation';
 
 // TOOD: create a skeleton for this page
 export default async function MyOrders() {

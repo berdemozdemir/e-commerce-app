@@ -1,13 +1,13 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
-import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
-import { users } from '@/server/schema';
 import { compareSync } from 'bcrypt-ts-edge';
 import type { NextAuthConfig } from 'next-auth';
-import { paths } from './constants/paths';
 import { NextResponse } from 'next/server';
+import { paths } from './constants/paths';
+import { users } from '@/server/schema';
+import { db } from '@/server/drizzle-client';
 
 export const config = {
   pages: {
@@ -77,7 +77,7 @@ export const config = {
       return session;
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, trigger, user, session }: any) {
       if (user) {
         token.role = user.role;

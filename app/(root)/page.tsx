@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { ProductList } from '@/components/product/ProductList';
 import { getLatestProducts } from '@/lib/actions/product/get-latest-products';
 import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
@@ -5,13 +7,11 @@ import { isFailure } from '@/lib/result';
 import { ImagesCarousel } from '@/components/ImagesCarousel';
 import { getFeaturedProducts } from '@/lib/actions/product/get-featured-products';
 import { Button } from '@/components/ui/Button';
-import Link from 'next/link';
 import { paths } from '@/lib/constants/paths';
 import { HomeFeatures } from '@/components/home/HomeFeatures';
 import { HomePromo } from '@/components/home/HomePromo';
 import { HomeCategories } from '@/components/home/HomeCategories';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
-import { ArrowRight } from 'lucide-react';
 import { FadeIn } from '@/components/motion/FadeIn';
 
 export default async function Home() {

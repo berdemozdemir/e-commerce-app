@@ -1,8 +1,8 @@
-import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
-import { Button } from '../ui/Button';
 import { toast } from 'react-toastify';
-import { useAddToCartMutation } from '@/lib/services/cart';
+import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
+import { useAddToCartMutation } from '@/lib/services/cart';
 
 export const AddToCart = (item: TCartItem) => {
   const addToCartMutation = useAddToCartMutation();

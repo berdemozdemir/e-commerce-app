@@ -1,7 +1,8 @@
 'use client';
 
-import { paths } from '@/lib/constants/paths';
 import { FC } from 'react';
+import Link from 'next/link';
+import { toast } from 'react-toastify';
 import {
   TableHeader,
   TableRow,
@@ -11,8 +12,7 @@ import {
   Table,
 } from '../ui/Table';
 import { formatDate } from '@/lib/utils/date';
-import Link from 'next/link';
-import { toast } from 'react-toastify';
+import { paths } from '@/lib/constants/paths';
 import { TMyOrders } from '@/lib/types/myOrders';
 
 type Props = {

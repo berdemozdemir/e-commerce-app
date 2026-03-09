@@ -1,23 +1,23 @@
 'use server';
 
+import { hashSync } from 'bcrypt-ts-edge';
+import { signIn, signOut, auth } from '../auth';
 import {
   signInFormSchema,
   TSignInFormSchemaRequest,
 } from '../schemas/auth/sign-in.schema';
-import { signIn, signOut, auth } from '../auth';
+import {
+  signUpFormSchema,
+  TSignupFormSchemaRequest,
+} from '../schemas/auth/sign-up.schema';
+import { Roles } from '../types/role';
+import { db } from '@/server/drizzle-client';
+import { users } from '@/server';
 
 export const getSession = async () => {
   const session = await auth();
   return session;
 };
-import {
-  signUpFormSchema,
-  TSignupFormSchemaRequest,
-} from '../schemas/auth/sign-up.schema';
-import { hashSync } from 'bcrypt-ts-edge';
-import { db } from '@/server/drizzle-client';
-import { users } from '@/server';
-import { Roles } from '../types/role';
 
 export const signInWithCredentials = async (data: TSignInFormSchemaRequest) => {
   try {

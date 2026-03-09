@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { StaggerContainer, StaggerItem } from '@/components/motion/FadeIn';
 import { ArrowRight } from 'lucide-react';
+import { StaggerContainer, StaggerItem } from '@/components/motion/FadeIn';
 import { paths } from '@/lib/constants/paths';
 import { resources } from '@/lib/resources';
 

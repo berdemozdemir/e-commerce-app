@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { deleteOrderById } from '../actions/admin/delete-order-by-id';
 import { okOrThrow } from '../result';
-import queryClient from '../queryClient';
 import { markAsPaidOrder } from '../actions/admin/mark-as-paid-order';
 import { markAsDeliveredOrder } from '../actions/admin/mark-as-delivered-order';
 import { deleteProductById } from '../actions/admin/delete-product-by-id';

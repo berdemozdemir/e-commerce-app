@@ -1,8 +1,8 @@
-import { paths } from '@/lib/constants/paths';
 import Link from 'next/link';
-import { Button } from '../ui/Button';
-import { TPaymentMethod } from '@/lib/types/payment-methods';
 import { FC } from 'react';
+import { Button } from '../ui/Button';
+import { paths } from '@/lib/constants/paths';
+import { TPaymentMethod } from '@/lib/types/payment-methods';
 
 type Props = {
   paymentMethod: TPaymentMethod;

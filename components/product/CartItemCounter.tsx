@@ -1,12 +1,12 @@
-import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
-import {
-  useAddToCartMutation,
-  useRemoveItemFromCartMutation,
-} from '@/lib/services/cart';
 import { Minus, Plus } from 'lucide-react';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
+import {
+  useAddToCartMutation,
+  useRemoveItemFromCartMutation,
+} from '@/lib/services/cart';
+import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
 
 type Props = {
   item: TCartItem;

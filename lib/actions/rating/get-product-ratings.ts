@@ -1,10 +1,10 @@
 'use server';
 
+import { desc, eq } from 'drizzle-orm';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { Rating } from '@/lib/types/rating';
 import { ratings, users } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { desc, eq } from 'drizzle-orm';
 
 export const getProductRatings = async (args: {
   productId: string;

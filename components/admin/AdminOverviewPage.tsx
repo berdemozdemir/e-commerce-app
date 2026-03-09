@@ -1,14 +1,14 @@
 import { FC } from 'react';
-import { InforCard } from './InfoCard';
 import { BadgeDollarSign, Barcode, Users, Wallet } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '../ui/Table';
-import { formatDate } from '@/lib/utils/date';
-import { Button } from '../ui/Button';
 import Link from 'next/link';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '../ui/Table';
+import { Button } from '../ui/Button';
+import { InforCard } from './InfoCard';
+import { MonthlySalesChart } from './MonthlySalesChart';
+import { formatDate } from '@/lib/utils/date';
 import { paths } from '@/lib/constants/paths';
 import { MonthlySalesRow } from '@/lib/types/admin/monthly-sales';
 import { RecentOrder } from '@/lib/types/admin/recent-orders';
-import { MonthlySalesChart } from './MonthlySalesChart';
 
 type Props = {
   totalCustomer: number;

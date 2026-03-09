@@ -1,10 +1,12 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Star } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { Button } from '../ui/Button';
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogHeader,
   DialogFooter,
   DialogDescription,
   DialogTitle,
@@ -17,10 +19,6 @@ import {
   FormControl,
   FormMessage,
 } from '../ui/Form';
-import { useForm } from 'react-hook-form';
-import { TUpdateRatingSchema } from '@/lib/types/rating';
-import { updateRatingSchema } from '@/lib/schemas/rating/update-rating';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
 import {
@@ -30,10 +28,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/Select';
-import { Star } from 'lucide-react';
-import { useUpdateRatingMutation } from '@/lib/services/rating';
-import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { useUpdateRatingMutation } from '@/lib/services/rating';
+import { updateRatingSchema } from '@/lib/schemas/rating/update-rating';
+import { TUpdateRatingSchema } from '@/lib/types/rating';
 
 type Props = {
   ratingId: string;

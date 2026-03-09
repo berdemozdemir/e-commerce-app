@@ -1,12 +1,12 @@
 'use server';
 
+import { ilike } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { Roles } from '@/lib/types/role';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TAdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { ilike } from 'drizzle-orm';
 
 // TODO: add a pagination or infinite scroll to this data
 export const getProducts = async (args: {

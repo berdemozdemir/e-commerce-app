@@ -1,5 +1,5 @@
-import { useProductFilters } from '@/lib/hooks/useProductFilters';
 import { SideBarItem } from './SidebarItem';
+import { useProductFilters } from '@/lib/hooks/useProductFilters';
 
 export const SearchPageSortSection = () => {
   const { searchParams, createUrl } = useProductFilters();

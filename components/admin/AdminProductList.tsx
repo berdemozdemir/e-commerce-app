@@ -1,6 +1,8 @@
 'use client';
 
 import { FC } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/dist/client/components/navigation';
 import { Button } from '../ui/Button';
 import {
   TableHeader,
@@ -10,11 +12,9 @@ import {
   TableCell,
   Table,
 } from '../ui/Table';
-import { TAdminProduct } from '@/lib/types/product';
 import { DeleteProductDialog } from './DeleteProductDialog';
-import Link from 'next/link';
+import { TAdminProduct } from '@/lib/types/product';
 import { paths } from '@/lib/constants/paths';
-import { useRouter } from 'next/dist/client/components/navigation';
 
 type Props = { products: TAdminProduct[]; query?: string };
 

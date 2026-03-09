@@ -1,10 +1,10 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
-import { TFeaturedProduct, TProduct } from '@/lib/types/product';
+import { TFeaturedProduct } from '@/lib/types/product';
 import { db } from '@/server/drizzle-client';
 import { products } from '@/server/schema';
-import { eq } from 'drizzle-orm';
 
 export const getFeaturedProducts = async (): Promise<
   Result<TFeaturedProduct[]>

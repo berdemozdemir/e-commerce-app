@@ -1,12 +1,12 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result } from '@/lib/result';
 import { TUpdateRatingSchema } from '@/lib/types/rating';
 import { tryCatch } from '@/lib/result';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
-import { eq } from 'drizzle-orm';
 
 export const updateRating = async (
   payload: TUpdateRatingSchema,

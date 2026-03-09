@@ -1,18 +1,11 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { Form, FormField } from '../ui/Form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/Select';
-import { Input } from '../ui/Input';
-import { Button } from '../ui/Button';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Form, FormField } from '../ui/Form';
+import { Input } from '../ui/Input';
+import { Button } from '../ui/Button';
 import { useProductFilters } from '@/lib/hooks/useProductFilters';
 
 export const SearchForm = () => {

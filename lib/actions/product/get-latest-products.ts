@@ -1,11 +1,11 @@
 'use server';
 
+import { desc } from 'drizzle-orm';
 import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { desc } from 'drizzle-orm';
 
 export const getLatestProducts = async (): Promise<Result<TProduct[]>> => {
   const response = await tryCatch(

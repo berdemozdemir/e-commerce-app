@@ -1,6 +1,8 @@
 'use client';
 
 import { MenuIcon } from 'lucide-react';
+import Link from 'next/link';
+import { FC } from 'react';
 import {
   Drawer,
   DrawerContent,
@@ -9,9 +11,6 @@ import {
   DrawerTrigger,
 } from '../ui/Drawer';
 import { useGetProductCategoriesQuery } from '@/lib/services/product';
-import { Button } from '../ui/Button';
-import Link from 'next/link';
-import { FC } from 'react';
 import { cn } from '@/lib/utils';
 import { paths } from '@/lib/constants/paths';
 

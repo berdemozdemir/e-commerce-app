@@ -1,5 +1,5 @@
-import { convertNumberToDecimal } from '@/lib/utils';
 import { z } from 'zod';
+import { convertNumberToDecimal } from '@/lib/utils';
 
 export const cartItemSchema = z.object({
   productId: z.string().min(1, { message: 'Product is required' }),

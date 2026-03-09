@@ -1,5 +1,6 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
@@ -10,7 +11,6 @@ import {
 import { TAdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { eq } from 'drizzle-orm';
 
 export const updateProductBySlug = async (args: {
   slug: string;

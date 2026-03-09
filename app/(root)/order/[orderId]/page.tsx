@@ -1,11 +1,10 @@
+import { redirect } from 'next/navigation';
 import { OrderDetailPage } from '@/components/order-detail/OrderDetailPage';
-import { getMyCart } from '@/lib/actions/cart/get-my-cart.action';
 import { getOrderById } from '@/lib/actions/order/get-order-by-id';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
-import { redirect } from 'next/navigation';
 
 type OrderDetailProps = {
   params: Promise<{ orderId: string }>;

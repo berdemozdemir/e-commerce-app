@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { TPaymentMethod } from '@/lib/types/payment-methods';
 import { Badge } from '../ui/Badge';
+import { TPaymentMethod } from '@/lib/types/payment-methods';
 import { formatDate } from '@/lib/utils/date';
 
 type Props = {

@@ -1,8 +1,8 @@
 'use client';
 
-import { paths } from '@/lib/constants/paths';
 import Image from 'next/image';
 import { FC } from 'react';
+import Link from 'next/link';
 import { CartItemCounter } from '../product/CartItemCounter';
 import {
   TableHeader,
@@ -13,7 +13,7 @@ import {
   Table,
 } from '../ui/Table';
 import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
-import Link from 'next/link';
+import { paths } from '@/lib/constants/paths';
 
 // TODO: fix the responsive design
 // TODO: fix items reorder issue when quantity is updated

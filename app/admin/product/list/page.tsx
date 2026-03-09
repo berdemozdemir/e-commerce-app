@@ -1,11 +1,11 @@
+import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { AdminProductListPage } from '@/components/admin/AdminProductList';
 import { getProducts } from '@/lib/actions/admin/get-products';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
-import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Admin Products',

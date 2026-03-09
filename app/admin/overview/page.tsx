@@ -1,10 +1,10 @@
+import { redirect } from 'next/navigation';
 import { AdminOverViewPage } from '@/components/admin/AdminOverviewPage';
 import { getSummarizeOrdersByAdmin } from '@/lib/actions/admin/get-summarize-orders-by-admin';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { failure, isFailure } from '@/lib/result';
+import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
-import { redirect } from 'next/navigation';
 
 const OverviewPage = async () => {
   const session = await auth();

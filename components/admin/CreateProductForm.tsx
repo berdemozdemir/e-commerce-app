@@ -1,5 +1,24 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { MoveRight } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/dist/client/components/navigation';
+import { Checkbox } from '../ui/Checkbox';
+import { Textarea } from '../ui/Textarea';
+import { Button } from '../ui/Button';
+import { LoadingSpinner } from '../LoadingSpinner';
+import { ImageUploadField } from '../ImageUploadField';
+import { useCreateProductMutation } from '@/lib/services/admin';
+import { paths } from '@/lib/constants/paths';
+import {
+  createProductSchema,
+  TCreateProductSchema,
+} from '@/lib/schemas/product/create-product.schema';
+import { Input } from '@/components/ui/Input';
 import {
   Form,
   FormControl,
@@ -8,25 +27,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/Form';
-import { Input } from '@/components/ui/Input';
-import {
-  createProductSchema,
-  TCreateProductSchema,
-} from '@/lib/schemas/product/create-product.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Checkbox } from '../ui/Checkbox';
-import { Textarea } from '../ui/Textarea';
-import { Button } from '../ui/Button';
-import { MoveRight } from 'lucide-react';
-import { useCreateProductMutation } from '@/lib/services/admin';
-import { toast } from 'react-toastify';
-import { LoadingSpinner } from '../LoadingSpinner';
-import { useState } from 'react';
-import Image from 'next/image';
-import { ImageUploadField } from '../ImageUploadField';
-import { paths } from '@/lib/constants/paths';
-import { useRouter } from 'next/dist/client/components/navigation';
 
 export const CreateProductForm = () => {
   const [isUploading, setIsUploading] = useState(false);

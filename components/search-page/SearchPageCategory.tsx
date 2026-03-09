@@ -1,9 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { FC } from 'react';
-import { useProductFilters } from '@/lib/hooks/useProductFilters';
 import { SideBarItem } from './SidebarItem';
+import { useProductFilters } from '@/lib/hooks/useProductFilters';
 
 type Props = {
   categories: string[];

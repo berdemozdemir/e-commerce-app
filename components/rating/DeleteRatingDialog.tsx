@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { toast } from 'react-toastify';
 import { Button } from '../ui/Button';
 import {
   Dialog,
@@ -7,11 +8,9 @@ import {
   DialogDescription,
   DialogFooter,
   DialogTitle,
-  DialogTrigger,
 } from '../ui/Dialog';
-import { useDeleteRatingMutation } from '@/lib/services/rating';
-import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { useDeleteRatingMutation } from '@/lib/services/rating';
 
 type Props = {
   ratingId: string;

@@ -1,12 +1,12 @@
 'use client';
 
+import { X } from 'lucide-react';
+import Link from 'next/link';
 import { ProductCard } from '@/components/product/ProductCard';
 import { Badge } from '@/components/ui/Badge';
 import { paths } from '@/lib/constants/paths';
 import { useProductFilters } from '@/lib/hooks/useProductFilters';
 import { TProduct } from '@/lib/types/product';
-import { X } from 'lucide-react';
-import Link from 'next/link';
 
 export const ProductList = ({ data }: { data: TProduct[] }) => {
   const { searchParams, createUrl, params } = useProductFilters();

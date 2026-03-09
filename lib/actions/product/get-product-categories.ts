@@ -1,9 +1,9 @@
 'use server';
 
+import { count, desc } from 'drizzle-orm';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { db } from '@/server/drizzle-client';
 import { products } from '@/server/schema';
-import { count, desc } from 'drizzle-orm';
 
 export type TProductCategory = {
   name: string;

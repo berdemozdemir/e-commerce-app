@@ -1,6 +1,9 @@
 'use client';
 
-import { TFeaturedProduct } from '@/lib/types/product';
+import Image from 'next/image';
+import { FC } from 'react';
+import Link from 'next/link';
+import Autoplay from 'embla-carousel-autoplay';
 import {
   Carousel,
   CarouselContent,
@@ -8,12 +11,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from './ui/Carousel';
-import Image from 'next/image';
-import { isValidImageSrc } from '@/lib/utils';
-import { FC } from 'react';
 import { paths } from '@/lib/constants/paths';
-import Link from 'next/link';
-import Autoplay from 'embla-carousel-autoplay';
+import { isValidImageSrc } from '@/lib/utils';
+import { TFeaturedProduct } from '@/lib/types/product';
 
 type ImagesCarouselProps = {
   products: TFeaturedProduct[];

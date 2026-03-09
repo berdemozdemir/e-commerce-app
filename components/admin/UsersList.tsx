@@ -1,7 +1,8 @@
 'use client';
 
-import { paths } from '@/lib/constants/paths';
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '../ui/Button';
 import {
   TableHeader,
@@ -11,12 +12,11 @@ import {
   TableCell,
   Table,
 } from '../ui/Table';
+import { Badge } from '../ui/Badge';
+import { DeleteUserDialog } from './DeleteUserDialog';
+import { paths } from '@/lib/constants/paths';
 import { TUser } from '@/lib/types/admin/user';
 import { Roles } from '@/lib/types/role';
-import { Badge } from '../ui/Badge';
-import { useRouter } from 'next/navigation';
-import { DeleteUserDialog } from './DeleteUserDialog';
-import Link from 'next/link';
 
 type Props = {
   users: TUser[];

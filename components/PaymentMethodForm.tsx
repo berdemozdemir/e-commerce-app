@@ -2,6 +2,9 @@
 
 import { MoveRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 import { Button } from './ui/Button';
 import {
   FormField,
@@ -11,16 +14,13 @@ import {
   FormMessage,
   Form,
 } from './ui/Form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { RadioGroup, RadioGroupItem } from './ui/RadioGroup';
 import {
   paymentMethodsFormSchema,
   TPaymentMethodsFormSchema,
 } from '@/lib/schemas/payment-methods';
-import { RadioGroup, RadioGroupItem } from './ui/RadioGroup';
 import { getPaymentMethods, TPaymentMethod } from '@/lib/types/payment-methods';
 import { useUpdateUserPaymentMethodMutation } from '@/lib/services/user';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
 
 type Props = {

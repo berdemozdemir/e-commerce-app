@@ -1,8 +1,8 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { db } from '@/server/drizzle-client';
 import { eq } from 'drizzle-orm';
+import { db } from '@/server/drizzle-client';
 import { cartItems, carts } from '@/server';
 import { auth } from '@/lib/auth';
 import { TCart } from '@/lib/schemas/cart/cart-item.schema';

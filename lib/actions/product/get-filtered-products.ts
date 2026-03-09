@@ -1,10 +1,10 @@
 'use server';
 
+import { and, asc, desc, eq, gte, ilike, lte, SQL } from 'drizzle-orm';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { and, asc, desc, eq, gte, ilike, lte, SQL } from 'drizzle-orm';
 
 export const getFilteredProducts = async (args: {
   query?: string;

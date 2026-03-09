@@ -1,11 +1,11 @@
 'use client';
 
 import { FC } from 'react';
-import { ProductImages } from './ProductImages';
 import { Badge } from '../ui/Badge';
-import { TProduct } from '@/lib/types/product';
+import { ProductImages } from './ProductImages';
 import { CartItemCounter } from './CartItemCounter';
 import { AddToCart } from './AddToCart';
+import { TProduct } from '@/lib/types/product';
 
 type Props = {
   product: TProduct;

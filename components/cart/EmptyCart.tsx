@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Button } from '../ui/Button';
 import { useRouter } from 'next/navigation';
+import { Button } from '../ui/Button';
 import { paths } from '@/lib/constants/paths';
 
 export const EmptyCart: FC = () => {

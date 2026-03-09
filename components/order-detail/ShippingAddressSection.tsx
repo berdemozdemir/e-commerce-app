@@ -1,6 +1,6 @@
-import { TShippingAddressSchema } from '@/lib/schemas/shipping-address';
 import { FC } from 'react';
 import { Badge } from '../ui/Badge';
+import { TShippingAddressSchema } from '@/lib/schemas/shipping-address';
 import { formatDate } from '@/lib/utils/date';
 
 type Props = {

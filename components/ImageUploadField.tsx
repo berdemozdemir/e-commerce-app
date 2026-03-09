@@ -1,6 +1,6 @@
-import { UploadDropzone } from '@/lib/utils/uploadthing';
 import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
+import { UploadDropzone } from '@/lib/utils/uploadthing';
 
 type ImageUploadFieldProps = {
   value: string | string[];

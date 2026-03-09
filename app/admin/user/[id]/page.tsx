@@ -1,8 +1,8 @@
+import { redirect } from 'next/navigation';
 import { EditUserForm } from '@/components/admin/EditUserForm';
 import { getUserById } from '@/lib/actions/admin/get-user-by-id';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
-import { redirect } from 'next/navigation';
 
 type Props = {
   params: Promise<{

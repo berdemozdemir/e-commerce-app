@@ -1,5 +1,6 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import {
@@ -8,7 +9,6 @@ import {
 } from '@/lib/schemas/update-user-profile';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { eq } from 'drizzle-orm';
 
 export const updateUserProfile = async (
   payload: TUpdateUserProfileSchema,

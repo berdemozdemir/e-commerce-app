@@ -1,8 +1,8 @@
 'use client';
 
+import { FC } from 'react';
 import { Input } from '@/components/ui/Input';
 import { useProductFilters } from '@/lib/hooks/useProductFilters';
-import { FC } from 'react';
 
 export const SearchPagePrice: FC = () => {
   const { searchParams, handlePriceChange } = useProductFilters();

@@ -1,11 +1,11 @@
-import { useAuthQuery } from '@/lib/hooks/useAuthQuery';
-import { Rating } from '@/lib/types/rating';
-import { formatDate } from '@/lib/utils/date';
 import { Pencil, Star, Trash, User } from 'lucide-react';
 import { FC, useState } from 'react';
 import { Button } from '../ui/Button';
 import { DeleteRatingDialog } from './DeleteRatingDialog';
 import { UpdateRatingFormDialog } from './UpdateRatingFormDialog';
+import { formatDate } from '@/lib/utils/date';
+import { Rating } from '@/lib/types/rating';
+import { useAuthQuery } from '@/lib/hooks/useAuthQuery';
 
 export const RatingCard: FC<{ rating: Rating }> = ({ rating }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);

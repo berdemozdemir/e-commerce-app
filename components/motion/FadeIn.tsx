@@ -44,9 +44,9 @@ export function FadeIn({
       x: 0,
       y: 0,
       transition: {
-        duration: duration,
+        duration,
         ease: [0.25, 0.4, 0.25, 1], // Apple-like ease
-        delay: delay,
+        delay,
       },
     },
   };

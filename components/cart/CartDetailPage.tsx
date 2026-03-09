@@ -1,10 +1,10 @@
 'use client';
 
-import { TCart } from '@/lib/schemas/cart/cart-item.schema';
 import { FC } from 'react';
 import { CartTable } from './CartTable';
 import { EmptyCart } from './EmptyCart';
 import { CartSubTotal } from './CartSubTotal';
+import { TCart } from '@/lib/schemas/cart/cart-item.schema';
 
 type Props = {
   cart?: TCart;

@@ -1,5 +1,7 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { failure, tryCatch, isFailure, Result, ok } from '@/lib/result';
@@ -7,8 +9,6 @@ import { editUserSchema, EditUserSchema } from '@/lib/schemas/edit-user';
 import { Roles } from '@/lib/types/role';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 
 export const editUserById = async (payload: {
   userId: string;

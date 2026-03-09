@@ -1,5 +1,20 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FC } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import Image from 'next/image';
+import { Input } from '../ui/Input';
+import { Button } from '../ui/Button';
+import { LoadingSpinner } from '../LoadingSpinner';
+import { ImageUploadField } from '../ImageUploadField';
+import { useUpdateUserProfileMutation } from '@/lib/services/user';
+import {
+  TUpdateUserProfileSchema,
+  updateUserProfileSchema,
+} from '@/lib/schemas/update-user-profile';
 import {
   Form,
   FormControl,
@@ -8,21 +23,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/Form';
-import {
-  TUpdateUserProfileSchema,
-  updateUserProfileSchema,
-} from '@/lib/schemas/update-user-profile';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FC } from 'react';
-import { useForm } from 'react-hook-form';
-import { Input } from '../ui/Input';
-import { Button } from '../ui/Button';
-import { useUpdateUserProfileMutation } from '@/lib/services/user';
-import { toast } from 'react-toastify';
-import { LoadingSpinner } from '../LoadingSpinner';
-import { ImageUploadField } from '../ImageUploadField';
-import { useState } from 'react';
-import Image from 'next/image';
 
 type Props = {
   email: string;

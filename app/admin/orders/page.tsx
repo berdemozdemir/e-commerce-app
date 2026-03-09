@@ -1,10 +1,10 @@
+import { redirect } from 'next/navigation';
 import { AdminOrdersPage } from '@/components/admin/AdminOrdersPage';
 import { getOrdersByAdmin } from '@/lib/actions/admin/get-orders';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
 import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
-import { redirect } from 'next/navigation';
 
 const OrdersPage = async () => {
   const session = await auth();

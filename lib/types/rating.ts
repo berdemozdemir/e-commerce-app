@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { updateRatingSchema } from '@/lib/schemas/rating/update-rating';
 import { createRatingSchema } from '../schemas/rating/create-rating';
+import { updateRatingSchema } from '@/lib/schemas/rating/update-rating';
 
 export type Rating = {
   id: string;

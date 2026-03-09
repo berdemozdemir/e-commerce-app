@@ -1,5 +1,6 @@
-import { paths } from '@/lib/constants/paths';
 import Image from 'next/image';
+import { FC } from 'react';
+import Link from 'next/link';
 import {
   Table,
   TableBody,
@@ -8,10 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/Table';
-import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
-import { FC } from 'react';
-import Link from 'next/link';
 import { Button } from '../ui/Button';
+import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
+import { paths } from '@/lib/constants/paths';
 
 type Props = {
   items: TCartItem[];

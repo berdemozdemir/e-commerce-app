@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   Dialog,
   DialogClose,
@@ -11,7 +12,6 @@ import {
 import { LoadingSpinner } from '../LoadingSpinner';
 import { Button } from '../ui/Button';
 import { useDeleteProductByIdMutation } from '@/lib/services/admin';
-import { toast } from 'react-toastify';
 
 type Props = {
   productId: string;

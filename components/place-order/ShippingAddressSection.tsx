@@ -1,8 +1,8 @@
-import { paths } from '@/lib/constants/paths';
-import { Button } from '../ui/Button';
 import Link from 'next/link';
-import { TAddress } from '@/lib/types/address';
 import { FC } from 'react';
+import { Button } from '../ui/Button';
+import { paths } from '@/lib/constants/paths';
+import { TAddress } from '@/lib/types/address';
 
 type Props = {
   address: TAddress;

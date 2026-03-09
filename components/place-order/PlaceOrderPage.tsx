@@ -1,11 +1,11 @@
-import { TAddress } from '@/lib/types/address';
 import { FC } from 'react';
-import { TPaymentMethod } from '@/lib/types/payment-methods';
-import { TCart } from '@/lib/schemas/cart/cart-item.schema';
 import { ShippingAddressSection } from './ShippingAddressSection';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { OrderedItems } from './OrderedItems';
 import { PurchaseBox } from './PuchaseBox';
+import { TCart } from '@/lib/schemas/cart/cart-item.schema';
+import { TPaymentMethod } from '@/lib/types/payment-methods';
+import { TAddress } from '@/lib/types/address';
 
 type Props = {
   address: TAddress;

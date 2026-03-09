@@ -1,9 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { Button } from '../ui/Button';
 import { MoveRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Button } from '../ui/Button';
 import { paths } from '@/lib/constants/paths';
 
 type Props = {

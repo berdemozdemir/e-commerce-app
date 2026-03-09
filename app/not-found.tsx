@@ -1,10 +1,10 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { APP_NAME } from '@/lib/constants';
 import { paths } from '@/lib/constants/paths';
-import Image from 'next/image';
-import Link from 'next/link';
 import { resources } from '@/lib/resources';
 
 const NotFoundPage = () => (

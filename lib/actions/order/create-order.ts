@@ -1,14 +1,14 @@
 'use server';
 
-import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result } from '@/lib/result';
+import { and, eq } from 'drizzle-orm';
 import { getMyCart } from '../cart/get-my-cart.action';
 import { getUserById } from '../user/get-user-by-id';
+import { auth } from '@/lib/auth';
+import { failure, isFailure, ok, Result } from '@/lib/result';
 import { orderSchema } from '@/lib/schemas/order';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts, orderItems, orders } from '@/server';
 import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
-import { and, eq } from 'drizzle-orm';
 
 // TODO: products stock should be decreased when an order is created or paid
 export const createOrder = async (): Promise<Result<string>> => {

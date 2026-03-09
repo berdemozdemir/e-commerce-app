@@ -1,6 +1,9 @@
 'use client';
 
 import { UserIcon } from 'lucide-react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '../ui/Button';
 import {
   DropdownMenu,
@@ -10,10 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/DropdownMenu';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import { getTwoLetterInitials } from '@/lib/utils';
-import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { paths } from '@/lib/constants/paths';
 import { Roles } from '@/lib/types/role';
 

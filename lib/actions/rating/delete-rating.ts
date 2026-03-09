@@ -1,12 +1,10 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { ratings } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
-import { paths } from '@/lib/constants/paths';
 
 export const deleteRating = async (payload: {
   ratingId: string;

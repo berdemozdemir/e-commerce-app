@@ -1,5 +1,5 @@
-import { TProduct } from '@/lib/types/product';
 import { ProductCard } from './ProductCard';
+import { TProduct } from '@/lib/types/product';
 import { StaggerContainer, StaggerItem } from '@/components/motion/FadeIn';
 import { FadeIn } from '@/components/motion/FadeIn';
 

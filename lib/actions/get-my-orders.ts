@@ -1,9 +1,9 @@
-import { db } from '@/server/drizzle-client';
+import { eq } from 'drizzle-orm';
 import { auth } from '../auth';
 import { failure, isFailure, ok, Result, tryCatch } from '../result';
-import { eq } from 'drizzle-orm';
-import { orders } from '@/server';
 import { TMyOrders } from '../types/myOrders';
+import { db } from '@/server/drizzle-client';
+import { orders } from '@/server';
 
 // TODO: add a pagination or infinite scroll to this data
 

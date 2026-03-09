@@ -1,8 +1,7 @@
-import { debounce } from '@/lib/utils/debounce';
-import { useEffect, useState } from 'react';
-import { Input } from '../ui/Input';
-import { useCallback } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Input } from '../ui/Input';
+import { debounce } from '@/lib/utils/debounce';
 
 export const AdminSearch = () => {
   const pathname = usePathname();
@@ -10,12 +9,17 @@ export const AdminSearch = () => {
   const searchParams = useSearchParams();
   const [searchValue, setSearchValue] = useState('');
 
-  const updateSearchQuery = useCallback(
-    debounce((value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      value ? params.set('query', value) : params.delete('query');
-      router.push(params ? `${pathname}?${params}` : pathname);
-    }, 500),
+  const updateSearchQuery = useMemo(
+    () =>
+      debounce((value: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (value) {
+          params.set('query', value);
+        } else {
+          params.delete('query');
+        }
+        router.push(params.size ? `${pathname}?${params}` : pathname);
+      }, 500),
     [router, pathname, searchParams],
   );
 

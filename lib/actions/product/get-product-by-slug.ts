@@ -1,10 +1,10 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { eq } from 'drizzle-orm';
 
 export const getProductBySlug = async (payload: {
   slug: string;

@@ -1,9 +1,9 @@
 'use client';
 
+import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { FadeIn } from '@/components/motion/FadeIn';
-import { Send } from 'lucide-react';
 
 export const HomeNewsletter = () => {
   return (

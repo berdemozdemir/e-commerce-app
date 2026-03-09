@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '../ui/Button';
-import { ThemeToggle } from './ThemeToggle';
-import { paths } from '@/lib/constants/paths';
 import { MenuIcon, ShoppingCartIcon, UserIcon } from 'lucide-react';
+import { Button } from '../ui/Button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/Sheet';
+import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
+import { paths } from '@/lib/constants/paths';
 
 export const HeaderItems = () => (
   <>

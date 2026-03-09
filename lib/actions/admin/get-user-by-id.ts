@@ -1,10 +1,10 @@
+import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { failure, ok, Result, tryCatch } from '@/lib/result';
 import { Roles, TRole } from '@/lib/types/role';
-import { TEditableUser, TUser } from '@/lib/types/user';
+import { TEditableUser } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
-import { eq } from 'drizzle-orm';
 
 export const getUserById = async (payload: {
   userId: string;

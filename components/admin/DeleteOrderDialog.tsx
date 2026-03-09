@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   Dialog,
   DialogClose,
@@ -9,9 +10,8 @@ import {
   DialogTrigger,
 } from '../ui/Dialog';
 import { Button } from '../ui/Button';
-import { useDeleteOrderMutation } from '@/lib/services/admin';
-import { toast } from 'react-toastify';
 import { LoadingSpinner } from '../LoadingSpinner';
+import { useDeleteOrderMutation } from '@/lib/services/admin';
 
 type Props = {
   orderId: string;
