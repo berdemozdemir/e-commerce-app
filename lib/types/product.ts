@@ -1,9 +1,15 @@
-import { TCreateProductSchema } from '../schemas/product/create-product.schema';
-
-// TODO: make this type one
-export type TProduct = TCreateProductSchema & {
+export type TProduct = {
   id: string;
   slug: string;
+  name: string;
+  category: string;
+  brand: string;
+  description: string;
+  stock: number;
+  images: string[];
+  isFeatured: boolean;
+  banner: string | null;
+  price: string;
   rating: string;
   numReviews: number;
   createdAt: Date;
