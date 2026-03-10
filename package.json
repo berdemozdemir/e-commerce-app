@@ -56,7 +56,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.0.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -65,9 +65,10 @@
     "eslint-config-next": "15.3.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-unused-imports": "^4.4.1",
+    "postcss": "^8.5.8",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.0.7",
     "typescript": "^5"
   }
 }
