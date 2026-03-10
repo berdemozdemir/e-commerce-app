@@ -3,7 +3,6 @@ import { AdminOrdersPage } from '@/components/admin/AdminOrdersPage';
 import { getOrdersByAdmin } from '@/lib/actions/admin/get-orders';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 
 const OrdersPage = async () => {
@@ -13,14 +12,14 @@ const OrdersPage = async () => {
 
   if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
-  const result = await getOrdersByAdmin();
+  const [err, orders] = await getOrdersByAdmin();
 
-  if (isFailure(result)) {
-    console.error('Failed to fetch orders:', result.error);
+  if (err) {
+    console.error('Failed to fetch orders:', err);
     redirect(paths.unauthorized);
   }
 
-  return <AdminOrdersPage orders={result.data} />;
+  return <AdminOrdersPage orders={orders ?? []} />;
 };
 
 export default OrdersPage;

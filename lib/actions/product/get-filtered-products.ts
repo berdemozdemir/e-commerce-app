@@ -1,7 +1,7 @@
 'use server';
 
 import { and, asc, desc, eq, gte, ilike, lte, SQL } from 'drizzle-orm';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
@@ -13,7 +13,7 @@ export const getFilteredProducts = async (args: {
   maxPrice?: string;
   rating?: string;
   sort?: string;
-}): Promise<Result<TProduct[]>> => {
+}): Promise<TryTuple<TProduct[]>> => {
   const conditions: SQL[] = [];
 
   if (args.query) conditions.push(ilike(products.name, `%${args.query}%`));
@@ -36,7 +36,7 @@ export const getFilteredProducts = async (args: {
   const orderByClause =
     (args.sort && sortOptions[args.sort]) || desc(products.createdAt);
 
-  const response = await tryCatch(
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: products.id,
@@ -59,9 +59,9 @@ export const getFilteredProducts = async (args: {
       .orderBy(orderByClause),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err || !rows) return fail(err ?? 'Failed to fetch products');
 
-  const allProducts: TProduct[] = response.data.map((item) => ({
+  const allProducts: TProduct[] = rows.map((item) => ({
     id: item.id,
     slug: item.slug,
     name: item.name,

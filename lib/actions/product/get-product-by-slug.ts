@@ -1,7 +1,7 @@
 'use server';
 
 import { eq } from 'drizzle-orm';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
@@ -9,8 +9,8 @@ import { db } from '@/server/drizzle-client';
 export const getProductBySlug = async (payload: {
   slug: string;
   isAdmin?: boolean;
-}): Promise<Result<TProduct>> => {
-  const response = await tryCatch(
+}): Promise<TryTuple<TProduct>> => {
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: products.id,
@@ -33,9 +33,9 @@ export const getProductBySlug = async (payload: {
       .limit(1),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err) return fail(err);
 
-  if (!response.data[0]) return failure('Product not found');
+  if (!rows?.[0]) return fail('Product not found');
 
-  return ok(response.data[0]);
+  return ok(rows[0]);
 };

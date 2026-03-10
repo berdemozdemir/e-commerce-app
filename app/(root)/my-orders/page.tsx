@@ -2,17 +2,16 @@ import { redirect } from 'next/navigation';
 import { MyOrdersPage } from '@/components/my-orders/MyOrdersPage';
 import { getMyOrders } from '@/lib/actions/get-my-orders';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 
 // TOOD: create a skeleton for this page
 export default async function MyOrders() {
-  const result = await getMyOrders();
+  const [err, items] = await getMyOrders();
 
-  if (isFailure(result)) {
+  if (err) {
     // TODO: Apply the same pattern to all instances and improve the styling of this error message throughout the application.
-    console.error(result.error);
+    console.error(err);
     return redirect(paths.home);
   }
 
-  return <MyOrdersPage items={result.data} />;
+  return <MyOrdersPage items={items ?? []} />;
 }

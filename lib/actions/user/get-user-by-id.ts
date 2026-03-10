@@ -1,19 +1,19 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TUser } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getUserById = async (payload: {
   userId: string;
-}): Promise<Result<TUser>> => {
+}): Promise<TryTuple<TUser>> => {
   const session = await auth();
-  if (!session?.user) return failure('Unauthorized');
+  if (!session?.user) return fail('Unauthorized');
 
-  if (session.user.id !== payload.userId) return failure('Forbidden');
+  if (session.user.id !== payload.userId) return fail('Forbidden');
 
-  const userResponse = await tryCatch(
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: users.id,
@@ -27,26 +27,26 @@ export const getUserById = async (payload: {
       .where(eq(users.id, payload.userId)),
   );
 
-  if (!userResponse) return failure('User not found');
-  if (!userResponse.data) return failure('User not found');
-  if (userResponse.data.length === 0) return failure('User not found');
+  if (err) return fail(err);
+  if (!rows?.length) return fail('User not found');
 
+  const row = rows[0];
   const user: TUser = {
-    id: userResponse.data[0].id,
-    email: userResponse.data[0].email,
-    name: userResponse.data[0].name,
-    profileImageUrl: userResponse.data[0].profileImageUrl ?? undefined,
-    address: userResponse.data[0].address
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    profileImageUrl: row.profileImageUrl ?? undefined,
+    address: row.address
       ? {
-          addressName: userResponse.data[0].address.addressName,
-          address: userResponse.data[0].address.address,
-          city: userResponse.data[0].address.city,
-          postalCode: userResponse.data[0].address.postalCode,
-          country: userResponse.data[0].address.country,
+          addressName: row.address.addressName,
+          address: row.address.address,
+          city: row.address.city,
+          postalCode: row.address.postalCode,
+          country: row.address.country,
         }
       : undefined,
 
-    paymentMethod: userResponse.data[0].paymentMethod || undefined,
+    paymentMethod: row.paymentMethod || undefined,
   };
 
   return ok(user);

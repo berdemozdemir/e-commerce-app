@@ -7,18 +7,18 @@ import { cartItems, carts } from '@/server';
 import { auth } from '@/lib/auth';
 import { TCart } from '@/lib/schemas/cart/cart-item.schema';
 import { convertToPlainObject } from '@/lib/utils';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 
-export async function getMyCart(): Promise<Result<TCart | undefined>> {
+export async function getMyCart(): Promise<TryTuple<TCart | undefined>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
 
-  if (!sessionCartId) return failure('Cart not found!');
+  if (!sessionCartId) return fail('Cart not found!');
 
   const session = await auth();
 
   const userId = session?.user?.id ? session.user.id : undefined;
 
-  const cartResult = await tryCatch(
+  const [cartErr, cart] = await tryCatch(
     db.query.carts.findFirst({
       where: userId
         ? eq(carts.userId, userId)
@@ -26,23 +26,17 @@ export async function getMyCart(): Promise<Result<TCart | undefined>> {
     }),
   );
 
-  if (isFailure(cartResult)) {
-    return failure(cartResult.error);
-  }
-
-  const cart = cartResult.data;
+  if (cartErr) return fail(cartErr);
 
   if (!cart) return ok(undefined);
 
-  const itemsResult = await tryCatch(
+  const [itemsErr, rawItems] = await tryCatch(
     db.query.cartItems.findMany({
       where: eq(cartItems.cartId, cart.id),
     }),
   );
 
-  if (isFailure(itemsResult)) return failure(itemsResult.error);
-
-  const rawItems = itemsResult.data;
+  if (itemsErr || !rawItems) return fail(itemsErr ?? 'Failed to fetch cart items');
 
   const items = rawItems
     .filter((item) => item.productId !== null)

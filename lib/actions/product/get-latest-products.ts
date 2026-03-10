@@ -2,13 +2,13 @@
 
 import { desc } from 'drizzle-orm';
 import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const getLatestProducts = async (): Promise<Result<TProduct[]>> => {
-  const response = await tryCatch(
+export const getLatestProducts = async (): Promise<TryTuple<TProduct[]>> => {
+  const [err, data] = await tryCatch(
     db
       .select({
         id: products.id,
@@ -31,7 +31,7 @@ export const getLatestProducts = async (): Promise<Result<TProduct[]>> => {
       .limit(LATEST_PRODUCTS_LIMIT),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err || !data) return fail(err ?? 'Failed to fetch products');
 
-  return ok(response.data);
+  return ok(data);
 };

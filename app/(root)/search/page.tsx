@@ -3,7 +3,6 @@ import { ProductList } from '@/components/search-page/ProductList';
 import { SearchPageSidebar } from '@/components/search-page/SearchPageSidebar';
 import { getFilteredProducts } from '@/lib/actions/product/get-filtered-products';
 import { getProductCategories } from '@/lib/actions/product/get-product-categories';
-import { isFailure } from '@/lib/result';
 
 type Props = {
   searchParams: Promise<{
@@ -40,7 +39,7 @@ export default async function Page_Search(props: Props) {
   const { query, category, minPrice, maxPrice, rating, sort } =
     await props.searchParams;
 
-  const products = await getFilteredProducts({
+  const [productsErr, productsData] = await getFilteredProducts({
     query,
     category,
     minPrice,
@@ -49,21 +48,20 @@ export default async function Page_Search(props: Props) {
     sort,
   });
 
-  const categoriesResult = await getProductCategories();
+  const [_, categoriesData] = await getProductCategories();
 
-  const data = isFailure(products) ? [] : products.data;
-  const categoriesData =
-    categoriesResult.data?.map((category) => category.name) ?? [];
+  const data = productsErr ? [] : (productsData ?? []);
+  const categoryNames = categoriesData?.map((c) => c.name) ?? [];
 
-  if (isFailure(products)) return <div>Error: {products.error}</div>;
+  if (productsErr) return <div>Error: {productsErr}</div>;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 md:gap-4">
       <div className="md:col-span-1">
-        <SearchPageSidebar categories={categoriesData} />
+        <SearchPageSidebar categories={categoryNames} />
       </div>
 
-      <div className="md:col-span-4 p-4 md:p-0">
+      <div className="p-4 md:col-span-4 md:p-0">
         <ProductList data={data} />
       </div>
     </div>

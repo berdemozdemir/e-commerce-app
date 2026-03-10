@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 import { EditUserForm } from '@/components/admin/EditUserForm';
 import { getUserById } from '@/lib/actions/admin/get-user-by-id';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 
 type Props = {
   params: Promise<{
@@ -13,19 +12,19 @@ type Props = {
 const AdminEditUserPage = async ({ params }: Props) => {
   const { id } = await params;
 
-  const userResult = await getUserById({ userId: id });
+  const [err, user] = await getUserById({ userId: id });
 
-  if (isFailure(userResult)) {
-    console.error('Failed to fetch users:', userResult.error);
+  if (err || !user) {
+    console.error('Failed to fetch users:', err);
     redirect(paths.notFound);
   }
 
   return (
     <EditUserForm
-      userId={userResult.data.id}
-      email={userResult.data.email}
-      name={userResult.data.name}
-      role={userResult.data.role}
+      userId={user.id}
+      email={user.email}
+      name={user.name}
+      role={user.role}
     />
   );
 };

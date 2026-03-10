@@ -1,15 +1,15 @@
 'use server';
 
 import { desc, eq } from 'drizzle-orm';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { Rating } from '@/lib/types/rating';
 import { ratings, users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getProductRatings = async (args: {
   productId: string;
-}): Promise<Result<Rating[]>> => {
-  const response = await tryCatch(
+}): Promise<TryTuple<Rating[]>> => {
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: ratings.id,
@@ -27,9 +27,9 @@ export const getProductRatings = async (args: {
       .orderBy(desc(ratings.createdAt)),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err || !rows) return fail(err ?? 'Failed to fetch ratings');
 
-  const ratingsData: Rating[] = response.data.map((rating) => ({
+  const ratingsData: Rating[] = rows.map((rating) => ({
     id: rating.id,
     productId: rating.productId,
     userId: rating.userId,

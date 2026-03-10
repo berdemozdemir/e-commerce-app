@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { Roles, TRole } from '@/lib/types/role';
 import { TEditableUser } from '@/lib/types/user';
 import { users } from '@/server';
@@ -8,13 +8,13 @@ import { db } from '@/server/drizzle-client';
 
 export const getUserById = async (payload: {
   userId: string;
-}): Promise<Result<TEditableUser>> => {
+}): Promise<TryTuple<TEditableUser>> => {
   const session = await auth();
-  if (!session?.user) return failure('Unauthorized');
+  if (!session?.user) return fail('Unauthorized');
 
-  if (session.user.role !== Roles.Admin) return failure('Forbidden');
+  if (session.user.role !== Roles.Admin) return fail('Forbidden');
 
-  const userResponse = await tryCatch(
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: users.id,
@@ -26,10 +26,10 @@ export const getUserById = async (payload: {
       .where(eq(users.id, payload.userId)),
   );
 
-  if (!userResponse.data || userResponse.data.length === 0)
-    return failure('User not found');
+  if (err) return fail(err);
+  if (!rows?.length) return fail('User not found');
 
-  const currentUser = userResponse.data[0];
+  const currentUser = rows[0];
 
   const user: TEditableUser = {
     id: currentUser.id,

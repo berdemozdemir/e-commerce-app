@@ -4,7 +4,6 @@ import { AdminProductListPage } from '@/components/admin/AdminProductList';
 import { getProducts } from '@/lib/actions/admin/get-products';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 
 export const metadata: Metadata = {
@@ -26,11 +25,11 @@ const AdminProductList = async ({ searchParams }: Props) => {
 
   if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
-  const productsResult = await getProducts({ query });
+  const [err, products] = await getProducts({ query });
 
-  if (isFailure(productsResult)) redirect(paths.unauthorized);
+  if (err) redirect(paths.unauthorized);
 
-  return <AdminProductListPage products={productsResult.data} query={query} />;
+  return <AdminProductListPage products={products ?? []} query={query} />;
 };
 
 export default AdminProductList;

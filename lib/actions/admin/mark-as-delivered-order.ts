@@ -5,27 +5,27 @@ import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { Roles } from '@/lib/types/role';
 import { paths } from '@/lib/constants/paths';
-import { failure, tryCatch, isFailure, Result, ok } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { orders } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const markAsDeliveredOrder = async (payload: {
   orderId: string;
-}): Promise<Result<void>> => {
+}): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (!userId) return fail('Unauthorized');
+  if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
-  const result = await tryCatch(
+  const [err] = await tryCatch(
     db
       .update(orders)
       .set({ isDelivered: true, deliveredAt: new Date() })
       .where(eq(orders.id, payload.orderId)),
   );
 
-  if (isFailure(result)) return failure(result.error);
+  if (err) return fail(err);
 
   revalidatePath(paths.orderDetails(payload.orderId));
 

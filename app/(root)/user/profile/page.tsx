@@ -3,7 +3,6 @@ import UserProfileForm from '@/components/user/UserProfilePage';
 import { getUserById } from '@/lib/actions/user/get-user-by-id';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 
 const UserProfile = async () => {
   const session = await auth();
@@ -15,17 +14,17 @@ const UserProfile = async () => {
   }
 
   // TODO: it returns 'user not found' when role is admin. Fix it.
-  const user = await getUserById({ userId });
-  if (isFailure(user)) {
-    console.error(user.error);
+  const [err, userData] = await getUserById({ userId });
+  if (err || !userData) {
+    console.error(err);
     redirect(paths.auth.login);
   }
 
   return (
     <UserProfileForm
-      email={user.data?.email}
-      name={user.data.name}
-      profileImageUrl={user.data?.profileImageUrl}
+      email={userData?.email}
+      name={userData.name}
+      profileImageUrl={userData?.profileImageUrl}
     />
   );
 };

@@ -1,7 +1,7 @@
 'use server';
 
 import { count, desc } from 'drizzle-orm';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { db } from '@/server/drizzle-client';
 import { products } from '@/server/schema';
 
@@ -11,9 +11,9 @@ export type TProductCategory = {
 };
 
 export const getProductCategories = async (): Promise<
-  Result<TProductCategory[]>
+  TryTuple<TProductCategory[]>
 > => {
-  const response = await tryCatch(
+  const [err, data] = await tryCatch(
     db
       .select({ name: products.category, count: count() })
       .from(products)
@@ -21,7 +21,7 @@ export const getProductCategories = async (): Promise<
       .orderBy(desc(products.category)),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err || !data) return fail(err ?? 'Failed to fetch categories');
 
-  return ok(response.data);
+  return ok(data);
 };

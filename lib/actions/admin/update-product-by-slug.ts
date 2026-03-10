@@ -2,7 +2,7 @@
 
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 import {
   TUpdateProductSchema,
@@ -15,19 +15,19 @@ import { db } from '@/server/drizzle-client';
 export const updateProductBySlug = async (args: {
   slug: string;
   data: TUpdateProductSchema;
-}): Promise<Result<TAdminProduct>> => {
+}): Promise<TryTuple<TAdminProduct>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (!userId) return fail('Unauthorized');
+  if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
   const parsedProduct = updateProductSchema.safeParse(args.data);
 
   if (!parsedProduct.success)
-    return failure(parsedProduct.error.issues[0]?.message ?? 'Invalid payload');
+    return fail(parsedProduct.error.issues[0]?.message ?? 'Invalid payload');
 
-  const result = await tryCatch(
+  const [err, updated] = await tryCatch(
     db
       .update(products)
       .set(parsedProduct.data)
@@ -35,10 +35,9 @@ export const updateProductBySlug = async (args: {
       .returning(),
   );
 
-  if (isFailure(result))
-    return failure(result.error || 'Failed to update product');
+  if (err) return fail(err || 'Failed to update product');
 
-  if (result.data.length === 0) return failure('Product not found');
+  if (!updated?.length) return fail('Product not found');
 
-  return ok(result.data[0]);
+  return ok(updated[0]);
 };

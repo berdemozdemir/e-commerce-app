@@ -2,7 +2,7 @@
 
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import {
   TUpdateUserProfileSchema,
   updateUserProfileSchema,
@@ -12,16 +12,16 @@ import { db } from '@/server/drizzle-client';
 
 export const updateUserProfile = async (
   payload: TUpdateUserProfileSchema,
-): Promise<Result<void>> => {
+): Promise<TryTuple<void>> => {
   const session = await auth();
-  if (!session?.user) return failure('Unauthorized');
+  if (!session?.user) return fail('Unauthorized');
 
   const userId = session.user.id;
-  if (!userId) return failure('Unauthorized');
+  if (!userId) return fail('Unauthorized');
 
   const parsedPayload = updateUserProfileSchema.parse(payload);
 
-  const result = await tryCatch(
+  const [err] = await tryCatch(
     db
       .update(users)
       .set({
@@ -32,7 +32,7 @@ export const updateUserProfile = async (
       .where(eq(users.id, userId)),
   );
 
-  if (isFailure(result)) return failure(result.error);
+  if (err) return fail(err);
 
   return ok(undefined);
 };

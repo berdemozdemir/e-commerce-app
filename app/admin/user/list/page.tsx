@@ -3,7 +3,6 @@ import { UsersList } from '@/components/admin/UsersList';
 import { getAllUsers } from '@/lib/actions/admin/get-all-users';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 
 export const metadata = {
@@ -26,14 +25,14 @@ const AdminUsersList = async ({ searchParams }: Props) => {
 
   if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
-  const allUsers = await getAllUsers({ query });
+  const [err, users] = await getAllUsers({ query });
 
-  if (isFailure(allUsers)) {
-    console.error('Failed to fetch users:', allUsers.error);
+  if (err) {
+    console.error('Failed to fetch users:', err);
     redirect(paths.notFound);
   }
 
-  return <UsersList users={allUsers.data} query={query} />;
+  return <UsersList users={users ?? []} query={query} />;
 };
 
 export default AdminUsersList;

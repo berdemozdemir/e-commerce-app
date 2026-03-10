@@ -2,7 +2,7 @@
 
 import { ilike } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TUser } from '@/lib/types/admin/user';
 import { Roles, TRole } from '@/lib/types/role';
 import { users } from '@/server';
@@ -10,18 +10,18 @@ import { db } from '@/server/drizzle-client';
 
 export const getAllUsers = async (args: {
   query?: string;
-}): Promise<Result<TUser[]>> => {
+}): Promise<TryTuple<TUser[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (!userId) return fail('Unauthorized');
+  if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
   const whereClause = args.query
     ? ilike(users.email || users.name, `%${args.query}%`)
     : undefined;
 
-  const result = await tryCatch(
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: users.id,
@@ -33,9 +33,9 @@ export const getAllUsers = async (args: {
       .where(whereClause),
   );
 
-  if (isFailure(result)) return failure('Failed to fetch users');
+  if (err || !rows) return fail('Failed to fetch users');
 
-  const response: TUser[] = result.data.map((item) => ({
+  const response: TUser[] = rows.map((item) => ({
     id: item.id,
     email: item.email,
     name: item.name,

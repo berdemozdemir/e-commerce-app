@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { failure, tryCatch, isFailure, Result, ok } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { editUserSchema, EditUserSchema } from '@/lib/schemas/edit-user';
 import { Roles } from '@/lib/types/role';
 import { users } from '@/server';
@@ -13,22 +13,22 @@ import { db } from '@/server/drizzle-client';
 export const editUserById = async (payload: {
   userId: string;
   data: EditUserSchema;
-}): Promise<Result<void>> => {
+}): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (!userId) return fail('Unauthorized');
+  if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
   if (session.user.id === payload.userId)
-    return failure('You cannot edit yourself');
+    return fail('You cannot edit yourself');
 
   const parsedData = editUserSchema.safeParse(payload.data);
 
   if (!parsedData.success)
-    return failure(parsedData.error.issues[0]?.message ?? 'Invalid payload');
+    return fail(parsedData.error.issues[0]?.message ?? 'Invalid payload');
 
-  const result = await tryCatch(
+  const [err] = await tryCatch(
     db
       .update(users)
       .set({
@@ -38,7 +38,7 @@ export const editUserById = async (payload: {
       .where(eq(users.id, payload.userId)),
   );
 
-  if (isFailure(result)) return failure(result.error);
+  if (err) return fail(err);
 
   revalidatePath(paths.admin.users.list);
 

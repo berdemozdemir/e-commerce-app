@@ -3,7 +3,6 @@ import { AdminOverViewPage } from '@/components/admin/AdminOverviewPage';
 import { getSummarizeOrdersByAdmin } from '@/lib/actions/admin/get-summarize-orders-by-admin';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 
 const OverviewPage = async () => {
@@ -13,21 +12,21 @@ const OverviewPage = async () => {
 
   if (session.user.role !== Roles.Admin) redirect(paths.unauthorized);
 
-  const result = await getSummarizeOrdersByAdmin();
+  const [err, data] = await getSummarizeOrdersByAdmin();
 
-  if (isFailure(result)) {
-    console.error('Failed to fetch order summary:', result.error);
+  if (err || !data) {
+    console.error('Failed to fetch order summary:', err);
     redirect(paths.unauthorized);
   }
 
   return (
     <AdminOverViewPage
-      totalCustomer={result.data.totalCustomer}
-      totalProducts={result.data.totalProducts}
-      totalRevenue={result.data.totalRevenue}
-      totalSales={result.data.totalSales}
-      recentOrders={result.data.recentOrders}
-      monthlySales={result.data.monthlySales}
+      totalCustomer={data.totalCustomer}
+      totalProducts={data.totalProducts}
+      totalRevenue={data.totalRevenue}
+      totalSales={data.totalSales}
+      recentOrders={data.recentOrders}
+      monthlySales={data.monthlySales}
     />
   );
 };

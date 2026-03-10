@@ -14,12 +14,12 @@ import { calculatePrice } from '../../utils';
 import { getMyCart } from './get-my-cart.action';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts, products } from '@/server';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { paths } from '@/lib/constants/paths';
 
-export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
+export async function addItemToCart(payload: TCartItem): Promise<TryTuple<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
-  if (!sessionCartId) return failure('Cart not found!');
+  if (!sessionCartId) return fail('Cart not found!');
 
   const session = await auth();
 
@@ -31,16 +31,13 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
     where: eq(products.id, newItem.productId),
   });
 
-  if (!product) return failure('Product not found!');
-  const cartResult = await getMyCart();
-  const cart = cartResult.data;
+  if (!product) return fail('Product not found!');
+  const [cartErr, cart] = await getMyCart();
 
-  if (isFailure(cartResult)) {
-    return failure(cartResult.error);
-  }
+  if (cartErr) return fail(cartErr);
 
   if (!cart) {
-    if (product.stock < newItem.quantity) return failure('Not enough stock');
+    if (product.stock < newItem.quantity) return fail('Not enough stock');
 
     // TODO: fix broken failure flow by schema parser | parse or safeparse ?
     const newCart = cartSchema.safeParse({
@@ -52,10 +49,10 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
     });
 
     if (!newCart.success) {
-      return failure(newCart.error.issues[0]?.message ?? 'Invalid payload');
+      return fail(newCart.error.issues[0]?.message ?? 'Invalid payload');
     }
 
-    const insertedCart = await tryCatch(
+    const [insertCartErr, insertedCartRows] = await tryCatch(
       db
         .insert(carts)
         .values({
@@ -69,15 +66,13 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
         .returning(),
     );
 
-    if (isFailure(insertedCart)) {
-      return failure(insertedCart.error);
-    }
+    if (insertCartErr) return fail(insertCartErr);
 
-    const insertedCartItem = await tryCatch(
+    const [insertItemErr] = await tryCatch(
       db
         .insert(cartItems)
         .values({
-          cartId: insertedCart.data[0].id,
+          cartId: insertedCartRows![0].id,
           productId: newItem.productId,
           name: newItem.name,
           slug: newItem.slug,
@@ -88,9 +83,7 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
         .returning(),
     );
 
-    if (isFailure(insertedCartItem)) {
-      return failure(insertedCartItem.error);
-    }
+    if (insertItemErr) return fail(insertItemErr);
 
     revalidatePath(paths.productDetail(product.slug));
 
@@ -101,11 +94,11 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
     if (existItem) {
       const newQuantity = existItem.quantity + 1;
 
-      if (product.stock < newQuantity) return failure('Not enough stock');
+      if (product.stock < newQuantity) return fail('Not enough stock');
 
       existItem.quantity = newQuantity;
 
-      const updateResult = await tryCatch(
+      const [updateErr] = await tryCatch(
         db
           .update(cartItems)
           .set({ quantity: newQuantity })
@@ -118,15 +111,13 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
           .returning(),
       );
 
-      if (isFailure(updateResult)) {
-        return failure(updateResult.error);
-      }
+      if (updateErr) return fail(updateErr);
     } else {
-      if (product.stock < newItem.quantity) return failure('Not enough stock');
+      if (product.stock < newItem.quantity) return fail('Not enough stock');
 
       cart.items.push(newItem);
 
-      const insertedCartItem = await tryCatch(
+      const [insertItemErr2] = await tryCatch(
         db.insert(cartItems).values({
           cartId: cart.id,
           productId: newItem.productId,
@@ -138,14 +129,12 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
         }),
       );
 
-      if (isFailure(insertedCartItem)) {
-        return failure(insertedCartItem.error);
-      }
+      if (insertItemErr2) return fail(insertItemErr2);
     }
 
     const pricing = calculatePrice(cart.items);
 
-    const updateResult = await tryCatch(
+    const [updateCartErr] = await tryCatch(
       db
         .update(carts)
         .set({
@@ -157,9 +146,7 @@ export async function addItemToCart(payload: TCartItem): Promise<Result<void>> {
         .where(eq(carts.id, cart.id)),
     );
 
-    if (isFailure(updateResult)) {
-      return failure(updateResult.error);
-    }
+    if (updateCartErr) return fail(updateCartErr);
 
     revalidatePath(paths.productDetail(product.slug));
 

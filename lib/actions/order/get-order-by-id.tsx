@@ -2,7 +2,7 @@
 
 import { eq, sql } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TShippingAddressSchema } from '@/lib/schemas/shipping-address';
 import { TOrder } from '@/lib/types/order';
 import { orderItems, orders, users } from '@/server';
@@ -10,13 +10,13 @@ import { db } from '@/server/drizzle-client';
 
 export const getOrderById = async (payload: {
   orderId: string;
-}): Promise<Result<TOrder>> => {
+}): Promise<TryTuple<TOrder>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
+  if (!userId) return fail('Unauthorized');
 
-  const orderResponse = await tryCatch(
+  const [orderErr, orderRows] = await tryCatch(
     db
       .select({
         id: orders.id,
@@ -70,10 +70,10 @@ export const getOrderById = async (payload: {
       .groupBy(orders.id, users.id),
   );
 
-  if (isFailure(orderResponse)) return failure(orderResponse.error);
+  if (orderErr) return fail(orderErr);
 
-  const orderResult = orderResponse.data[0];
-  if (!orderResult) return failure('Order could not be found!');
+  const orderResult = orderRows?.[0];
+  if (!orderResult) return fail('Order could not be found!');
 
   const result: TOrder = {
     id: orderResult.id,

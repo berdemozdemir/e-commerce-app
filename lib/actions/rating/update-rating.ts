@@ -2,21 +2,20 @@
 
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TUpdateRatingSchema } from '@/lib/types/rating';
-import { tryCatch } from '@/lib/result';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
 
 export const updateRating = async (
   payload: TUpdateRatingSchema,
-): Promise<Result<void>> => {
+): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
+  if (!userId) return fail('Unauthorized');
 
-  const response = await tryCatch(
+  const [err, updated] = await tryCatch(
     db
       .update(ratings)
       .set(payload)
@@ -26,10 +25,9 @@ export const updateRating = async (
       }),
   );
 
-  if (isFailure(response))
-    return failure(response.error ?? 'Failed to update rating');
+  if (err) return fail(err ?? 'Failed to update rating');
 
-  if (response.data.length === 0) return failure('Rating not found');
+  if (!updated?.length) return fail('Rating not found');
 
   return ok(undefined);
 };

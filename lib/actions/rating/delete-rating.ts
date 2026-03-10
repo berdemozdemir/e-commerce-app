@@ -2,27 +2,27 @@
 
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { ratings } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const deleteRating = async (payload: {
   ratingId: string;
-}): Promise<Result<void>> => {
+}): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
+  if (!userId) return fail('Unauthorized');
 
-  const response = await tryCatch(
+  const [err, deleted] = await tryCatch(
     db.delete(ratings).where(eq(ratings.id, payload.ratingId)).returning({
       productId: ratings.productId,
     }),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err) return fail(err);
 
-  if (response.data.length === 0) return failure('Rating not found');
+  if (!deleted?.length) return fail('Rating not found');
 
   return ok(undefined);
 };

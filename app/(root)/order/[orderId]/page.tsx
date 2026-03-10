@@ -3,7 +3,6 @@ import { OrderDetailPage } from '@/components/order-detail/OrderDetailPage';
 import { getOrderById } from '@/lib/actions/order/get-order-by-id';
 import { auth } from '@/lib/auth';
 import { paths } from '@/lib/constants/paths';
-import { isFailure } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 
 type OrderDetailProps = {
@@ -21,16 +20,16 @@ export default async function OrderDetail(props: OrderDetailProps) {
 
   const session = await auth();
 
-  const result = await getOrderById({ orderId });
-  if (isFailure(result)) {
+  const [err, order] = await getOrderById({ orderId });
+  if (err || !order) {
     // TODO: Apply the same pattern to all instances and improve the styling of this error message throughout the application.
-    console.error(result.error);
+    console.error(err);
     return redirect(paths.notFound);
   }
 
   return (
     <OrderDetailPage
-      order={result.data}
+      order={order}
       isAdmin={session?.user.role === Roles.Admin}
     />
   );

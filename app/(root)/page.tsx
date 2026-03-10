@@ -3,7 +3,6 @@ import { ArrowRight } from 'lucide-react';
 import { ProductList } from '@/components/product/ProductList';
 import { getLatestProducts } from '@/lib/actions/product/get-latest-products';
 import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
-import { isFailure } from '@/lib/result';
 import { ImagesCarousel } from '@/components/ImagesCarousel';
 import { getFeaturedProducts } from '@/lib/actions/product/get-featured-products';
 import { Button } from '@/components/ui/Button';
@@ -15,11 +14,11 @@ import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { FadeIn } from '@/components/motion/FadeIn';
 
 export default async function Home() {
-  const latestProducts = await getLatestProducts();
-  const featuredProducts = await getFeaturedProducts();
+  const [latestErr, latestProducts] = await getLatestProducts();
+  const [featuredErr, featuredProducts] = await getFeaturedProducts();
 
-  if (isFailure(latestProducts)) {
-    console.error('Failed to load latest products:', latestProducts.error);
+  if (latestErr) {
+    console.error('Failed to load latest products:', latestErr);
 
     return <div>Error loading products</div>;
   }
@@ -27,7 +26,7 @@ export default async function Home() {
   return (
     <>
       <FadeIn duration={1} viewportAmount={0.1}>
-        <ImagesCarousel products={featuredProducts.data ?? []} />
+        <ImagesCarousel products={featuredProducts ?? []} />
       </FadeIn>
 
       <HomeFeatures />
@@ -36,7 +35,7 @@ export default async function Home() {
 
       <div className="my-16 space-y-16">
         <ProductList
-          data={latestProducts.data}
+          data={latestProducts ?? []}
           title="Newest Arrivals"
           limit={LATEST_PRODUCTS_LIMIT}
         />

@@ -3,7 +3,7 @@
 import { ilike } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { Roles } from '@/lib/types/role';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { TAdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
@@ -11,18 +11,18 @@ import { db } from '@/server/drizzle-client';
 // TODO: add a pagination or infinite scroll to this data
 export const getProducts = async (args: {
   query?: string;
-}): Promise<Result<TAdminProduct[]>> => {
+}): Promise<TryTuple<TAdminProduct[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (!userId) return fail('Unauthorized');
+  if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
   const whereClause = args.query
     ? ilike(products.name, `%${args.query}%`)
     : undefined;
 
-  const response = await tryCatch(
+  const [err, rows] = await tryCatch(
     db
       .select({
         id: products.id,
@@ -37,9 +37,9 @@ export const getProducts = async (args: {
       .where(whereClause),
   );
 
-  if (isFailure(response)) return failure(response.error);
+  if (err || !rows) return fail(err ?? 'Failed to fetch products');
 
-  const allProducts: TAdminProduct[] = response.data.map((item) => ({
+  const allProducts: TAdminProduct[] = rows.map((item) => ({
     id: item.id,
     slug: item.slug,
     name: item.name,

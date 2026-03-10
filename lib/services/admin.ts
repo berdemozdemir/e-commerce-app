@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { deleteOrderById } from '../actions/admin/delete-order-by-id';
-import { okOrThrow } from '../result';
+import { unwrapAsync } from '../result';
 import { markAsPaidOrder } from '../actions/admin/mark-as-paid-order';
 import { markAsDeliveredOrder } from '../actions/admin/mark-as-delivered-order';
 import { deleteProductById } from '../actions/admin/delete-product-by-id';
@@ -15,50 +15,50 @@ import { editUserById } from '../actions/admin/edit-user';
 export const useDeleteOrderMutation = () =>
   useMutation({
     mutationFn: (payload: { orderId: string }) =>
-      deleteOrderById(payload).then(okOrThrow),
+      unwrapAsync(deleteOrderById(payload)),
   });
 
 export const useMarkAsPaidOrderMutation = () =>
   useMutation({
     mutationFn: (payload: { orderId: string }) =>
-      markAsPaidOrder(payload).then(okOrThrow),
+      unwrapAsync(markAsPaidOrder(payload)),
   });
 
 export const useMarkAsDeliveredOrderMutation = () =>
   useMutation({
     mutationFn: (payload: { orderId: string }) =>
-      markAsDeliveredOrder(payload).then(okOrThrow),
+      unwrapAsync(markAsDeliveredOrder(payload)),
   });
 
 export const useDeleteProductByIdMutation = () =>
   useMutation({
     mutationFn: (payload: { productId: string }) =>
-      deleteProductById(payload).then(okOrThrow),
+      unwrapAsync(deleteProductById(payload)),
   });
 
 export const useCreateProductMutation = () =>
   useMutation({
     mutationFn: (payload: TCreateProductSchema) =>
-      createProduct(payload).then(okOrThrow),
+      unwrapAsync(createProduct(payload)),
   });
 
 export const useUpdateProductMutation = () =>
   useMutation({
     mutationFn: (payload: { slug: string; data: TUpdateProductSchema }) =>
-      updateProductBySlug({
+      unwrapAsync(updateProductBySlug({
         slug: payload.slug,
         data: payload.data,
-      }).then(okOrThrow),
+      })),
   });
 
 export const useDeleteUserByIdMutation = () =>
   useMutation({
     mutationFn: (payload: { userId: string }) =>
-      deleteUserById(payload).then(okOrThrow),
+      unwrapAsync(deleteUserById(payload)),
   });
 
 export const useEditUserMutation = () =>
   useMutation({
     mutationFn: (payload: { userId: string; data: EditUserSchema }) =>
-      editUserById(payload).then(okOrThrow),
+      unwrapAsync(editUserById(payload)),
   });

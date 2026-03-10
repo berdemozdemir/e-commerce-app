@@ -2,7 +2,7 @@
 
 import { desc, sql, eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
-import { failure, isFailure, ok, Result, tryCatch } from '@/lib/result';
+import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 import { MonthlySalesRow } from '@/lib/types/admin/monthly-sales';
 import { RecentOrder } from '@/lib/types/admin/recent-orders';
@@ -10,7 +10,7 @@ import { orders, products, users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getSummarizeOrdersByAdmin = async (): Promise<
-  Result<{
+  TryTuple<{
     totalRevenue: number;
     totalSales: number;
     totalCustomer: number;
@@ -22,10 +22,10 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return failure('Unauthorized');
-  if (session?.user.role !== Roles.Admin) return failure('Forbidden');
+  if (!userId) return fail('Unauthorized');
+  if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
-  const result = await tryCatch(
+  const [err, raw] = await tryCatch(
     Promise.all([
       db
         .select({
@@ -62,7 +62,7 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
     ]),
   );
 
-  if (isFailure(result)) return failure(result.error);
+  if (err || !raw) return fail(err ?? 'Failed to fetch summary');
 
   const [
     totalRevenueRow,
@@ -71,7 +71,7 @@ export const getSummarizeOrdersByAdmin = async (): Promise<
     totalProducts,
     recentOrders,
     monthlySalesRow,
-  ] = result.data;
+  ] = raw;
 
   const monthlySales = monthlySalesRow.rows.map((item) => ({
     month: item.month,
