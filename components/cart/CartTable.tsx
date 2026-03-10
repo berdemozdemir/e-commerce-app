@@ -16,7 +16,6 @@ import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
 import { paths } from '@/lib/constants/paths';
 
 // TODO: fix the responsive design
-// TODO: fix items reorder issue when quantity is updated
 // TODO: fix the issue of when user add items cart without session and login after that, cart is empty
 
 type Props = {

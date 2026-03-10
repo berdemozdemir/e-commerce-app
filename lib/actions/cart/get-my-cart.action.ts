@@ -1,7 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts } from '@/server';
 import { auth } from '@/lib/auth';
@@ -33,10 +33,12 @@ export async function getMyCart(): Promise<TryTuple<TCart | undefined>> {
   const [itemsErr, rawItems] = await tryCatch(
     db.query.cartItems.findMany({
       where: eq(cartItems.cartId, cart.id),
+      orderBy: [desc(cartItems.createdAt)],
     }),
   );
 
-  if (itemsErr || !rawItems) return fail(itemsErr ?? 'Failed to fetch cart items');
+  if (itemsErr || !rawItems)
+    return fail(itemsErr ?? 'Failed to fetch cart items');
 
   const items = rawItems
     .filter((item) => item.productId !== null)

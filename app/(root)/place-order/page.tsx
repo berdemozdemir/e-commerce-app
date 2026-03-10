@@ -31,7 +31,6 @@ export const PlaceOrder = async () => {
       <PlaceOrderPage
         address={userData.address}
         paymentMethod={userData.paymentMethod}
-        // TODO: Handle possible undefined case
         cart={cart}
       />
     </div>
