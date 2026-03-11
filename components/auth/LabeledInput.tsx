@@ -5,8 +5,6 @@ import { useState } from 'react';
 import { FormLabel } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 
-// TODO: move this component file to components/ui folder
-
 type LabeledInputProps = {
   label: string;
   isPasswordField?: boolean;
