@@ -108,13 +108,17 @@ export const config = {
         paths.myOrders,
         paths.userProfile,
         paths.admin.overview,
+        paths.admin.orders,
+        paths.admin.users.list,
+        paths.admin.users.detail,
+        paths.admin.product.list,
+        paths.admin.product.create,
+        paths.admin.product.update,
       ];
 
       const { pathname } = request.nextUrl;
 
-      if (!auth && protectedPaths.includes(pathname)) {
-        return false;
-      }
+      if (!auth && protectedPaths.includes(pathname)) return false;
 
       // check for session cart cookie
       if (!request.cookies.get('sessionCartId')) {
@@ -132,9 +136,7 @@ export const config = {
         response.cookies.set('sessionCartId', sessionCartId);
 
         return response;
-      } else {
-        return true;
-      }
+      } else return true;
     },
   },
 } satisfies NextAuthConfig;
