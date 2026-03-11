@@ -12,7 +12,6 @@ import { db } from '@/server/drizzle-client';
 export const config = {
   pages: {
     signIn: paths.auth.login,
-    // TODO: fix error page it should be paths.auth.error,
     error: paths.auth.login,
   },
 
