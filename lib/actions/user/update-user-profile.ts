@@ -19,15 +19,19 @@ export const updateUserProfile = async (
   const userId = session.user.id;
   if (!userId) return fail('Unauthorized');
 
-  const parsedPayload = updateUserProfileSchema.parse(payload);
+  const parsedPayload = updateUserProfileSchema.safeParse(payload);
+  if (!parsedPayload.success)
+    return fail(
+      parsedPayload.error.issues[0]?.message ?? 'Invalid payload',
+    );
 
   const [err] = await tryCatch(
     db
       .update(users)
       .set({
-        name: parsedPayload.name,
-        email: parsedPayload.email,
-        profileImageUrl: parsedPayload.profileImageUrl,
+        name: parsedPayload.data.name,
+        email: parsedPayload.data.email,
+        profileImageUrl: parsedPayload.data.profileImageUrl,
       })
       .where(eq(users.id, userId)),
   );

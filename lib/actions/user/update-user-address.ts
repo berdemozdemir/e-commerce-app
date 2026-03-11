@@ -28,12 +28,16 @@ export const updateUserAddress = async (
 
   if (userErr) return fail('User not found');
 
-  const parsedAddress = shippingAddressSchema.parse(payload);
+  const parsedAddress = shippingAddressSchema.safeParse(payload);
+  if (!parsedAddress.success)
+    return fail(
+      parsedAddress.error.issues[0]?.message ?? 'Invalid payload',
+    );
 
   const [err] = await tryCatch(
     db
       .update(users)
-      .set({ address: parsedAddress })
+      .set({ address: parsedAddress.data })
       .where(eq(users.id, userId)),
   );
 

@@ -8,7 +8,6 @@ import { fail, ok, TryTuple } from '@/lib/result';
 import { orderSchema } from '@/lib/schemas/order';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts, orderItems, orders } from '@/server';
-import { CartItem } from '@/lib/types/cart';
 
 // TODO: products stock should be decreased when an order is created or paid
 export const createOrder = async (): Promise<TryTuple<string>> => {
@@ -23,13 +22,14 @@ export const createOrder = async (): Promise<TryTuple<string>> => {
 
   const [cartErr, cartData] = await getMyCart();
 
-  if (cartErr || !cartData?.items?.length) return fail('Failed to retrieve cart');
+  if (cartErr || !cartData?.items?.length)
+    return fail('Failed to retrieve cart');
 
   if (!userData.address) return fail('User address is required');
 
   if (!userData.paymentMethod) return fail('Payment method is required');
 
-  const order = orderSchema.parse({
+  const orderResult = orderSchema.safeParse({
     userId,
     shippingAddress: userData.address,
     paymentMethod: userData.paymentMethod,
@@ -39,15 +39,17 @@ export const createOrder = async (): Promise<TryTuple<string>> => {
     totalPrice: cartData.totalPrice,
   });
 
-  // TODO: use trycatch wrapper for following db operations
+  if (!orderResult.success)
+    return fail(orderResult.error.issues[0]?.message ?? 'Invalid payload');
+
   const [insertedOrder] = await db
     .insert(orders)
     .values({
-      ...order,
+      ...orderResult.data,
     })
     .returning({ id: orders.id });
 
-  for (const item of cartData.items as CartItem[]) {
+  for (const item of cartData.items) {
     await db.insert(orderItems).values({
       orderId: insertedOrder.id,
       productId: item.productId,

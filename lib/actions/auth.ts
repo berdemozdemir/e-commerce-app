@@ -21,13 +21,19 @@ export const getSession = async () => {
 
 export const signInWithCredentials = async (data: SignInFormSchemaRequest) => {
   try {
-    const user = signInFormSchema.parse({
+    const parsed = signInFormSchema.safeParse({
       email: data.email,
       password: data.password,
     });
 
+    if (!parsed.success)
+      return {
+        data: undefined,
+        error: parsed.error.issues[0]?.message ?? 'Invalid payload',
+      };
+
     await signIn('credentials', {
-      ...user,
+      ...parsed.data,
       redirect: false,
     });
 
@@ -56,13 +62,20 @@ export const signOutUser = async () => {
 // TODO: refactor this type
 export const signUpUser = async (data: SignupFormSchemaRequest) => {
   try {
-    const user = signUpFormSchema.parse({
+    const parsed = signUpFormSchema.safeParse({
       name: data.name as string,
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
     });
 
+    if (!parsed.success)
+      return {
+        data: undefined,
+        error: parsed.error.issues[0]?.message ?? 'Invalid payload',
+      };
+
+    const user = parsed.data;
     const plainPassword = data.password;
 
     user.password = hashSync(user.password, 10);

@@ -4,7 +4,10 @@ import { randomUUID } from 'crypto';
 import { cookies } from 'next/headers';
 import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-import { cartItemSchema, cartSchema } from '../../schemas/cart/cart-item.schema';
+import {
+  cartItemSchema,
+  cartSchema,
+} from '../../schemas/cart/cart-item.schema';
 import { CartItem } from '../../types/cart';
 import { auth } from '../../auth';
 import { calculatePrice } from '../../utils';
@@ -14,7 +17,9 @@ import { cartItems, carts, products } from '@/server';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { paths } from '@/lib/constants/paths';
 
-export async function addItemToCart(payload: CartItem): Promise<TryTuple<void>> {
+export async function addItemToCart(
+  payload: CartItem,
+): Promise<TryTuple<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
   if (!sessionCartId) return fail('Cart not found!');
 
@@ -22,7 +27,10 @@ export async function addItemToCart(payload: CartItem): Promise<TryTuple<void>> 
 
   const userId = session?.user?.id ? session.user.id : undefined;
 
-  const newItem = cartItemSchema.parse(payload);
+  const parsedItem = cartItemSchema.safeParse(payload);
+  if (!parsedItem.success)
+    return fail(parsedItem.error.issues[0]?.message ?? 'Invalid payload');
+  const newItem = parsedItem.data;
 
   const product = await db.query.products.findFirst({
     where: eq(products.id, newItem.productId),
@@ -36,7 +44,6 @@ export async function addItemToCart(payload: CartItem): Promise<TryTuple<void>> 
   if (!cart) {
     if (product.stock < newItem.quantity) return fail('Not enough stock');
 
-    // TODO: fix broken failure flow by schema parser | parse or safeparse ?
     const newCart = cartSchema.safeParse({
       id: randomUUID().toString(),
       userId,
@@ -45,9 +52,8 @@ export async function addItemToCart(payload: CartItem): Promise<TryTuple<void>> 
       ...calculatePrice([newItem]),
     });
 
-    if (!newCart.success) {
+    if (!newCart.success)
       return fail(newCart.error.issues[0]?.message ?? 'Invalid payload');
-    }
 
     const [insertCartErr, insertedCartRows] = await tryCatch(
       db

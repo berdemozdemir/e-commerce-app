@@ -27,10 +27,17 @@ export const updatePaymentMethods = async (
 
   if (userErr) return fail('User not found');
 
-  const { paymentMethod } = paymentMethodsFormSchema.parse(payload);
+  const parsedPayload = paymentMethodsFormSchema.safeParse(payload);
+  if (!parsedPayload.success)
+    return fail(
+      parsedPayload.error.issues[0]?.message ?? 'Invalid payload',
+    );
 
   const [err] = await tryCatch(
-    db.update(users).set({ paymentMethod }).where(eq(users.id, userId)),
+    db
+      .update(users)
+      .set({ paymentMethod: parsedPayload.data.paymentMethod })
+      .where(eq(users.id, userId)),
   );
 
   if (err) return fail('Failed to update payment methods');
