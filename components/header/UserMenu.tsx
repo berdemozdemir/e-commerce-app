@@ -18,7 +18,7 @@ import { useAuthQuery } from '@/lib/hooks/useAuthQuery';
 import { Skeleton } from '@/components/ui/Skeleton';
 
 export const UserMenu = () => {
-  const { data: authData } = useAuthQuery();
+  const { data: authData, isLoading } = useAuthQuery();
 
   const pathname = usePathname();
 
@@ -71,12 +71,12 @@ export const UserMenu = () => {
       </DropdownMenu>
     );
 
+  if (isLoading) return <Skeleton className="h-8 w-20" />;
+
   if (!authData?.isLoggedIn)
     return (
       <Button onClick={() => signIn()}>
         <UserIcon /> Login
       </Button>
     );
-
-  return <Skeleton className="h-8 w-20" />;
 };
