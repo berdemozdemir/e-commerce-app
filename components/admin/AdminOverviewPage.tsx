@@ -19,7 +19,6 @@ type Props = {
   monthlySales: MonthlySalesRow[];
 };
 
-// TODO: create a card componnent and use it here
 export const AdminOverViewPage: FC<Props> = (props) => (
   <div className="space-y-4">
     <section className="flex w-full flex-col gap-4 md:flex-row">
@@ -68,7 +67,6 @@ export const AdminOverViewPage: FC<Props> = (props) => (
                 </TableCell>
 
                 <TableCell className="text-right">
-                  {/* TODO: fix link */}
                   <Link href={paths.orderDetails(order.orderId)}>
                     <Button>View</Button>
                   </Link>
