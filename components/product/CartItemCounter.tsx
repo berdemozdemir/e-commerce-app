@@ -6,7 +6,7 @@ import {
   useAddToCartMutation,
   useRemoveItemFromCartMutation,
 } from '@/lib/services/cart';
-import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
+import { TCartItem } from '@/lib/types/cart';
 
 type Props = {
   item: TCartItem;

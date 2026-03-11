@@ -5,7 +5,7 @@ import { desc, eq } from 'drizzle-orm';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts } from '@/server';
 import { auth } from '@/lib/auth';
-import { TCart } from '@/lib/schemas/cart/cart-item.schema';
+import { TCart } from '@/lib/types/cart';
 import { convertToPlainObject } from '@/lib/utils';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 

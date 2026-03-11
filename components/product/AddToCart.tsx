@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../LoadingSpinner';
-import { TCartItem } from '@/lib/schemas/cart/cart-item.schema';
+import { TCartItem } from '@/lib/types/cart';
 import { useAddToCartMutation } from '@/lib/services/cart';
 
 export const AddToCart = (item: TCartItem) => {

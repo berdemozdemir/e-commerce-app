@@ -4,7 +4,6 @@ export const PaymentMethods = {
   CashOnDelivery: 'Cash on Delivery',
 } as const;
 
-// TODO: take a look at this, make this one practise
 export type TPaymentMethod =
   (typeof PaymentMethods)[keyof typeof PaymentMethods];
 

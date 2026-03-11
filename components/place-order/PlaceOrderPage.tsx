@@ -3,7 +3,7 @@ import { ShippingAddressSection } from './ShippingAddressSection';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { OrderedItems } from './OrderedItems';
 import { PurchaseBox } from './PuchaseBox';
-import { TCart } from '@/lib/schemas/cart/cart-item.schema';
+import { TCart } from '@/lib/types/cart';
 import { TPaymentMethod } from '@/lib/types/payment-methods';
 import { TAddress } from '@/lib/types/address';
 

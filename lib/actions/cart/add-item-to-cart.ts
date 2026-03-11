@@ -4,11 +4,8 @@ import { randomUUID } from 'crypto';
 import { cookies } from 'next/headers';
 import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-import {
-  cartItemSchema,
-  cartSchema,
-  TCartItem,
-} from '../../schemas/cart/cart-item.schema';
+import { cartItemSchema, cartSchema } from '../../schemas/cart/cart-item.schema';
+import { TCartItem } from '../../types/cart';
 import { auth } from '../../auth';
 import { calculatePrice } from '../../utils';
 import { getMyCart } from './get-my-cart.action';
