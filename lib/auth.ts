@@ -110,9 +110,9 @@ export const config = {
         paths.admin.orders,
         paths.admin.users.list,
         paths.admin.users.detail,
-        paths.admin.product.list,
-        paths.admin.product.create,
-        paths.admin.product.update,
+        paths.admin.products.list,
+        paths.admin.products.create,
+        paths.admin.products.update,
       ];
 
       const { pathname } = request.nextUrl;

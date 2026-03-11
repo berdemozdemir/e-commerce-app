@@ -56,7 +56,7 @@ export const CreateProductForm = () => {
 
       toast.success('Product created successfully');
       form.reset();
-      router.push(paths.admin.product.list);
+      router.push(paths.admin.products.list);
     } catch (error) {
       console.log('Error creating product:', error);
       toast.error((error as Error).message || 'Failed to create product');

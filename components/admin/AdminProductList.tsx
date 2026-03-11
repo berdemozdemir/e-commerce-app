@@ -38,7 +38,7 @@ export const AdminProductListPage: FC<Props> = (props) => {
           )}
 
           {props.query && (
-            <Link href={paths.admin.product.list}>
+            <Link href={paths.admin.products.list}>
               <Button variant="link" className="p-0 text-gray-500 underline">
                 Clear Filter
               </Button>
@@ -46,7 +46,7 @@ export const AdminProductListPage: FC<Props> = (props) => {
           )}
         </div>
 
-        <Link href={paths.admin.product.create}>
+        <Link href={paths.admin.products.create}>
           <Button>Create Product</Button>
         </Link>
       </div>
@@ -91,7 +91,7 @@ export const AdminProductListPage: FC<Props> = (props) => {
                 <TableCell className="space-x-2">
                   <Button
                     onClick={() =>
-                      router.push(paths.admin.product.update(item.slug))
+                      router.push(paths.admin.products.update(item.slug))
                     }
                   >
                     Edit

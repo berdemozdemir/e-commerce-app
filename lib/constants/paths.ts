@@ -28,13 +28,13 @@ export const paths = {
     overview: '/admin/overview',
     orders: '/admin/orders',
     users: {
-      list: '/admin/user/list',
-      detail: (userId: string) => `/admin/user/${userId}`,
+      list: '/admin/users/list',
+      detail: (userId: string) => `/admin/users/${userId}`,
     },
-    product: {
-      list: '/admin/product/list',
-      create: '/admin/product/create',
-      update: (slug: string) => `/admin/product/${slug}`,
+    products: {
+      list: '/admin/products/list',
+      create: '/admin/products/create',
+      update: (slug: string) => `/admin/products/${slug}`,
     },
   },
 

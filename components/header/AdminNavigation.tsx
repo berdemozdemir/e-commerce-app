@@ -6,7 +6,7 @@ import { paths } from '@/lib/constants/paths';
 
 const navigation = [
   { name: 'Overview', href: paths.admin.overview },
-  { name: 'Products', href: paths.admin.product.list },
+  { name: 'Products', href: paths.admin.products.list },
   { name: 'Orders', href: paths.admin.orders },
   { name: 'Users', href: paths.admin.users.list },
 ];

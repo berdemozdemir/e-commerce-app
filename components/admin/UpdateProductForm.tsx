@@ -62,7 +62,7 @@ export const UpdateProductForm: FC<Props> = ({ product }) => {
 
       toast.success('Product updated successfully');
       form.reset();
-      router.push(paths.admin.product.list);
+      router.push(paths.admin.products.list);
     } catch (error) {
       console.log('Error updating product:', error);
       toast.error((error as Error).message || 'Failed to update product');

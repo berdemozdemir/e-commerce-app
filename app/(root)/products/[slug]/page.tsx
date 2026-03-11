@@ -16,8 +16,9 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const params = await props.params;
 
-  // TODO: this page /product/[slug] but admin page is /admin/products/[slug] make them consistent
-  const [productErr, productData] = await getProductBySlug({ slug: params.slug });
+  const [productErr, productData] = await getProductBySlug({
+    slug: params.slug,
+  });
 
   if (productErr || !productData) {
     return {

@@ -28,7 +28,7 @@ export const AdminSearch = () => {
   }, [searchParams]);
 
   const isAdminSearch =
-    pathname.includes('admin/user') || pathname.includes('admin/product');
+    pathname.includes('admin/users') || pathname.includes('admin/products');
 
   return (
     <Input
