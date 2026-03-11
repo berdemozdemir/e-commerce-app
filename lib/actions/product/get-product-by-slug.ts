@@ -6,7 +6,7 @@ import { Product } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const getProductBySlug = async (payload: {
+export const getProductBySlug = async (args: {
   slug: string;
   isAdmin?: boolean;
 }): Promise<TryTuple<Product>> => {
@@ -29,7 +29,7 @@ export const getProductBySlug = async (payload: {
         banner: products.banner,
       })
       .from(products)
-      .where(eq(products.slug, payload.slug))
+      .where(eq(products.slug, args.slug))
       .limit(1),
   );
 

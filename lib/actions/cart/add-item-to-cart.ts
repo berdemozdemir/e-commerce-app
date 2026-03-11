@@ -17,9 +17,7 @@ import { cartItems, carts, products } from '@/server';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { paths } from '@/lib/constants/paths';
 
-export async function addItemToCart(
-  payload: CartItem,
-): Promise<TryTuple<void>> {
+export async function addItemToCart(args: CartItem): Promise<TryTuple<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
   if (!sessionCartId) return fail('Cart not found!');
 
@@ -27,7 +25,7 @@ export async function addItemToCart(
 
   const userId = session?.user?.id ? session.user.id : undefined;
 
-  const parsedItem = cartItemSchema.safeParse(payload);
+  const parsedItem = cartItemSchema.safeParse(args);
   if (!parsedItem.success)
     return fail(parsedItem.error.issues[0]?.message ?? 'Invalid payload');
   const newItem = parsedItem.data;

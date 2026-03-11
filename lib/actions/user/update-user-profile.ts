@@ -11,7 +11,7 @@ import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const updateUserProfile = async (
-  payload: UpdateUserProfileSchema,
+  args: UpdateUserProfileSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');
@@ -19,7 +19,7 @@ export const updateUserProfile = async (
   const userId = session.user.id;
   if (!userId) return fail('Unauthorized');
 
-  const parsedPayload = updateUserProfileSchema.safeParse(payload);
+  const parsedPayload = updateUserProfileSchema.safeParse(args);
   if (!parsedPayload.success)
     return fail(
       parsedPayload.error.issues[0]?.message ?? 'Invalid payload',

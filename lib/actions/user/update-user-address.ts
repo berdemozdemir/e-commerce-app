@@ -11,7 +11,7 @@ import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const updateUserAddress = async (
-  payload: ShippingAddressSchema,
+  args: ShippingAddressSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');
@@ -28,7 +28,7 @@ export const updateUserAddress = async (
 
   if (userErr) return fail('User not found');
 
-  const parsedAddress = shippingAddressSchema.safeParse(payload);
+  const parsedAddress = shippingAddressSchema.safeParse(args);
   if (!parsedAddress.success)
     return fail(
       parsedAddress.error.issues[0]?.message ?? 'Invalid payload',

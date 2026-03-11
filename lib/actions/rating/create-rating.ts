@@ -9,7 +9,7 @@ import { ratings } from '@/server';
 
 // TODO: add a client side update mechanism for the product stats, revalidate path is not a good idea because it will be called on every rating creation.
 export const createRating = async (
-  payload: CreateRatingSchema,
+  args: CreateRatingSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user)
@@ -18,7 +18,7 @@ export const createRating = async (
   const userId = session.user.id;
   if (!userId) return fail('User account not found. Please log in again.');
 
-  const parsedPayload = createRatingSchema.safeParse(payload);
+  const parsedPayload = createRatingSchema.safeParse(args);
 
   if (!parsedPayload.success)
     return fail(parsedPayload.error.issues[0]?.message ?? 'Invalid payload');

@@ -9,7 +9,7 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { orders } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const markAsDeliveredOrder = async (payload: {
+export const markAsDeliveredOrder = async (args: {
   orderId: string;
 }): Promise<TryTuple<void>> => {
   const session = await auth();
@@ -22,12 +22,12 @@ export const markAsDeliveredOrder = async (payload: {
     db
       .update(orders)
       .set({ isDelivered: true, deliveredAt: new Date() })
-      .where(eq(orders.id, payload.orderId)),
+      .where(eq(orders.id, args.orderId)),
   );
 
   if (err) return fail(err);
 
-  revalidatePath(paths.orderDetails(payload.orderId));
+  revalidatePath(paths.orderDetails(args.orderId));
 
   return ok(undefined);
 };

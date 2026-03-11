@@ -9,7 +9,7 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const deleteProductById = async (payload: {
+export const deleteProductById = async (args: {
   productId: string;
 }): Promise<TryTuple<void>> => {
   const session = await auth();
@@ -19,7 +19,7 @@ export const deleteProductById = async (payload: {
   if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
   const [err] = await tryCatch(
-    db.delete(products).where(eq(products.id, payload.productId)),
+    db.delete(products).where(eq(products.id, args.productId)),
   );
 
   if (err) return fail(err);

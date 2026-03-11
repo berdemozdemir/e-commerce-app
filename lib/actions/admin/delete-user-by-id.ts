@@ -9,7 +9,7 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const deleteUserById = async (payload: {
+export const deleteUserById = async (args: {
   userId: string;
 }): Promise<TryTuple<void>> => {
   const session = await auth();
@@ -17,11 +17,11 @@ export const deleteUserById = async (payload: {
 
   if (!userId) return fail('Unauthorized');
   if (session?.user.role !== Roles.Admin) return fail('Forbidden');
-  if (session.user.id === payload.userId)
+  if (session.user.id === args.userId)
     return fail('You cannot delete yourself');
 
   const [err] = await tryCatch(
-    db.delete(users).where(eq(users.id, payload.userId)),
+    db.delete(users).where(eq(users.id, args.userId)),
   );
 
   if (err) return fail(err);

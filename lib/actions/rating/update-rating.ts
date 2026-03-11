@@ -8,7 +8,7 @@ import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
 
 export const updateRating = async (
-  payload: UpdateRatingSchema,
+  args: UpdateRatingSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
@@ -18,8 +18,8 @@ export const updateRating = async (
   const [err, updated] = await tryCatch(
     db
       .update(ratings)
-      .set(payload)
-      .where(eq(ratings.id, payload.ratingId))
+      .set(args)
+      .where(eq(ratings.id, args.ratingId))
       .returning({
         productId: ratings.productId,
       }),

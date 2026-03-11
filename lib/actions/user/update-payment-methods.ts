@@ -11,7 +11,7 @@ import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const updatePaymentMethods = async (
-  payload: PaymentMethodsFormSchema,
+  args: PaymentMethodsFormSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');
@@ -27,7 +27,7 @@ export const updatePaymentMethods = async (
 
   if (userErr) return fail('User not found');
 
-  const parsedPayload = paymentMethodsFormSchema.safeParse(payload);
+  const parsedPayload = paymentMethodsFormSchema.safeParse(args);
   if (!parsedPayload.success)
     return fail(
       parsedPayload.error.issues[0]?.message ?? 'Invalid payload',

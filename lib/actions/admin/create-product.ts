@@ -13,7 +13,7 @@ import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const createProduct = async (
-  payload: CreateProductSchema,
+  args: CreateProductSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;
@@ -21,7 +21,7 @@ export const createProduct = async (
   if (!userId) return fail('Unauthorized');
   if (session?.user.role !== Roles.Admin) return fail('Forbidden');
 
-  const parsed = createProductSchema.safeParse(payload);
+  const parsed = createProductSchema.safeParse(args);
 
   if (!parsed.success)
     return fail(parsed.error.issues[0]?.message ?? 'Invalid payload');

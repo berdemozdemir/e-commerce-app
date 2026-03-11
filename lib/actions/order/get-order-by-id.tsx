@@ -8,7 +8,7 @@ import { Order } from '@/lib/types/order';
 import { orderItems, orders, users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const getOrderById = async (payload: {
+export const getOrderById = async (args: {
   orderId: string;
 }): Promise<TryTuple<Order>> => {
   const session = await auth();
@@ -64,7 +64,7 @@ export const getOrderById = async (payload: {
       })
 
       .from(orders)
-      .where(eq(orders.id, payload.orderId))
+      .where(eq(orders.id, args.orderId))
       .innerJoin(users, eq(orders.userId, users.id))
       .leftJoin(orderItems, eq(orderItems.orderId, orders.id))
       .groupBy(orders.id, users.id),

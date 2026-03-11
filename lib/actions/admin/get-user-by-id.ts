@@ -6,7 +6,7 @@ import { EditableUser } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const getUserById = async (payload: {
+export const getUserById = async (args: {
   userId: string;
 }): Promise<TryTuple<EditableUser>> => {
   const session = await auth();
@@ -23,7 +23,7 @@ export const getUserById = async (payload: {
         role: users.role,
       })
       .from(users)
-      .where(eq(users.id, payload.userId)),
+      .where(eq(users.id, args.userId)),
   );
 
   if (err) return fail(err);

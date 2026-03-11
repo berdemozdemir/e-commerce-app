@@ -19,11 +19,11 @@ export const getSession = async () => {
   return session;
 };
 
-export const signInWithCredentials = async (data: SignInFormSchemaRequest) => {
+export const signInWithCredentials = async (args: SignInFormSchemaRequest) => {
   try {
     const parsed = signInFormSchema.safeParse({
-      email: data.email,
-      password: data.password,
+      email: args.email,
+      password: args.password,
     });
 
     if (!parsed.success)
@@ -60,13 +60,13 @@ export const signOutUser = async () => {
 };
 
 // TODO: refactor this type
-export const signUpUser = async (data: SignupFormSchemaRequest) => {
+export const signUpUser = async (args: SignupFormSchemaRequest) => {
   try {
     const parsed = signUpFormSchema.safeParse({
-      name: data.name as string,
-      email: data.email,
-      password: data.password,
-      confirmPassword: data.confirmPassword,
+      name: args.name as string,
+      email: args.email,
+      password: args.password,
+      confirmPassword: args.confirmPassword,
     });
 
     if (!parsed.success)
@@ -76,7 +76,7 @@ export const signUpUser = async (data: SignupFormSchemaRequest) => {
       };
 
     const user = parsed.data;
-    const plainPassword = data.password;
+    const plainPassword = args.password;
 
     user.password = hashSync(user.password, 10);
 

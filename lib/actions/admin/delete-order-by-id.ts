@@ -9,7 +9,7 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { orders } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const deleteOrderById = async (payload: {
+export const deleteOrderById = async (args: {
   orderId: string;
 }): Promise<TryTuple<void>> => {
   const session = await auth();
@@ -21,7 +21,7 @@ export const deleteOrderById = async (payload: {
   const [err, deleted] = await tryCatch(
     db
       .delete(orders)
-      .where(eq(orders.id, payload.orderId))
+      .where(eq(orders.id, args.orderId))
       .returning({ id: orders.id }),
   );
 

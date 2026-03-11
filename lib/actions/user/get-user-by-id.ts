@@ -5,13 +5,13 @@ import { User } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const getUserById = async (payload: {
+export const getUserById = async (args: {
   userId: string;
 }): Promise<TryTuple<User>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');
 
-  if (session.user.id !== payload.userId) return fail('Forbidden');
+  if (session.user.id !== args.userId) return fail('Forbidden');
 
   const [err, rows] = await tryCatch(
     db
@@ -24,7 +24,7 @@ export const getUserById = async (payload: {
         paymentMethod: users.paymentMethod,
       })
       .from(users)
-      .where(eq(users.id, payload.userId)),
+      .where(eq(users.id, args.userId)),
   );
 
   if (err) return fail(err);

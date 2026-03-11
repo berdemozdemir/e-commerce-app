@@ -6,7 +6,7 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { ratings } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const deleteRating = async (payload: {
+export const deleteRating = async (args: {
   ratingId: string;
 }): Promise<TryTuple<void>> => {
   const session = await auth();
@@ -15,7 +15,7 @@ export const deleteRating = async (payload: {
   if (!userId) return fail('Unauthorized');
 
   const [err, deleted] = await tryCatch(
-    db.delete(ratings).where(eq(ratings.id, payload.ratingId)).returning({
+    db.delete(ratings).where(eq(ratings.id, args.ratingId)).returning({
       productId: ratings.productId,
     }),
   );
