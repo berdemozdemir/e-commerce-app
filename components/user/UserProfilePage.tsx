@@ -6,11 +6,14 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { ImageUploadField } from '../ImageUploadField';
 import { useUpdateUserProfileMutation } from '@/lib/services/user';
+import { authQueryOptions } from '@/lib/hooks/useAuthQuery';
 import {
   TUpdateUserProfileSchema,
   updateUserProfileSchema,
@@ -32,7 +35,8 @@ type Props = {
 
 const UserProfileForm: FC<Props> = ({ name, email, profileImageUrl }) => {
   const [isUploadingProfileImage, setIsUploadingProfileImage] = useState(false);
-
+  const queryClient = useQueryClient();
+  const { update: updateSession } = useSession();
   const updateUserProfileMutation = useUpdateUserProfileMutation();
 
   const form = useForm<TUpdateUserProfileSchema>({
@@ -45,17 +49,22 @@ const UserProfileForm: FC<Props> = ({ name, email, profileImageUrl }) => {
   });
 
   const submit = form.handleSubmit(async (data) => {
-    try {
-      await updateUserProfileMutation.mutateAsync(data);
+    await updateUserProfileMutation.mutateAsync(data);
 
-      toast.success('Profile updated successfully');
+    await updateSession({
+      user: {
+        name: data.name,
+        email: data.email,
+        image: data.profileImageUrl ?? undefined,
+      },
+    });
+    await queryClient.invalidateQueries({
+      queryKey: authQueryOptions.queryKey,
+    });
 
-      form.reset(data);
-    } catch (error) {
-      toast.error(
-        (error as Error).message || 'Failed to update shipping address',
-      );
-    }
+    toast.success('Profile updated successfully');
+
+    form.reset(data);
   });
 
   const currentImage = form.watch('profileImageUrl');

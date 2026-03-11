@@ -62,17 +62,10 @@ export const config = {
 
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async session({ session, user, trigger, token }: any) {
-      // set the user id from the token
+    async session({ session, token }: any) {
       session.user.id = token.sub;
       session.user.role = token.role;
       session.user.name = token.name;
-      session.user.role = token.role;
-
-      // if there is an update, set the user name
-      if (trigger === 'update') {
-        session.user.name = user.name;
-      }
 
       return session;
     },
@@ -92,6 +85,13 @@ export const config = {
             })
             .where(eq(users.id, user.id));
         }
+      }
+
+      // Client called update() with new session data (e.g. after profile edit)
+      if (trigger === 'update' && session?.user) {
+        if (session.user.name !== null) token.name = session.user.name;
+        if (session.user.email !== null) token.email = session.user.email;
+        if (session.user.image !== null) token.picture = session.user.image;
       }
 
       return token;
