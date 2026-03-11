@@ -1,5 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { getSession } from '@/lib/actions/auth';
+import { Roles } from '@/lib/types/role';
 
 export const authQueryOptions = queryOptions({
   queryKey: ['session'],
@@ -8,7 +9,7 @@ export const authQueryOptions = queryOptions({
 
     const user = session?.user;
     const isLoggedIn = !!user;
-    const isAdmin = user?.role === 'admin';
+    const isAdmin = user?.role === Roles.Admin;
 
     return {
       isLoggedIn,

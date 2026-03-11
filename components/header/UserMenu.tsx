@@ -1,8 +1,7 @@
 'use client';
 
 import { UserIcon } from 'lucide-react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { signIn, signOut } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '../ui/Button';
 import {
@@ -15,30 +14,24 @@ import {
 } from '../ui/DropdownMenu';
 import { getTwoLetterInitials } from '@/lib/utils';
 import { paths } from '@/lib/constants/paths';
-import { Roles } from '@/lib/types/role';
+import { useAuthQuery } from '@/lib/hooks/useAuthQuery';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export const UserMenu = () => {
-  const { data: session, update, status } = useSession();
+  const { data: authData, isLoading } = useAuthQuery();
 
   const pathname = usePathname();
 
   const router = useRouter();
 
-  // TODO: create your own auth provider and use it in the whole platform
-  // TODO: fix infinite loop when without session
-  useEffect(() => {
-    if (status === 'loading' || !session) {
-      update();
-    }
-  }, [session, status, update]);
+  if (isLoading) return <Skeleton className="h-8 w-20" />;
 
-  if (status === 'loading' || status === 'unauthenticated' || !session) {
+  if (!authData?.isLoggedIn)
     return (
       <Button onClick={() => signIn()}>
         <UserIcon /> Login
       </Button>
     );
-  }
 
   const isAdmin = pathname.includes('/admin');
 
@@ -50,14 +43,14 @@ export const UserMenu = () => {
           className="h-8 w-8 cursor-pointer rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           {/* TODO: fix name update issue */}
-          {getTwoLetterInitials(session.user?.name ?? '')}
+          {getTwoLetterInitials(authData.user?.name ?? '')}
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-48" align="end">
         <DropdownMenuLabel>
-          <p className="text-sm font-medium">{session.user?.name}</p>
-          <p className="text-xs opacity-60">{session.user?.email}</p>
+          <p className="text-sm font-medium">{authData.user?.name}</p>
+          <p className="text-xs opacity-60">{authData.user?.email}</p>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
@@ -70,13 +63,13 @@ export const UserMenu = () => {
           My Orders
         </DropdownMenuItem>
 
-        {session?.user?.role === Roles.Admin && !isAdmin && (
+        {authData.isAdmin && !isAdmin && (
           <DropdownMenuItem onClick={() => router.push(paths.admin.overview)}>
             Admin
           </DropdownMenuItem>
         )}
 
-        {session?.user?.role === Roles.Admin && isAdmin && (
+        {authData.isAdmin && isAdmin && (
           <DropdownMenuItem onClick={() => router.push(paths.home)}>
             Back to User
           </DropdownMenuItem>
