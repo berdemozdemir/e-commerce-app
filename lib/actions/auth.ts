@@ -4,11 +4,11 @@ import { hashSync } from 'bcrypt-ts-edge';
 import { signIn, signOut, auth } from '../auth';
 import {
   signInFormSchema,
-  TSignInFormSchemaRequest,
+  SignInFormSchemaRequest,
 } from '../schemas/auth/sign-in.schema';
 import {
   signUpFormSchema,
-  TSignupFormSchemaRequest,
+  SignupFormSchemaRequest,
 } from '../schemas/auth/sign-up.schema';
 import { Roles } from '../types/role';
 import { db } from '@/server/drizzle-client';
@@ -19,7 +19,7 @@ export const getSession = async () => {
   return session;
 };
 
-export const signInWithCredentials = async (data: TSignInFormSchemaRequest) => {
+export const signInWithCredentials = async (data: SignInFormSchemaRequest) => {
   try {
     const user = signInFormSchema.parse({
       email: data.email,
@@ -54,7 +54,7 @@ export const signOutUser = async () => {
 };
 
 // TODO: refactor this type
-export const signUpUser = async (data: TSignupFormSchemaRequest) => {
+export const signUpUser = async (data: SignupFormSchemaRequest) => {
   try {
     const user = signUpFormSchema.parse({
       name: data.name as string,

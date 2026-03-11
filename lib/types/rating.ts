@@ -13,6 +13,6 @@ export type Rating = {
   createdAt: string;
 };
 
-export type TCreateRatingSchema = z.infer<typeof createRatingSchema>;
+export type CreateRatingSchema = z.infer<typeof createRatingSchema>;
 
-export type TUpdateRatingSchema = z.infer<typeof updateRatingSchema>;
+export type UpdateRatingSchema = z.infer<typeof updateRatingSchema>;

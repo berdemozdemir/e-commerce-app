@@ -3,12 +3,12 @@ export const Roles = {
   Admin: 'Admin',
 } as const;
 
-export type TRole = (typeof Roles)[keyof typeof Roles];
+export type Role = (typeof Roles)[keyof typeof Roles];
 
-export function getRoles(): readonly TRole[] {
-  return Object.values(Roles) as TRole[];
+export function getRoles(): readonly Role[] {
+  return Object.values(Roles) as Role[];
 }
 
-export function isValidRole(role: string): role is TRole {
-  return Object.values(Roles).includes(role as TRole);
+export function isValidRole(role: string): role is Role {
+  return Object.values(Roles).includes(role as Role);
 }

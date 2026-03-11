@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { TCreateRatingSchema, TUpdateRatingSchema } from '../types/rating';
+import { CreateRatingSchema, UpdateRatingSchema } from '../types/rating';
 import { createRating } from '../actions/rating/create-rating';
 import { unwrapAsync } from '../result';
 import { getProductRatings } from '../actions/rating/get-product-ratings';
@@ -8,7 +8,7 @@ import { updateRating } from '../actions/rating/update-rating';
 
 export const useCreateRatingMutation = () =>
   useMutation({
-    mutationFn: (payload: TCreateRatingSchema) =>
+    mutationFn: (payload: CreateRatingSchema) =>
       unwrapAsync(createRating(payload)),
   });
 
@@ -26,6 +26,6 @@ export const useDeleteRatingMutation = () =>
 
 export const useUpdateRatingMutation = () =>
   useMutation({
-    mutationFn: (payload: TUpdateRatingSchema) =>
+    mutationFn: (payload: UpdateRatingSchema) =>
       unwrapAsync(updateRating(payload)),
   });

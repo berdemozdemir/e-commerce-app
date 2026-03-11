@@ -9,7 +9,7 @@ import { LabeledInput } from './LabeledInput';
 import { useLoginMutation } from '@/lib/services/auth';
 import {
   signInFormSchema,
-  TSignInFormSchemaRequest,
+  SignInFormSchemaRequest,
 } from '@/lib/schemas/auth/sign-in.schema';
 import { paths } from '@/lib/constants/paths';
 import {
@@ -29,7 +29,7 @@ export const LoginForm = () => {
 
   const { mutateAsync, error, isPending } = useLoginMutation();
 
-  const form = useForm<TSignInFormSchemaRequest>({
+  const form = useForm<SignInFormSchemaRequest>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
       email: '',
@@ -37,7 +37,7 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit = async (data: TSignInFormSchemaRequest) => {
+  const onSubmit = async (data: SignInFormSchemaRequest) => {
     try {
       await mutateAsync(data);
 

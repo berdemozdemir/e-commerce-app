@@ -4,10 +4,10 @@ import { FC } from 'react';
 import { CartTable } from './CartTable';
 import { EmptyCart } from './EmptyCart';
 import { CartSubTotal } from './CartSubTotal';
-import { TCart } from '@/lib/types/cart';
+import { Cart } from '@/lib/types/cart';
 
 type Props = {
-  cart?: TCart;
+  cart?: Cart;
 };
 
 export const CartDetailPage: FC<Props> = ({ cart }) => {

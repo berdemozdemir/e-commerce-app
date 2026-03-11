@@ -18,21 +18,21 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import {
   shippingAddressSchema,
-  TShippingAddressSchema,
+  ShippingAddressSchema,
 } from '@/lib/schemas/shipping-address';
 import { useUpdateUserAddressMutation } from '@/lib/services/user';
 import { paths } from '@/lib/constants/paths';
-import { TAddress } from '@/lib/types/address';
+import { Address } from '@/lib/types/address';
 
 // TODO: take a look at the following props type
-type Props = Partial<TAddress>;
+type Props = Partial<Address>;
 
 export const ShippingAddressForm: FC<Props> = (props) => {
   const router = useRouter();
 
   const updateUserAddressMutation = useUpdateUserAddressMutation();
 
-  const form = useForm<TShippingAddressSchema>({
+  const form = useForm<ShippingAddressSchema>({
     resolver: zodResolver(shippingAddressSchema),
     defaultValues: {
       addressName: props.addressName ?? '',

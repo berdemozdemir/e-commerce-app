@@ -2,12 +2,12 @@
 
 import { eq } from 'drizzle-orm';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TFeaturedProduct } from '@/lib/types/product';
+import { FeaturedProduct } from '@/lib/types/product';
 import { db } from '@/server/drizzle-client';
 import { products } from '@/server/schema';
 
 export const getFeaturedProducts = async (): Promise<
-  TryTuple<TFeaturedProduct[]>
+  TryTuple<FeaturedProduct[]>
 > => {
   const [err, rows] = await tryCatch(
     db
@@ -23,7 +23,7 @@ export const getFeaturedProducts = async (): Promise<
 
   if (err || !rows) return fail(err ?? 'Failed to fetch products');
 
-  const featuredProducts: TFeaturedProduct[] = rows.map((item) => ({
+  const featuredProducts: FeaturedProduct[] = rows.map((item) => ({
     id: item.id,
     slug: item.slug,
     name: item.name,

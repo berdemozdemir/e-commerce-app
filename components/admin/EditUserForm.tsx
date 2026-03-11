@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { editUserSchema, EditUserSchema } from '@/lib/schemas/edit-user';
-import { getRoles, TRole } from '@/lib/types/role';
+import { getRoles, Role } from '@/lib/types/role';
 import {
   Select,
   SelectContent,
@@ -32,7 +32,7 @@ type Props = {
   userId: string;
   email: string;
   name: string;
-  role: TRole;
+  role: Role;
 };
 
 export const EditUserForm = ({ userId, email, name, role }: Props) => {

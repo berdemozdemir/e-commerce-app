@@ -25,13 +25,13 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import {
-  TUpdateProductSchema,
+  UpdateProductSchema,
   updateProductSchema,
 } from '@/lib/schemas/product/update-product.schema';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 
 type Props = {
-  product: TProduct;
+  product: Product;
 };
 
 export const UpdateProductForm: FC<Props> = ({ product }) => {
@@ -41,7 +41,7 @@ export const UpdateProductForm: FC<Props> = ({ product }) => {
 
   const updateProductMutation = useUpdateProductMutation();
 
-  const form = useForm<TUpdateProductSchema>({
+  const form = useForm<UpdateProductSchema>({
     resolver: zodResolver(updateProductSchema),
     defaultValues: {
       name: product.name,

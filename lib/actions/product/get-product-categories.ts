@@ -5,13 +5,13 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { db } from '@/server/drizzle-client';
 import { products } from '@/server/schema';
 
-export type TProductCategory = {
+export type ProductCategory = {
   name: string;
   count: number;
 };
 
 export const getProductCategories = async (): Promise<
-  TryTuple<TProductCategory[]>
+  TryTuple<ProductCategory[]>
 > => {
   const [err, data] = await tryCatch(
     db

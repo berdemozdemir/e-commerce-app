@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { TCartItem } from './types/cart';
+import { CartItem } from './types/cart';
 
 // TODO: move this file into lib/utils
 export function cn(...inputs: ClassValue[]) {
@@ -39,7 +39,7 @@ export const isValidImageSrc = (src: string | null | undefined): src is string =
   return src.startsWith('/') || src.startsWith('http');
 };
 
-export const calculatePrice = (items: TCartItem[]) => {
+export const calculatePrice = (items: CartItem[]) => {
   const itemsPrice = roundTwo(
     items.reduce((acc, item) => acc + Number(item.price) * item.quantity, 0),
   );

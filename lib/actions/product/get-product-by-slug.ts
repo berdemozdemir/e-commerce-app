@@ -2,14 +2,14 @@
 
 import { eq } from 'drizzle-orm';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getProductBySlug = async (payload: {
   slug: string;
   isAdmin?: boolean;
-}): Promise<TryTuple<TProduct>> => {
+}): Promise<TryTuple<Product>> => {
   const [err, rows] = await tryCatch(
     db
       .select({

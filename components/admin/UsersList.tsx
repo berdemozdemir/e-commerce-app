@@ -15,11 +15,11 @@ import {
 import { Badge } from '../ui/Badge';
 import { DeleteUserDialog } from './DeleteUserDialog';
 import { paths } from '@/lib/constants/paths';
-import { TUser } from '@/lib/types/admin/user';
+import { User } from '@/lib/types/admin/user';
 import { Roles } from '@/lib/types/role';
 
 type Props = {
-  users: TUser[];
+  users: User[];
   query?: string;
 };
 

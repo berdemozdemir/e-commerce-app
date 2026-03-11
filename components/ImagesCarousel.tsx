@@ -13,10 +13,10 @@ import {
 } from './ui/Carousel';
 import { paths } from '@/lib/constants/paths';
 import { isValidImageSrc } from '@/lib/utils';
-import { TFeaturedProduct } from '@/lib/types/product';
+import { FeaturedProduct } from '@/lib/types/product';
 
 type ImagesCarouselProps = {
-  products: TFeaturedProduct[];
+  products: FeaturedProduct[];
 };
 
 export const ImagesCarousel: FC<ImagesCarouselProps> = ({ products }) => (

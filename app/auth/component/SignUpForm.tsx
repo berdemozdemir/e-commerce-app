@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LabeledInput } from './LabeledInput';
 import {
   signUpFormSchema,
-  TSignupFormSchemaRequest,
+  SignupFormSchemaRequest,
 } from '@/lib/schemas/auth/sign-up.schema';
 import {
   Form,
@@ -30,7 +30,7 @@ export const SignUpForm = () => {
 
   const router = useRouter();
 
-  const form = useForm<TSignupFormSchemaRequest>({
+  const form = useForm<SignupFormSchemaRequest>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       name: '',
@@ -40,7 +40,7 @@ export const SignUpForm = () => {
     },
   });
 
-  const onSubmit = async (data: TSignupFormSchemaRequest) => {
+  const onSubmit = async (data: SignupFormSchemaRequest) => {
     try {
       await mutateAsync(data);
 

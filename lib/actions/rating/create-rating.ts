@@ -2,14 +2,14 @@
 
 import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TCreateRatingSchema } from '@/lib/types/rating';
+import { CreateRatingSchema } from '@/lib/types/rating';
 import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
 
 // TODO: add a client side update mechanism for the product stats, revalidate path is not a good idea because it will be called on every rating creation.
 export const createRating = async (
-  payload: TCreateRatingSchema,
+  payload: CreateRatingSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user)

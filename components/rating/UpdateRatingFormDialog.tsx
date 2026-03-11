@@ -31,7 +31,7 @@ import {
 import { LoadingSpinner } from '../LoadingSpinner';
 import { useUpdateRatingMutation } from '@/lib/services/rating';
 import { updateRatingSchema } from '@/lib/schemas/rating/update-rating';
-import { TUpdateRatingSchema } from '@/lib/types/rating';
+import { UpdateRatingSchema } from '@/lib/types/rating';
 
 type Props = {
   ratingId: string;
@@ -47,7 +47,7 @@ type Props = {
 export const UpdateRatingFormDialog: FC<Props> = (props) => {
   const updateRatingMutation = useUpdateRatingMutation();
 
-  const form = useForm<TUpdateRatingSchema>({
+  const form = useForm<UpdateRatingSchema>({
     resolver: zodResolver(updateRatingSchema),
     defaultValues: {
       ratingId: props.ratingId,

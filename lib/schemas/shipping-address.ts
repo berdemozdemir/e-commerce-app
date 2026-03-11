@@ -20,4 +20,4 @@ export const shippingAddressSchema = z.object({
     .min(2, { message: 'Country must be at least 2 characters long' }),
 });
 
-export type TShippingAddressSchema = z.infer<typeof shippingAddressSchema>;
+export type ShippingAddressSchema = z.infer<typeof shippingAddressSchema>;

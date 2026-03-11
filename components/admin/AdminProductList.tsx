@@ -13,10 +13,10 @@ import {
   Table,
 } from '../ui/Table';
 import { DeleteProductDialog } from './DeleteProductDialog';
-import { TAdminProduct } from '@/lib/types/product';
+import { AdminProduct } from '@/lib/types/product';
 import { paths } from '@/lib/constants/paths';
 
-type Props = { products: TAdminProduct[]; query?: string };
+type Props = { products: AdminProduct[]; query?: string };
 
 export const AdminProductListPage: FC<Props> = (props) => {
   const router = useRouter();

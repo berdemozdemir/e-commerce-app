@@ -1,11 +1,11 @@
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 import { paths } from '@/lib/constants/paths';
 
 export type ProductCardProps = {
-  product: TProduct;
+  product: Product;
 };
 
 export const ProductCard = ({ product }: ProductCardProps) => (

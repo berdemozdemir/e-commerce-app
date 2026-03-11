@@ -5,13 +5,13 @@ import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import {
   paymentMethodsFormSchema,
-  TPaymentMethodsFormSchema,
+  PaymentMethodsFormSchema,
 } from '@/lib/schemas/payment-methods';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const updatePaymentMethods = async (
-  payload: TPaymentMethodsFormSchema,
+  payload: PaymentMethodsFormSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');

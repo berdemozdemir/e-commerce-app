@@ -16,7 +16,7 @@ import { useCreateProductMutation } from '@/lib/services/admin';
 import { paths } from '@/lib/constants/paths';
 import {
   createProductSchema,
-  TCreateProductSchema,
+  CreateProductSchema,
 } from '@/lib/schemas/product/create-product.schema';
 import { Input } from '@/components/ui/Input';
 import {
@@ -35,7 +35,7 @@ export const CreateProductForm = () => {
 
   const createProductMutation = useCreateProductMutation();
 
-  const form = useForm<TCreateProductSchema>({
+  const form = useForm<CreateProductSchema>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
       name: '',

@@ -5,9 +5,9 @@ import { markAsPaidOrder } from '../actions/admin/mark-as-paid-order';
 import { markAsDeliveredOrder } from '../actions/admin/mark-as-delivered-order';
 import { deleteProductById } from '../actions/admin/delete-product-by-id';
 import { createProduct } from '../actions/admin/create-product';
-import { TCreateProductSchema } from '../schemas/product/create-product.schema';
+import { CreateProductSchema } from '../schemas/product/create-product.schema';
 import { updateProductBySlug } from '../actions/admin/update-product-by-slug';
-import { TUpdateProductSchema } from '../schemas/product/update-product.schema';
+import { UpdateProductSchema } from '../schemas/product/update-product.schema';
 import { deleteUserById } from '../actions/admin/delete-user-by-id';
 import { EditUserSchema } from '../schemas/edit-user';
 import { editUserById } from '../actions/admin/edit-user';
@@ -38,13 +38,13 @@ export const useDeleteProductByIdMutation = () =>
 
 export const useCreateProductMutation = () =>
   useMutation({
-    mutationFn: (payload: TCreateProductSchema) =>
+    mutationFn: (payload: CreateProductSchema) =>
       unwrapAsync(createProduct(payload)),
   });
 
 export const useUpdateProductMutation = () =>
   useMutation({
-    mutationFn: (payload: { slug: string; data: TUpdateProductSchema }) =>
+    mutationFn: (payload: { slug: string; data: UpdateProductSchema }) =>
       unwrapAsync(updateProductBySlug({
         slug: payload.slug,
         data: payload.data,

@@ -33,7 +33,7 @@ import {
 import { LoadingSpinner } from '../LoadingSpinner';
 import { useCreateRatingMutation } from '@/lib/services/rating';
 import { createRatingSchema } from '@/lib/schemas/rating/create-rating';
-import { TCreateRatingSchema } from '@/lib/types/rating';
+import { CreateRatingSchema } from '@/lib/types/rating';
 
 export const CreateRatingDialog: FC<{ productId: string }> = ({
   productId,
@@ -42,7 +42,7 @@ export const CreateRatingDialog: FC<{ productId: string }> = ({
 
   const createRatingMutation = useCreateRatingMutation();
 
-  const form = useForm<TCreateRatingSchema>({
+  const form = useForm<CreateRatingSchema>({
     resolver: zodResolver(createRatingSchema),
     defaultValues: {
       productId,

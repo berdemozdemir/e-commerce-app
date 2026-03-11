@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { Button } from '../ui/Button';
 import { paths } from '@/lib/constants/paths';
-import { TAddress } from '@/lib/types/address';
+import { Address } from '@/lib/types/address';
 
 type Props = {
-  address: TAddress;
+  address: Address;
 };
 
 export const ShippingAddressSection: FC<Props> = ({ address }) => (

@@ -1,18 +1,18 @@
-import { TAddress } from './address';
-import { TPaymentMethod } from './payment-methods';
-import { TRole } from './role';
+import { Address } from './address';
+import { PaymentMethod } from './payment-methods';
+import { Role } from './role';
 
-export type TUser = {
+export type User = {
   id: string;
   name: string;
   email: string;
   image?: string;
   profileImageUrl?: string;
-  address?: TAddress;
-  paymentMethod?: TPaymentMethod;
-  role?: TRole;
+  address?: Address;
+  paymentMethod?: PaymentMethod;
+  role?: Role;
 };
 
-export type TEditableUser = Pick<TUser, 'id' | 'name' | 'email'> & {
-  role: TRole;
+export type EditableUser = Pick<User, 'id' | 'name' | 'email'> & {
+  role: Role;
 };

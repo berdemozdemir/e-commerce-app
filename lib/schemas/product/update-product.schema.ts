@@ -3,4 +3,4 @@ import { createProductSchema } from './create-product.schema';
 
 export const updateProductSchema = createProductSchema.partial();
 
-export type TUpdateProductSchema = z.infer<typeof updateProductSchema>;
+export type UpdateProductSchema = z.infer<typeof updateProductSchema>;

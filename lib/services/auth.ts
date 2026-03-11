@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { signInWithCredentials, signUpUser } from '../actions/auth';
-import { TSignupFormSchemaRequest } from '../schemas/auth/sign-up.schema';
-import { TSignInFormSchemaRequest } from '../schemas/auth/sign-in.schema';
+import { SignupFormSchemaRequest } from '../schemas/auth/sign-up.schema';
+import { SignInFormSchemaRequest } from '../schemas/auth/sign-in.schema';
 
 export const useLoginMutation = () =>
   useMutation({
-    mutationFn: (data: TSignInFormSchemaRequest) =>
+    mutationFn: (data: SignInFormSchemaRequest) =>
       signInWithCredentials(data).then((res) => {
         if (res.error) throw res.error;
         return res.data;
@@ -19,7 +19,7 @@ export const useLoginMutation = () =>
 
 export const useSignupMutation = () =>
   useMutation({
-    mutationFn: (data: TSignupFormSchemaRequest) =>
+    mutationFn: (data: SignupFormSchemaRequest) =>
       signUpUser(data).then((res) => {
         if (res.error) throw res.error;
         return res.data;

@@ -1,4 +1,4 @@
-export type TMyOrders = {
+export type MyOrders = {
   id: string;
   createdAt: string;
   totalPrice: string;

@@ -17,14 +17,14 @@ import {
 import { RadioGroup, RadioGroupItem } from './ui/RadioGroup';
 import {
   paymentMethodsFormSchema,
-  TPaymentMethodsFormSchema,
+  PaymentMethodsFormSchema,
 } from '@/lib/schemas/payment-methods';
-import { getPaymentMethods, TPaymentMethod } from '@/lib/types/payment-methods';
+import { getPaymentMethods, PaymentMethod } from '@/lib/types/payment-methods';
 import { useUpdateUserPaymentMethodMutation } from '@/lib/services/user';
 import { paths } from '@/lib/constants/paths';
 
 type Props = {
-  paymentMethod?: TPaymentMethod;
+  paymentMethod?: PaymentMethod;
 };
 
 export const PaymentMethodForm = ({ paymentMethod }: Props) => {
@@ -32,7 +32,7 @@ export const PaymentMethodForm = ({ paymentMethod }: Props) => {
 
   const updateUserPaymentMethodMutation = useUpdateUserPaymentMethodMutation();
 
-  const form = useForm<TPaymentMethodsFormSchema>({
+  const form = useForm<PaymentMethodsFormSchema>({
     resolver: zodResolver(paymentMethodsFormSchema),
     defaultValues: {
       paymentMethod: paymentMethod || undefined,

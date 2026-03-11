@@ -1,14 +1,14 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { Roles, TRole } from '@/lib/types/role';
-import { TEditableUser } from '@/lib/types/user';
+import { Roles, Role } from '@/lib/types/role';
+import { EditableUser } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getUserById = async (payload: {
   userId: string;
-}): Promise<TryTuple<TEditableUser>> => {
+}): Promise<TryTuple<EditableUser>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');
 
@@ -31,11 +31,11 @@ export const getUserById = async (payload: {
 
   const currentUser = rows[0];
 
-  const user: TEditableUser = {
+  const user: EditableUser = {
     id: currentUser.id,
     email: currentUser.email,
     name: currentUser.name,
-    role: currentUser.role as TRole,
+    role: currentUser.role as Role,
   };
 
   return ok(user);

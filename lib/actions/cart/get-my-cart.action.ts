@@ -5,11 +5,11 @@ import { desc, eq } from 'drizzle-orm';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts } from '@/server';
 import { auth } from '@/lib/auth';
-import { TCart } from '@/lib/types/cart';
+import { Cart } from '@/lib/types/cart';
 import { convertToPlainObject } from '@/lib/utils';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 
-export async function getMyCart(): Promise<TryTuple<TCart | undefined>> {
+export async function getMyCart(): Promise<TryTuple<Cart | undefined>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
 
   if (!sessionCartId) return fail('Cart not found!');

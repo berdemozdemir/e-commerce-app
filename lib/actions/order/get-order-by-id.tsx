@@ -3,14 +3,14 @@
 import { eq, sql } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TShippingAddressSchema } from '@/lib/schemas/shipping-address';
-import { TOrder } from '@/lib/types/order';
+import { ShippingAddressSchema } from '@/lib/schemas/shipping-address';
+import { Order } from '@/lib/types/order';
 import { orderItems, orders, users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getOrderById = async (payload: {
   orderId: string;
-}): Promise<TryTuple<TOrder>> => {
+}): Promise<TryTuple<Order>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -75,7 +75,7 @@ export const getOrderById = async (payload: {
   const orderResult = orderRows?.[0];
   if (!orderResult) return fail('Order could not be found!');
 
-  const result: TOrder = {
+  const result: Order = {
     id: orderResult.id,
     userId,
     createdAt: orderResult.createdAt,
@@ -92,7 +92,7 @@ export const getOrderById = async (payload: {
     shippingPrice: orderResult.shippingPrice,
     totalPrice: orderResult.totalPrice,
     paymentMethod: orderResult.paymentMethod,
-    shippingAddress: orderResult.shippingAddress as TShippingAddressSchema,
+    shippingAddress: orderResult.shippingAddress as ShippingAddressSchema,
     orderItems: orderResult.orderItems,
   };
 

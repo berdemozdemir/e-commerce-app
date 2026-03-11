@@ -8,7 +8,7 @@ import { fail, ok, TryTuple } from '@/lib/result';
 import { orderSchema } from '@/lib/schemas/order';
 import { db } from '@/server/drizzle-client';
 import { cartItems, carts, orderItems, orders } from '@/server';
-import { TCartItem } from '@/lib/types/cart';
+import { CartItem } from '@/lib/types/cart';
 
 // TODO: products stock should be decreased when an order is created or paid
 export const createOrder = async (): Promise<TryTuple<string>> => {
@@ -47,7 +47,7 @@ export const createOrder = async (): Promise<TryTuple<string>> => {
     })
     .returning({ id: orders.id });
 
-  for (const item of cartData.items as TCartItem[]) {
+  for (const item of cartData.items as CartItem[]) {
     await db.insert(orderItems).values({
       orderId: insertedOrder.id,
       productId: item.productId,

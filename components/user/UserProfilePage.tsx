@@ -15,7 +15,7 @@ import { ImageUploadField } from '../ImageUploadField';
 import { useUpdateUserProfileMutation } from '@/lib/services/user';
 import { authQueryOptions } from '@/lib/hooks/useAuthQuery';
 import {
-  TUpdateUserProfileSchema,
+  UpdateUserProfileSchema,
   updateUserProfileSchema,
 } from '@/lib/schemas/update-user-profile';
 import {
@@ -39,7 +39,7 @@ const UserProfileForm: FC<Props> = ({ name, email, profileImageUrl }) => {
   const { update: updateSession } = useSession();
   const updateUserProfileMutation = useUpdateUserProfileMutation();
 
-  const form = useForm<TUpdateUserProfileSchema>({
+  const form = useForm<UpdateUserProfileSchema>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
       name,

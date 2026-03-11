@@ -5,4 +5,4 @@ export const signInFormSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters long'),
 });
 
-export type TSignInFormSchemaRequest = z.infer<typeof signInFormSchema>;
+export type SignInFormSchemaRequest = z.infer<typeof signInFormSchema>;

@@ -6,14 +6,14 @@ import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 import {
   createProductSchema,
-  TCreateProductSchema,
+  CreateProductSchema,
 } from '@/lib/schemas/product/create-product.schema';
 import { SlugHelper } from '@/lib/utils/slug';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const createProduct = async (
-  payload: TCreateProductSchema,
+  payload: CreateProductSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;

@@ -5,13 +5,13 @@ import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import {
   shippingAddressSchema,
-  TShippingAddressSchema,
+  ShippingAddressSchema,
 } from '@/lib/schemas/shipping-address';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const updateUserAddress = async (
-  payload: TShippingAddressSchema,
+  payload: ShippingAddressSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');

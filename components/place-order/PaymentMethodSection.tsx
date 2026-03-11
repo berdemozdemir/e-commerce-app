@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { Button } from '../ui/Button';
 import { paths } from '@/lib/constants/paths';
-import { TPaymentMethod } from '@/lib/types/payment-methods';
+import { PaymentMethod } from '@/lib/types/payment-methods';
 
 type Props = {
-  paymentMethod: TPaymentMethod;
+  paymentMethod: PaymentMethod;
 };
 
 export const PaymentMethodSection: FC<Props> = ({ paymentMethod }) => (

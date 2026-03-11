@@ -45,4 +45,4 @@ export const signUpFormSchema = z
     }
   });
 
-export type TSignupFormSchemaRequest = z.infer<typeof signUpFormSchema>;
+export type SignupFormSchemaRequest = z.infer<typeof signUpFormSchema>;

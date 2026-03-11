@@ -5,17 +5,17 @@ import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { Roles } from '@/lib/types/role';
 import {
-  TUpdateProductSchema,
+  UpdateProductSchema,
   updateProductSchema,
 } from '@/lib/schemas/product/update-product.schema';
-import { TAdminProduct } from '@/lib/types/product';
+import { AdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const updateProductBySlug = async (args: {
   slug: string;
-  data: TUpdateProductSchema;
-}): Promise<TryTuple<TAdminProduct>> => {
+  data: UpdateProductSchema;
+}): Promise<TryTuple<AdminProduct>> => {
   const session = await auth();
   const userId = session?.user?.id;
 

@@ -10,7 +10,7 @@ import {
   pgEnum,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
-import { TAddress } from '@/lib/types/address';
+import { Address } from '@/lib/types/address';
 import { getPaymentMethods } from '@/lib/types/payment-methods';
 import { getRoles, Roles } from '@/lib/types/role';
 
@@ -29,7 +29,7 @@ export const users = pgTable('user', {
   email: text('email').unique().notNull(),
   emailVerified: timestamp('email_verified', { mode: 'date' }),
   role: roleEnum('role').default(Roles.User).notNull(),
-  address: jsonb('address').$type<TAddress | null>(),
+  address: jsonb('address').$type<Address | null>(),
   paymentMethod: paymentMethodsEnum('payment_method'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),

@@ -4,6 +4,6 @@ import {
   cartSchema,
 } from '@/lib/schemas/cart/cart-item.schema';
 
-export type TCartItem = z.infer<typeof cartItemSchema>;
+export type CartItem = z.infer<typeof cartItemSchema>;
 
-export type TCart = z.infer<typeof cartSchema>;
+export type Cart = z.infer<typeof cartSchema>;

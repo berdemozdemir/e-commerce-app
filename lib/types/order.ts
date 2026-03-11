@@ -1,6 +1,6 @@
-import { TOrderItemSchema, TOrderSchema } from '../schemas/order';
+import { OrderItemSchema, OrderSchema } from '../schemas/order';
 
-export type TOrder = TOrderSchema & {
+export type Order = OrderSchema & {
   id: string;
   user: {
     name: string;
@@ -11,5 +11,5 @@ export type TOrder = TOrderSchema & {
   paidAt: Date | undefined;
   isDelivered: boolean;
   deliveredAt: Date | undefined;
-  orderItems: TOrderItemSchema[];
+  orderItems: OrderItemSchema[];
 };

@@ -1,13 +1,13 @@
 import { auth } from '@/lib/auth';
 import { Roles } from '@/lib/types/role';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TMyOrders } from '@/lib/types/myOrders';
+import { MyOrders } from '@/lib/types/myOrders';
 import { orders } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 // TODO: add a pagination or infinite scroll to this data
 
-export const getOrdersByAdmin = async (): Promise<TryTuple<TMyOrders[]>> => {
+export const getOrdersByAdmin = async (): Promise<TryTuple<MyOrders[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -30,7 +30,7 @@ export const getOrdersByAdmin = async (): Promise<TryTuple<TMyOrders[]>> => {
 
   if (err || !rows) return fail(err ?? 'Failed to fetch orders');
 
-  const myOrders: TMyOrders[] = rows.map((item) => ({
+  const myOrders: MyOrders[] = rows.map((item) => ({
     id: item.id,
     createdAt: item.createdAt.toString(),
     totalPrice: item.totalPrice,

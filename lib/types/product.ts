@@ -1,4 +1,4 @@
-export type TProduct = {
+export type Product = {
   id: string;
   slug: string;
   name: string;
@@ -15,12 +15,12 @@ export type TProduct = {
   createdAt: Date;
 };
 
-export type TFeaturedProduct = Pick<
-  TProduct,
+export type FeaturedProduct = Pick<
+  Product,
   'id' | 'slug' | 'name' | 'banner'
 >;
 
-export type TAdminProduct = Pick<
-  TProduct,
+export type AdminProduct = Pick<
+  Product,
   'id' | 'slug' | 'name' | 'price' | 'category' | 'stock' | 'rating'
 >;

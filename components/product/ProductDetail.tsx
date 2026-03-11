@@ -5,10 +5,10 @@ import { Badge } from '../ui/Badge';
 import { ProductImages } from './ProductImages';
 import { CartItemCounter } from './CartItemCounter';
 import { AddToCart } from './AddToCart';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 
 type Props = {
-  product: TProduct;
+  product: Product;
   quantity?: number;
   isItemExist?: boolean;
 };

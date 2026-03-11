@@ -29,4 +29,4 @@ export const createProductSchema = z.object({
   ),
 });
 
-export type TCreateProductSchema = z.infer<typeof createProductSchema>;
+export type CreateProductSchema = z.infer<typeof createProductSchema>;

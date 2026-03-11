@@ -33,7 +33,7 @@ export const orderSchema = z.object({
   shippingAddress: shippingAddressSchema,
 });
 
-export type TOrderSchema = z.infer<typeof orderSchema>;
+export type OrderSchema = z.infer<typeof orderSchema>;
 
 export const orderItemSchema = z.object({
   productId: z.string().uuid(),
@@ -53,4 +53,4 @@ export const orderItemSchema = z.object({
   image: z.string().url({ message: 'Image must be a valid URL' }),
 });
 
-export type TOrderItemSchema = z.infer<typeof orderItemSchema>;
+export type OrderItemSchema = z.infer<typeof orderItemSchema>;

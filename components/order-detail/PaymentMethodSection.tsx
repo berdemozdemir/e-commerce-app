@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Badge } from '../ui/Badge';
-import { TPaymentMethod } from '@/lib/types/payment-methods';
+import { PaymentMethod } from '@/lib/types/payment-methods';
 import { formatDate } from '@/lib/utils/date';
 
 type Props = {
-  paymentMethod: TPaymentMethod;
+  paymentMethod: PaymentMethod;
   paidAt?: Date;
   isPaid: boolean;
 };

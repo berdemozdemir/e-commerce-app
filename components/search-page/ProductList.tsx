@@ -6,9 +6,9 @@ import { ProductCard } from '@/components/product/ProductCard';
 import { Badge } from '@/components/ui/Badge';
 import { paths } from '@/lib/constants/paths';
 import { useProductFilters } from '@/lib/hooks/useProductFilters';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 
-export const ProductList = ({ data }: { data: TProduct[] }) => {
+export const ProductList = ({ data }: { data: Product[] }) => {
   const { searchParams, createUrl, params } = useProductFilters();
 
   const query = searchParams.get('query');

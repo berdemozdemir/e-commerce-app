@@ -2,7 +2,7 @@
 
 import { and, asc, desc, eq, gte, ilike, lte, SQL } from 'drizzle-orm';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
@@ -13,7 +13,7 @@ export const getFilteredProducts = async (args: {
   maxPrice?: string;
   rating?: string;
   sort?: string;
-}): Promise<TryTuple<TProduct[]>> => {
+}): Promise<TryTuple<Product[]>> => {
   const conditions: SQL[] = [];
 
   if (args.query) conditions.push(ilike(products.name, `%${args.query}%`));
@@ -61,7 +61,7 @@ export const getFilteredProducts = async (args: {
 
   if (err || !rows) return fail(err ?? 'Failed to fetch products');
 
-  const allProducts: TProduct[] = rows.map((item) => ({
+  const allProducts: Product[] = rows.map((item) => ({
     id: item.id,
     slug: item.slug,
     name: item.name,

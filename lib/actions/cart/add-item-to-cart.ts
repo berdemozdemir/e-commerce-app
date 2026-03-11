@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { cartItemSchema, cartSchema } from '../../schemas/cart/cart-item.schema';
-import { TCartItem } from '../../types/cart';
+import { CartItem } from '../../types/cart';
 import { auth } from '../../auth';
 import { calculatePrice } from '../../utils';
 import { getMyCart } from './get-my-cart.action';
@@ -14,7 +14,7 @@ import { cartItems, carts, products } from '@/server';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
 import { paths } from '@/lib/constants/paths';
 
-export async function addItemToCart(payload: TCartItem): Promise<TryTuple<void>> {
+export async function addItemToCart(payload: CartItem): Promise<TryTuple<void>> {
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;
   if (!sessionCartId) return fail('Cart not found!');
 

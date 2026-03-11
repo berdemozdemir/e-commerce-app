@@ -12,14 +12,14 @@ import {
   TableCell,
   Table,
 } from '../ui/Table';
-import { TCartItem } from '@/lib/types/cart';
+import { CartItem } from '@/lib/types/cart';
 import { paths } from '@/lib/constants/paths';
 
 // TODO: fix the responsive design
 // TODO: fix the issue of when user add items cart without session and login after that, cart is empty
 
 type Props = {
-  items: TCartItem[];
+  items: CartItem[];
 };
 
 export const CartTable: FC<Props> = ({ items }) => (

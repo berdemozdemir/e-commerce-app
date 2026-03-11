@@ -6,10 +6,10 @@ import {
   useAddToCartMutation,
   useRemoveItemFromCartMutation,
 } from '@/lib/services/cart';
-import { TCartItem } from '@/lib/types/cart';
+import { CartItem } from '@/lib/types/cart';
 
 type Props = {
-  item: TCartItem;
+  item: CartItem;
   quantity?: number;
 };
 

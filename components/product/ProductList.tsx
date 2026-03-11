@@ -1,10 +1,10 @@
 import { ProductCard } from './ProductCard';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 import { StaggerContainer, StaggerItem } from '@/components/motion/FadeIn';
 import { FadeIn } from '@/components/motion/FadeIn';
 
 type ProductListProps = {
-  data: TProduct[];
+  data: Product[];
   title?: string;
   limit?: number;
 };
@@ -23,7 +23,7 @@ export const ProductList = ({ data, title, limit }: ProductListProps) => {
       )}
 
       <StaggerContainer className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {limitedProducts.map((product: TProduct) => (
+        {limitedProducts.map((product: Product) => (
           <StaggerItem key={product.id}>
             <ProductCard product={product} />
           </StaggerItem>

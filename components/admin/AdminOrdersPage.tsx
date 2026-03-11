@@ -12,12 +12,12 @@ import {
 } from '../ui/Table';
 import { Button } from '../ui/Button';
 import { DeleteOrderDialog } from './DeleteOrderDialog';
-import { TMyOrders } from '@/lib/types/myOrders';
+import { MyOrders } from '@/lib/types/myOrders';
 import { formatDate } from '@/lib/utils/date';
 import { paths } from '@/lib/constants/paths';
 
 type Props = {
-  orders: TMyOrders[];
+  orders: MyOrders[];
 };
 
 export const AdminOrdersPage: FC<Props> = ({ orders }) => {

@@ -9,11 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/Table';
-import { TCartItem } from '@/lib/types/cart';
+import { CartItem } from '@/lib/types/cart';
 import { paths } from '@/lib/constants/paths';
 
 type Props = {
-  items: TCartItem[];
+  items: CartItem[];
 };
 
 export const OrderedItemsTable: FC<Props> = ({ items }) => (

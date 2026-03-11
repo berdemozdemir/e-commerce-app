@@ -6,4 +6,4 @@ export const updateUserProfileSchema = z.object({
   profileImageUrl: z.string().url().optional(),
 });
 
-export type TUpdateUserProfileSchema = z.infer<typeof updateUserProfileSchema>;
+export type UpdateUserProfileSchema = z.infer<typeof updateUserProfileSchema>;

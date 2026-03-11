@@ -3,12 +3,12 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TUpdateRatingSchema } from '@/lib/types/rating';
+import { UpdateRatingSchema } from '@/lib/types/rating';
 import { db } from '@/server/drizzle-client';
 import { ratings } from '@/server';
 
 export const updateRating = async (
-  payload: TUpdateRatingSchema,
+  payload: UpdateRatingSchema,
 ): Promise<TryTuple<void>> => {
   const session = await auth();
   const userId = session?.user?.id;

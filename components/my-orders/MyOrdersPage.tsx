@@ -13,10 +13,10 @@ import {
 } from '../ui/Table';
 import { formatDate } from '@/lib/utils/date';
 import { paths } from '@/lib/constants/paths';
-import { TMyOrders } from '@/lib/types/myOrders';
+import { MyOrders } from '@/lib/types/myOrders';
 
 type Props = {
-  items: TMyOrders[];
+  items: MyOrders[];
 };
 
 export const MyOrdersPage: FC<Props> = (props) => {

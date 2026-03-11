@@ -1,13 +1,13 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '../auth';
 import { fail, ok, tryCatch, TryTuple } from '../result';
-import { TMyOrders } from '../types/myOrders';
+import { MyOrders } from '../types/myOrders';
 import { db } from '@/server/drizzle-client';
 import { orders } from '@/server';
 
 // TODO: add a pagination or infinite scroll to this data
 
-export const getMyOrders = async (): Promise<TryTuple<TMyOrders[]>> => {
+export const getMyOrders = async (): Promise<TryTuple<MyOrders[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -30,7 +30,7 @@ export const getMyOrders = async (): Promise<TryTuple<TMyOrders[]>> => {
 
   if (err || !rows) return fail(err ?? 'Unauthorized');
 
-  const myOrders: TMyOrders[] = rows.map((item) => ({
+  const myOrders: MyOrders[] = rows.map((item) => ({
     id: item.id,
     createdAt: item.createdAt.toString(),
     totalPrice: item.totalPrice,

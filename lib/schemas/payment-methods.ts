@@ -5,9 +5,9 @@ export const paymentMethodsFormSchema = z.object({
   paymentMethod: z.enum(getPaymentMethods()),
 });
 
-export type TPaymentMethodsFormSchema = z.infer<
+export type PaymentMethodsFormSchema = z.infer<
   typeof paymentMethodsFormSchema
 >;
 
 export const paymentMethodEnumSchema = z.enum(getPaymentMethods());
-export type TPaymentMethodEnumSchema = z.infer<typeof paymentMethodEnumSchema>;
+export type PaymentMethodEnumSchema = z.infer<typeof paymentMethodEnumSchema>;

@@ -4,14 +4,14 @@ import { ilike } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { Roles } from '@/lib/types/role';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TAdminProduct } from '@/lib/types/product';
+import { AdminProduct } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 // TODO: add a pagination or infinite scroll to this data
 export const getProducts = async (args: {
   query?: string;
-}): Promise<TryTuple<TAdminProduct[]>> => {
+}): Promise<TryTuple<AdminProduct[]>> => {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -39,7 +39,7 @@ export const getProducts = async (args: {
 
   if (err || !rows) return fail(err ?? 'Failed to fetch products');
 
-  const allProducts: TAdminProduct[] = rows.map((item) => ({
+  const allProducts: AdminProduct[] = rows.map((item) => ({
     id: item.id,
     slug: item.slug,
     name: item.name,

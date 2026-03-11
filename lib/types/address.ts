@@ -1,4 +1,4 @@
-export type TAddress = {
+export type Address = {
   addressName: string;
   address: string;
   city: string;

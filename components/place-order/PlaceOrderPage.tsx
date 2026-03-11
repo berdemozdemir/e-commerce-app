@@ -3,14 +3,14 @@ import { ShippingAddressSection } from './ShippingAddressSection';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { OrderedItems } from './OrderedItems';
 import { PurchaseBox } from './PuchaseBox';
-import { TCart } from '@/lib/types/cart';
-import { TPaymentMethod } from '@/lib/types/payment-methods';
-import { TAddress } from '@/lib/types/address';
+import { Cart } from '@/lib/types/cart';
+import { PaymentMethod } from '@/lib/types/payment-methods';
+import { Address } from '@/lib/types/address';
 
 type Props = {
-  address: TAddress;
-  paymentMethod: TPaymentMethod;
-  cart: TCart;
+  address: Address;
+  paymentMethod: PaymentMethod;
+  cart: Cart;
 };
 
 // TODO: fix the responsiveness of this page

@@ -1,13 +1,13 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TUser } from '@/lib/types/user';
+import { User } from '@/lib/types/user';
 import { users } from '@/server';
 import { db } from '@/server/drizzle-client';
 
 export const getUserById = async (payload: {
   userId: string;
-}): Promise<TryTuple<TUser>> => {
+}): Promise<TryTuple<User>> => {
   const session = await auth();
   if (!session?.user) return fail('Unauthorized');
 
@@ -31,7 +31,7 @@ export const getUserById = async (payload: {
   if (!rows?.length) return fail('User not found');
 
   const row = rows[0];
-  const user: TUser = {
+  const user: User = {
     id: row.id,
     email: row.email,
     name: row.name,

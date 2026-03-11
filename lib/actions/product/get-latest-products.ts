@@ -3,11 +3,11 @@
 import { desc } from 'drizzle-orm';
 import { LATEST_PRODUCTS_LIMIT } from '@/lib/constants/product';
 import { fail, ok, tryCatch, TryTuple } from '@/lib/result';
-import { TProduct } from '@/lib/types/product';
+import { Product } from '@/lib/types/product';
 import { products } from '@/server';
 import { db } from '@/server/drizzle-client';
 
-export const getLatestProducts = async (): Promise<TryTuple<TProduct[]>> => {
+export const getLatestProducts = async (): Promise<TryTuple<Product[]>> => {
   const [err, data] = await tryCatch(
     db
       .select({
