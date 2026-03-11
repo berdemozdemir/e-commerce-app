@@ -34,7 +34,6 @@ export const orders = pgTable('orders', {
   deliveredAt: timestamp('delivered_at'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  //   TODO: create a trigger to update updatedAt on row update
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
 

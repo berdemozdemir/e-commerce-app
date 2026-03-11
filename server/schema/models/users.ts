@@ -27,12 +27,8 @@ export const users = pgTable('user', {
   profileImageUrl: text('profile_image_url'),
   password: text('password'),
   email: text('email').unique().notNull(),
-  // TODO: take a look at this, it should be a string or date ??
-  // can we store a date in a db column?
   emailVerified: timestamp('email_verified', { mode: 'date' }),
   role: roleEnum('role').default(Roles.User).notNull(),
-  // TODO: make this address array type, so we can store multiple addresses and user can choose any of them
-  // TODO: make this address column normalized in a separate table
   address: jsonb('address').$type<TAddress | null>(),
   paymentMethod: paymentMethodsEnum('payment_method'),
 
