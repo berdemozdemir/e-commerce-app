@@ -15,7 +15,7 @@ import { FadeIn } from '@/components/motion/FadeIn';
 
 export default async function Home() {
   const [latestErr, latestProducts] = await getLatestProducts();
-  const [featuredErr, featuredProducts] = await getFeaturedProducts();
+  const [_, featuredProducts] = await getFeaturedProducts();
 
   if (latestErr) {
     console.error('Failed to load latest products:', latestErr);
@@ -46,7 +46,7 @@ export default async function Home() {
               asChild
               variant="outline"
               size="lg"
-              className="group w-full border-primary/20 text-lg md:w-auto"
+              className="group border-primary/20 w-full text-lg md:w-auto"
             >
               <Link href={paths.search.base}>
                 Explore All Products

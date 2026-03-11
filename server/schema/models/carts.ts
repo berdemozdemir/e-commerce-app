@@ -2,6 +2,7 @@ import {
   decimal,
   integer,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uuid,
@@ -9,28 +10,34 @@ import {
 import { users } from './users';
 import { products } from './products';
 
-export const cartItems = pgTable('cart_items', {
-  // TODO: this id column may not be necessary with composite primary key
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
-  productId: uuid('product_id')
-    .references(() => products.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
+export const cartItems = pgTable(
+  'cart_items',
+  {
+    productId: uuid('product_id')
+      .references(() => products.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
 
-  cartId: uuid('carts_id').references(() => carts.id, {
-    onDelete: 'cascade',
-  }),
+    cartId: uuid('carts_id')
+      .references(() => carts.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
 
-  name: text('name').notNull(),
-  slug: text('slug').notNull(),
-  image: text('image').notNull(),
-  price: decimal('price', { precision: 10, scale: 2 }).notNull(),
-  quantity: integer('quantity').notNull(),
+    name: text('name').notNull(),
+    slug: text('slug').notNull(),
+    image: text('image').notNull(),
+    price: decimal('price', { precision: 10, scale: 2 }).notNull(),
+    quantity: integer('quantity').notNull(),
 
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-});
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.cartId, table.productId] }),
+  ],
+);
 
 export const carts = pgTable('carts', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
